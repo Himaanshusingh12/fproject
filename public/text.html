@@ -1,0 +1,151 @@
+<!-- signup -->
+
+<!-- for unique id -->
+
+<!-- // const getform = (e) => {
+    //   setFormvalue({
+    //     ...formvalue,
+    //     id: new Date().getTime().toString(),
+    //     status: "Unblock",
+    //     [e.target.name]: e.target.value,
+    //   });
+    //   console.log(formvalue);
+    // }; -->
+
+<!-- const submithandel = async (e) => {
+    e.preventDefault(); // stop page reload
+    if (validation()) {
+      // try {
+      //   const res = await axios.post("http://localhost:5000/signup", {
+      //     name: formvalue.name,
+      //     email: formvalue.email,
+      //     password: formvalue.password,
+      //     phone: formvalue.phone,
+      //   });
+      //console.log(res);
+
+      // for local api
+      const res = await axios.post(`http://localhost:3000/user`, formvalue);
+      if (res.status == 201) {
+        setFormvalue({
+          ...formvalue,
+          name: "",
+          email: "",
+          password: "",
+          phone: "",
+        });
+        toast.success("Signup success");
+      } else {
+        toast.error("Signup failed. Please try again.");
+      }
+      // return false;
+      // } catch (error) {
+      //   console.error(
+      //     "Error signing up:",
+      //     error.response ? error.response.data : error.message
+      //   );
+      //   toast.error("Error signing up. Please try again.");
+      // }
+    }
+  }; -->
+
+<!-- login page -->
+
+<!-- const redirect = useNavigate();
+
+  useEffect(() => {
+    if (
+      localStorage.getItem("userid") &&
+      window.location.pathname === "/login"
+    ) {
+      redirect("/User");
+    }
+  }, [redirect]);
+
+  const [formvalue, setFormvalue] = useState({
+    email: "",
+    password: "",
+  });
+
+  const getform = (e) => {
+    setFormvalue({ ...formvalue, [e.target.name]: e.target.value });
+  };
+
+  const validation = () => {
+    var result = true;
+
+    if (formvalue.email == "") {
+      toast.error("Email Field is required");
+      result = false;
+    }
+    if (formvalue.password == "") {
+      toast.error("Password Field is required");
+      result = false;
+    }
+    return result;
+  };
+
+  const submithandel = async (e) => {
+    e.preventDefault(); // stop page reload
+    if (validation()) {
+      try {
+        const res = await axios.get(
+          `http://localhost:3000/user?email=${formvalue.email}`
+        );
+        console.log(res);
+        if (res.data.length > 0) {
+          if (res.data[0].password == formvalue.password) {
+            if (res.data[0].status == "Unblock") {
+              // create session;
+              localStorage.setItem("userid", res.data[0].id);
+              localStorage.setItem("uname", res.data[0].name);
+
+              toast.success("Login Success");
+              redirect("/User");
+            } else {
+              toast.error("Password incorrect");
+              return false;
+            }
+          } else {
+            toast.error("Email does not Exist");
+            return false;
+          }
+        } else {
+          toast.error("Email does not Exist");
+          return false;
+        }
+      } catch (error) {
+        console.error("An error occurred", error);
+        toast.error("An error occurred during login. Please try again.");
+      }
+    }
+  }; -->
+
+<!-- login page real api code -->
+<!-- // from here
+
+  // const submithandel = async (e) => {
+  //   e.preventDefault(); // Stop page reload
+  //   if (validation()) {
+  //     try {
+  //       console.log("Submitting login form...");
+  //       const response = await axios.post("http://localhost:5000/login", {
+  //         email: formvalue.email,
+  //         password: formvalue.password,
+  //       });
+  //       console.log("Login response :", response.data);
+  //       if (response.data.Login) {
+  //         localStorage.setItem("userid", response.data.userid);
+  //         localStorage.setItem("uname", response.data.uname);
+  //         toast.success("Login Success");
+  //         redirect("/User");
+  //       } else {
+  //         console.log("Login failed:", response.data.message);
+  //         toast.error(response.data.message || "Login failed .");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error submitting login form :", error);
+  //       toast.error("An error occurred during login. Please try again.");
+  //     }
+  //   }
+  // }; -->

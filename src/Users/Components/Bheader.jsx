@@ -82,9 +82,9 @@ function Bheader() {
               <NavLink to="/profile" className="dropdown-item">
                 <i className="fas fa-user mr-2" /> Profile
               </NavLink>
-              <a to="/change_password" className="dropdown-item">
+              <NavLink to="/change_password" className="dropdown-item">
                 <i className="fas fa-key mr-2" /> Change Password
-              </a>
+              </NavLink>
               <div className="dropdown-divider" />
 
               <NavLink to="/" onClick={handleLogout} className="dropdown-item">

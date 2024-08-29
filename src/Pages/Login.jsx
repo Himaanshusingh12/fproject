@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -40,9 +40,12 @@ function Login() {
           formvalue
         );
         if (response.status === 200) {
-          const { userid, username } = response.data;
-          localStorage.setItem("userid", userid);
-          localStorage.setItem("uname", username);
+          const { user } = response.data;
+          console.log(response.data);
+          localStorage.setItem("userid", user.id);
+          localStorage.setItem("uemail", user.email);
+          localStorage.setItem("uname", user.name);
+
           toast.success("Login successful");
           navigate("/user");
         } else {
@@ -124,7 +127,8 @@ function Login() {
                         <Link to="/signup">Sign up here</Link>
                       </p>
                       <p>
-                        Forgot password? <a href="#">Reset password</a>
+                        Forgot password?{" "}
+                        <NavLink to="/forget-password">Reset password</NavLink>
                       </p>
                     </div>
                   </div>

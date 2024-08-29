@@ -100,29 +100,59 @@ function BSlidnav() {
                 </li> */}
                 <li className="nav-item">
                   <NavLink to="/user" className="nav-link">
-                    {/* <i className="nav-icon far fa-image" /> */}
+                    <i className="nav-icon far fa-image" />
                     <p>Dashboard</p>
                   </NavLink>
                 </li>
                 <li className="nav-item">
-                  <a href="#" className="nav-link">
+                  <NavLink href="#" className="nav-link">
                     <i className="nav-icon fas fa-book" />
                     <p>
-                      Customers
+                      Basic Master
                       <i className="fas fa-angle-left right" />
                     </p>
-                  </a>
+                  </NavLink>
                   <ul className="nav nav-treeview">
                     <li className="nav-item">
-                      <NavLink to="/add_customers" className="nav-link">
+                      <NavLink to="/chart-account" className="nav-link">
                         <i className="far fa-circle nav-icon" />
-                        <p>Add_Customers</p>
+                        <p>Chart of Account</p>
                       </NavLink>
                     </li>
                     <li className="nav-item">
-                      <NavLink to="/manage_customers" className="nav-link">
+                      <NavLink to="/profit-loss" className="nav-link">
                         <i className="far fa-circle nav-icon" />
-                        <p>Manage_Customers</p>
+                        <p>Profit and Loss Format</p>
+                      </NavLink>
+                    </li>
+                    <li className="nav-item">
+                      <NavLink to="/balance-sheet" className="nav-link">
+                        <i className="far fa-circle nav-icon" />
+                        <p>Balance Sheet Format</p>
+                      </NavLink>
+                    </li>
+                    <li className="nav-item">
+                      <NavLink to="/customer-master" className="nav-link">
+                        <i className="far fa-circle nav-icon" />
+                        <p>Customer Master</p>
+                      </NavLink>
+                    </li>
+                    <li className="nav-item">
+                      <NavLink to="/vendor-master" className="nav-link">
+                        <i className="far fa-circle nav-icon" />
+                        <p>Vendor Master</p>
+                      </NavLink>
+                    </li>
+                    <li className="nav-item">
+                      <NavLink to="/customer-statement" className="nav-link">
+                        <i className="far fa-circle nav-icon" />
+                        <p>Customer Statement Format</p>
+                      </NavLink>
+                    </li>
+                    <li className="nav-item">
+                      <NavLink to="/vendor-statement" className="nav-link">
+                        <i className="far fa-circle nav-icon" />
+                        <p>Vendor Statement Formant</p>
                       </NavLink>
                     </li>
                   </ul>

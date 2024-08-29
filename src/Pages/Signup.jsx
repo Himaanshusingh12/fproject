@@ -66,7 +66,7 @@ function Signup() {
         );
         if (response.status === 201) {
           toast.success("User registered successfully");
-          // navigate("/verify-otp", { state: { email: formvalue.email } });
+          navigate("/verify-otp", { state: { email: formvalue.email } });
           setFormvalue({
             id: "",
             name: "",

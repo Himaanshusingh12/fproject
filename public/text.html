@@ -124,7 +124,7 @@
 <!-- login page real api code -->
 <!-- // from here
 
-  // const submithandel = async (e) => {
+   // const submithandel = async (e) => {
   //   e.preventDefault(); // Stop page reload
   //   if (validation()) {
   //     try {
@@ -149,3 +149,82 @@
   //     }
   //   }
   // }; -->
+
+<!-- forget password backend code -->
+<!-- // // Forgot Password
+  // app.post('/forgot-password', (req, res) => {
+  //     const { email } = req.body;
+  
+  //     // Generate a password reset token
+  //     const resetToken = crypto.randomBytes(20).toString('hex');
+  //     const resetExpires = new Date(Date.now() + 3600000); // 1 hour from now
+  
+  //     const query = 'UPDATE users SET resetPasswordToken = ?, resetPasswordExpires = ? WHERE email = ?';
+  //     db.query(query, [resetToken, resetExpires, email], (err, results) => {
+  //         if (err) {
+  //             console.error('Error updating reset token:', err);
+  //             return res.status(500).json({ message: 'Database error' });
+  //         }
+  
+  //         if (results.affectedRows === 0) {
+  //             return res.status(404).json({ message: 'User not found' });
+  //         }
+  
+  //         // Send reset email
+  //         const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
+  //         const mailOptions = {
+  //             from: 'himanshucodeinweb@gmail.com',
+  //             to: email,
+  //             subject: 'Password Reset Request',
+  //             text: `You are receiving this because you (or someone else) have requested to reset the password for your account.\n\nPlease click on the following link, or paste it into your browser, to complete the process:\n\n${resetUrl}\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\n`
+  //         };
+  
+  //         transporter.sendMail(mailOptions, (error, info) => {
+  //             if (error) {
+  //                 console.error('Error sending reset email:', error);
+  //                 return res.status(500).json({ message: 'Error sending reset email' });
+  //             }
+  
+  //             res.status(200).json({ message: 'Reset link sent to your email' });
+  //         });
+  //     });
+  // });
+  
+  // // Forgot Password
+  // app.post('/forgot-password', (req, res) => {
+  //     const { email } = req.body;
+  
+  //     // Generate a password reset token
+  //     const resetToken = crypto.randomBytes(20).toString('hex');
+  //     const resetExpires = new Date(Date.now() + 3600000); // 1 hour from now
+  
+  //     const query = 'UPDATE users SET resetPasswordToken = ?, resetPasswordExpires = ? WHERE email = ?';
+  //     db.query(query, [resetToken, resetExpires, email], (err, results) => {
+  //         if (err) {
+  //             console.error('Error updating reset token:', err);
+  //             return res.status(500).json({ message: 'Database error' });
+  //         }
+  
+  //         if (results.affectedRows === 0) {
+  //             return res.status(404).json({ message: 'User not found' });
+  //         }
+  
+  //         // Send reset email
+  //         const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
+  //         const mailOptions = {
+  //             from: 'himanshucodeinweb@gmail.com',
+  //             to: email,
+  //             subject: 'Password Reset Request',
+  //             text: `You are receiving this because you (or someone else) have requested to reset the password for your account.\n\nPlease click on the following link, or paste it into your browser, to complete the process:\n\n${resetUrl}\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\n`
+  //         };
+  
+  //         transporter.sendMail(mailOptions, (error, info) => {
+  //             if (error) {
+  //                 console.error('Error sending reset email:', error);
+  //                 return res.status(500).json({ message: 'Error sending reset email' });
+  //             }
+  
+  //             res.status(200).json({ message: 'Reset link sent to your email' });
+  //         });
+  //     });
+  // }); -->

@@ -31,11 +31,12 @@ function Profile() {
 
   const fetchUserData = async (userId) => {
     try {
-      const userId = localStorage.getItem("userId");
+      const userId = localStorage.getItem("userid");
       console.log("Fetching data for user ID:", userId);
 
       const res = await axios.get(`http://localhost:5000/user/${userId}`);
       setData(res.data);
+      console.log(res.data);
       setLoading(false);
     } catch (error) {
       console.log("Error fetching user data:", error);
@@ -127,11 +128,13 @@ function Profile() {
                     >
                       <div className="team-item bg-light rounded">
                         <div className="text-center border-bottom p-4">
-                          <h5>{data.name}</h5>
+                          <h5>Id :{data.id}</h5>
+                          <br />
+                          <h5>Name :{data.name}</h5>
                           <span>Email : {data.email}</span>
                           <br />
                           <br />
-                          <span>Password : {data.password}</span>
+                          {/* <span>Password : {data.password}</span> */}
                           <br />
                           <br />
                           <span>phone : {data.phone}</span>

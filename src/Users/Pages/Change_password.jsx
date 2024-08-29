@@ -1,77 +1,237 @@
+// import React, { useState } from "react";
+// import Bheader from "../Components/Bheader";
+// import BSlidnav from "../Components/BSlidnav";
+// import Bfooter from "../Components/Bfooter";
+// import { toast } from "react-toastify";
+// import axios from "axios";
+// import { useNavigate } from "react-router-dom";
+
+// function Change_password() {
+//   const [formValue, setFormValue] = useState({
+//     email: "",
+//     oldPassword: "",
+//     newPassword: "",
+//     confirmNewPassword: "",
+//   });
+
+//   const getFormValue = (e) => {
+//     setFormValue({ ...formValue, [e.target.name]: e.target.value });
+//   };
+
+//   const validateForm = () => {
+//     const { email, oldPassword, newPassword, confirmNewPassword } = formValue;
+
+//     if (!email || !oldPassword || !newPassword || !confirmNewPassword) {
+//       toast.error("All fields are required");
+//       return false;
+//     }
+
+//     if (newPassword !== confirmNewPassword) {
+//       toast.error("New passwords do not match");
+//       return false;
+//     }
+
+//     return true;
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     if (validateForm()) {
+//       try {
+//         const response = await axios.post(
+//           "http://localhost:5000/change-password",
+//           formValue
+//         );
+//         if (response.status === 200) {
+//           toast.success("Password changed successfully");
+//         } else {
+//           toast.error("Failed to change password");
+//         }
+//       } catch (error) {
+//         toast.error("Failed to change password: " + error.message);
+//       }
+//     }
+//   };
+
+//   return (
+//     <>
+//       <Bheader />
+//       <BSlidnav />
+//       <div class="wrapper">
+//         <div className="content-wrapper">
+//           <section className="content mt-4">
+//             <div className="container-fluid">
+//               <div className="row">
+//                 {/* left column */}
+//                 <div className="col-md-12">
+//                   {/* jquery validation */}
+//                   <div className="card card-primary">
+//                     <div className="card-header">
+//                       <h3 className="card-title">Change your password here</h3>
+//                     </div>
+//                     {/* /.card-header */}
+//                     {/* form start */}
+//                     <form onSubmit={handleSubmit}>
+//                       <div className="card-body">
+//                         <div className="form-group">
+//                           <label htmlFor="email">Email</label>
+//                           <input
+//                             type="email"
+//                             name="email"
+//                             className="form-control"
+//                             value={formValue.email}
+//                             onChange={getFormValue}
+//                             placeholder="Enter Email"
+//                           />
+//                         </div>
+//                         <div className="form-group">
+//                           <label htmlFor="Old password">Old password</label>
+//                           <input
+//                             type="password"
+//                             name="oldPassword"
+//                             className="form-control"
+//                             value={formValue.oldPassword}
+//                             onChange={getFormValue}
+//                             placeholder="Enter Old password"
+//                           />
+//                         </div>
+//                         <div className="form-group">
+//                           <label htmlFor="newPassword">New Password</label>
+//                           <input
+//                             type="password"
+//                             name="newPassword"
+//                             value={formValue.newPassword}
+//                             onChange={getFormValue}
+//                             className="form-control"
+//                             placeholder="New Password"
+//                           />
+//                         </div>
+//                         <div className="form-group">
+//                           <label htmlFor="confirmNewPassword">
+//                             Confirm New Password
+//                           </label>
+//                           <input
+//                             type="password"
+//                             name="confirmPassword"
+//                             value={formValue.confirmNewPassword}
+//                             onChange={getFormValue}
+//                             className="form-control"
+//                             placeholder="Confirm New Password"
+//                           />
+//                         </div>
+//                         <div className="form-group mb-0">
+//                           <div className="custom-control custom-checkbox">
+//                             <input
+//                               type="checkbox"
+//                               name="terms"
+//                               className="custom-control-input"
+//                               id="exampleCheck1"
+//                             />
+//                             <label
+//                               className="custom-control-label"
+//                               htmlFor="exampleCheck1"
+//                             >
+//                               I agree to the
+//                               <a href="#">terms of service</a>.
+//                             </label>
+//                           </div>
+//                         </div>
+//                       </div>
+//                       {/* /.card-body */}
+//                       <div className="card-footer">
+//                         <button type="submit" className="btn btn-primary">
+//                           Submit
+//                         </button>
+//                       </div>
+//                     </form>
+//                     {/* {message && <p>{message}</p>} */}
+//                   </div>
+//                   {/* /.card */}
+//                 </div>
+//                 {/*/.col (left) */}
+//                 {/* right column */}
+//                 <div className="col-md-6" />
+//                 {/*/.col (right) */}
+//               </div>
+//               {/* /.row */}
+//             </div>
+//             {/* /.container-fluid */}
+//           </section>
+//         </div>
+//       </div>
+//       <Bfooter />
+//     </>
+//   );
+// }
+
+// export default Change_password;
+
+// from here
+
 import React, { useState } from "react";
 import Bheader from "../Components/Bheader";
 import BSlidnav from "../Components/BSlidnav";
 import Bfooter from "../Components/Bfooter";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Change_password() {
   const [formValue, setFormValue] = useState({
     email: "",
     oldPassword: "",
     newPassword: "",
-    confirmPassword: "",
+    confirmNewPassword: "",
   });
+  const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormValue({ ...formValue, [name]: value });
+  const getFormValue = (e) => {
+    setFormValue({ ...formValue, [e.target.name]: e.target.value });
+  };
+
+  const validateForm = () => {
+    const { email, oldPassword, newPassword, confirmNewPassword } = formValue;
+
+    // console.log("Validating form:", formValue); // Debugging line
+
+    if (!email || !oldPassword || !newPassword || !confirmNewPassword) {
+      toast.error("All fields are required");
+      return false;
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      toast.error("New passwords do not match");
+      return false;
+    }
+
+    return true;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted", formValue);
 
-    if (!formValue.email) {
-      toast.error("Email is required");
-      return;
-    }
-    if (!formValue.oldPassword) {
-      toast.error("Old password is required");
-      return;
-    }
-    if (!formValue.newPassword) {
-      toast.error("New password is required");
-      return;
-    }
-    if (!formValue.confirmPassword) {
-      toast.error("Confirm new password is required");
-      return;
-    }
-
-    if (formValue.newPassword !== formValue.confirmPassword) {
-      toast.error("New passwords do not match");
-      return;
-    }
-    try {
-      const res = await axios.get(
-        `http://localhost:3000/user?email=${formValue.email}`
-      );
-      if (res.data.length > 0) {
-        const user = res.data[0];
-        if (user.password === formValue.oldPassword) {
-          user.password = formValue.newPassword;
-          await axios.put(`http://localhost:3000/user/${user.id}`, user);
+    if (validateForm()) {
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/change-password",
+          formValue
+        );
+        if (response.status === 200) {
           toast.success("Password changed successfully");
-
-          // Clear the form fields
           setFormValue({
             email: "",
             oldPassword: "",
             newPassword: "",
-            confirmPassword: "",
+            confirmNewPassword: "",
           });
+          navigate("/user");
         } else {
-          toast.error("Old password is incorrect");
+          toast.error("Failed to change password");
         }
-      } else {
-        toast.error("User not found");
+      } catch (error) {
+        toast.error("Failed to change password: " + error.message);
       }
-    } catch (error) {
-      console.error("An error occurred", error);
-      toast.error(
-        "An error occurred while changing the password. Please try again."
-      );
     }
   };
 
@@ -79,91 +239,69 @@ function Change_password() {
     <>
       <Bheader />
       <BSlidnav />
-      <div class="wrapper">
+      <div className="wrapper">
         <div className="content-wrapper">
           <section className="content mt-4">
             <div className="container-fluid">
               <div className="row">
-                {/* left column */}
                 <div className="col-md-12">
-                  {/* jquery validation */}
                   <div className="card card-primary">
                     <div className="card-header">
                       <h3 className="card-title">Change your password here</h3>
                     </div>
-                    {/* /.card-header */}
-                    {/* form start */}
-                    <form id="quickForm" onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit}>
                       <div className="card-body">
                         <div className="form-group">
-                          <label htmlFor="exampleInputEmail1">Email</label>
+                          <label htmlFor="email">Email</label>
                           <input
                             type="email"
                             name="email"
+                            id="email"
                             className="form-control"
                             value={formValue.email}
-                            onChange={handleChange}
-                            placeholder="Enter password"
+                            onChange={getFormValue}
+                            placeholder="Enter Email"
                           />
                         </div>
                         <div className="form-group">
-                          <label htmlFor="exampleInputEmail1">
-                            Old password
-                          </label>
+                          <label htmlFor="oldPassword">Old Password</label>
                           <input
                             type="password"
                             name="oldPassword"
+                            id="oldPassword"
                             className="form-control"
                             value={formValue.oldPassword}
-                            onChange={handleChange}
-                            placeholder="Enter Old password"
+                            onChange={getFormValue}
+                            placeholder="Enter Old Password"
                           />
                         </div>
                         <div className="form-group">
-                          <label htmlFor="exampleInputPassword1">
-                            New Password
-                          </label>
+                          <label htmlFor="newPassword">New Password</label>
                           <input
                             type="password"
                             name="newPassword"
-                            value={formValue.newPassword}
-                            onChange={handleChange}
+                            id="newPassword"
                             className="form-control"
+                            value={formValue.newPassword}
+                            onChange={getFormValue}
                             placeholder="New Password"
                           />
                         </div>
                         <div className="form-group">
-                          <label htmlFor="exampleInputPassword1">
+                          <label htmlFor="confirmNewPassword">
                             Confirm New Password
                           </label>
                           <input
                             type="password"
-                            name="confirmPassword"
-                            value={formValue.confirmPassword}
-                            onChange={handleChange}
+                            name="confirmNewPassword" // Correct name
+                            id="confirmNewPassword"
                             className="form-control"
-                            placeholder="Confirm Password"
+                            value={formValue.confirmNewPassword}
+                            onChange={getFormValue}
+                            placeholder="Confirm New Password"
                           />
                         </div>
-                        <div className="form-group mb-0">
-                          <div className="custom-control custom-checkbox">
-                            <input
-                              type="checkbox"
-                              name="terms"
-                              className="custom-control-input"
-                              id="exampleCheck1"
-                            />
-                            <label
-                              className="custom-control-label"
-                              htmlFor="exampleCheck1"
-                            >
-                              I agree to the
-                              <a href="#">terms of service</a>.
-                            </label>
-                          </div>
-                        </div>
                       </div>
-                      {/* /.card-body */}
                       <div className="card-footer">
                         <button type="submit" className="btn btn-primary">
                           Submit
@@ -171,16 +309,9 @@ function Change_password() {
                       </div>
                     </form>
                   </div>
-                  {/* /.card */}
                 </div>
-                {/*/.col (left) */}
-                {/* right column */}
-                <div className="col-md-6" />
-                {/*/.col (right) */}
               </div>
-              {/* /.row */}
             </div>
-            {/* /.container-fluid */}
           </section>
         </div>
       </div>

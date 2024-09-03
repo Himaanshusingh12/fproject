@@ -4,58 +4,23 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 function Admin_login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const [formValue, setFormValue] = useState({
-    email: "",
-    password: "",
-  });
 
-  const getform = (e) => {
-    setFormValue({ ...formValue, [e.target.name]: e.target.value });
-  };
-
-  const validateForm = () => {
-    let valid = true;
-    if (!formValue.email) {
-      toast.error("Email is required");
-      valid = false;
-    }
-    if (!formValue.password) {
-      toast.error("Password is required");
-      valid = false;
-    }
-    return valid;
-  };
-
-  const submithandel = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/admins",
-          formValue
-        );
 
-        console.log("API Response:", response.data);
-
-        const admin = response.data.find(
-          (admin) =>
-            admin.email === formValue.email &&
-            admin.password === formValue.password
-        );
-
-        if (admin) {
-          localStorage.setItem("adminId", admin.id);
-          localStorage.setItem("adminName", admin.name);
-          toast.success("Login Successful");
-          navigate("/dashboard");
-        } else {
-          toast.error("Invalid email or password");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-        toast.error("Login failed");
-      }
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/admin/login",
+        { email, password }
+      );
+      localStorage.setItem("adminToken", response.data.token);
+      toast.success("Login successfull");
+      navigate("/dashboard");
+    } catch (error) {
+      toast.error("Login failed. please check your credentials");
     }
   };
   return (
@@ -71,37 +36,32 @@ function Admin_login() {
                 </div>
                 {/* /.card-header */}
                 {/* form start */}
-                <form
-                  id="quickForm"
-                  action=""
-                  method="post"
-                  onSubmit={submithandel}
-                >
+                <form id="quickForm" method="post" onSubmit={handleLogin}>
                   <div className="card-body">
                     <div className="form-group">
-                      <label htmlFor="exampleInputEmail1">Enter Email</label>
+                      <label htmlFor="email">Enter Email</label>
                       <input
                         type="email"
                         name="email"
-                        value={formValue.email}
-                        onChange={getform}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         className="form-control"
                         id="email"
                         placeholder="Enter Your Email"
+                        required
                       />
                     </div>
                     <div className="form-group">
-                      <label htmlFor="exampleInputPassword1">
-                        Enter Password
-                      </label>
+                      <label htmlFor="password">Enter Password</label>
                       <input
                         type="password"
                         name="password"
-                        value={formValue.password}
-                        onChange={getform}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         className="form-control"
                         id="password"
                         placeholder="Enter Password"
+                        required
                       />
                     </div>
                   </div>
@@ -124,6 +84,81 @@ function Admin_login() {
         </div>
         {/* /.container-fluid */}
       </section>
+      {/* login here */}
+      {/* <div className="hold-transition sidebar-mini layout-fixed">
+        <div className="login-box">
+          <div className="login-logo">
+            <a href="../../index2.html">
+              <b>Admin</b>LTE
+            </a>
+          </div>
+        </div>
+
+        <div class="wrapper">
+          <div className="card">
+            <div className="card-body login-card-body">
+              <p className="login-box-msg">Sign in to start your session</p>
+              <form action="../../index3.html" method="post">
+                <div className="input-group mb-3">
+                  <input
+                    type="email"
+                    className="form-control"
+                    placeholder="Email"
+                  />
+                  <div className="input-group-append">
+                    <div className="input-group-text">
+                      <span className="fas fa-envelope" />
+                    </div>
+                  </div>
+                </div>
+                <div className="input-group mb-3">
+                  <input
+                    type="password"
+                    className="form-control"
+                    placeholder="Password"
+                  />
+                  <div className="input-group-append">
+                    <div className="input-group-text">
+                      <span className="fas fa-lock" />
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-8">
+                    <div className="icheck-primary">
+                      <input type="checkbox" id="remember" />
+                      <label htmlFor="remember">Remember Me</label>
+                    </div>
+                  </div>
+                  <div className="col-4">
+                    <button type="submit" className="btn btn-primary btn-block">
+                      Sign In
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <div className="social-auth-links text-center mb-3">
+                <p>- OR -</p>
+                <a href="#" className="btn btn-block btn-primary">
+                  <i className="fab fa-facebook mr-2" /> Sign in using Facebook
+                </a>
+                <a href="#" className="btn btn-block btn-danger">
+                  <i className="fab fa-google-plus mr-2" /> Sign in using
+                  Google+
+                </a>
+              </div>
+              <p className="mb-1">
+                <a href="forgot-password.html">I forgot my password</a>
+              </p>
+              <p className="mb-0">
+                <a href="register.html" className="text-center">
+                  Register a new membership
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div> */}
     </>
   );
 }

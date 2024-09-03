@@ -2,6 +2,7 @@ import React from "react";
 import Aheader from "../Components/Aheader";
 import Afooter from "../Components/Afooter";
 import Slidnav from "../Components/Slidnav";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
 	return (

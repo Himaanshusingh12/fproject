@@ -140,6 +140,9 @@ function App() {
 					<Route path="/bank-reconciliation" element={<Bank_reconciliation />}></Route >
 					<Route path="/journal" element={<Journal />}></Route >
 					<Route path="/reports" element={<Reports />}></Route >
+					{/* <Route path="/reports" element={<Reports />}></Route > */}
+
+
 
 
 				</ Routes>

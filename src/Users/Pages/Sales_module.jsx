@@ -143,7 +143,7 @@ function Sales_module() {
 					</section>
 				</div>
 			</div>
-
+			<div></div>
 			<Bfooter />
 		</>
 	);

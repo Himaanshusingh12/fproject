@@ -8,6 +8,7 @@ function Loaderstyle() {
 		justifyContent: "center",
 		height: "100vh",
 	};
+	// here
 
 	return (
 		<>

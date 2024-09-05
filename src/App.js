@@ -13,8 +13,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 // admin
 import Dashboard from "./admin/Pages/Dashboard";
-import Add_users from "./admin/Pages/Add_users";
-import Manage_user from "./admin/Pages/Manage_user";
 import Aheader from "./admin/Components/Aheader";
 import Slidnav from "./admin/Components/Slidnav";
 import VerifyOtp from "./Pages/VerifyOtp";
@@ -36,6 +34,16 @@ import Customer_master from "./Users/Pages/Customer_master";
 import Vendor_master from "./Users/Pages/Vendor_master";
 import Customer_statement from "./Users/Pages/Customer_statement";
 import Vendor_statement from "./Users/Pages/Vendor_statement";
+import Sales_module from "./Users/Pages/Sales_module";
+import Purchase_module from "./Users/Pages/Purchase_module";
+import Bank_receipt from "./Users/Pages/Bank_receipt";
+import Bank_reconciliation from "./Users/Pages/Bank_reconciliation";
+import Journal from "./Users/Pages/Journal";
+import Bank_payment from "./Users/Pages/Bank_payment";
+import Reports from "./Users/Pages/Reports";
+import Manage_customer from "./admin/Pages/Manage_customer";
+import Manage_vendor from "./admin/Pages/Manage_vendor";
+import Manage_user from "./admin/Pages/Manage_user";
 
 function App() {
 	return (
@@ -57,6 +65,11 @@ function App() {
 			{/* <Dashboard /> */}
 			{/* <VerifyOtp /> */}
 			{/* <Admin_login /> */}
+			{/* <Manage_user /> */}
+			{/* <Manage_customer /> */}
+			{/* <Manage_vendor /> */}
+
+
 
 			{/* users */}
 
@@ -73,6 +86,14 @@ function App() {
 			{/* <Vendor_master /> */}
 			{/* <Customer_statement /> */}
 			{/* <Vendor_statement /> */}
+			{/* <Sales_module /> */}
+			{/* <Purchase_module /> */}
+			{/* <Bank_payment/> */}
+			{/* <Bank_receipt /> */}
+			{/* <Bank_reconciliation /> */}
+			{/* <Journal /> */}
+			{/* <Reports /> */}
+
 
 			<BrowserRouter>
 				<ToastContainer></ToastContainer>
@@ -85,14 +106,15 @@ function App() {
 					<Route path="/login" element={<Login />}></Route>
 					<Route path="/verify-otp" element={<VerifyOtp />}></Route>
 					{/* <Route path="/forget-password" element={<><ForgotPassword /></>}></Route> */}
-					{/* <Route path="" element={<><ResetPassword /></>}></Route> */}
+					{/* <Route path="/" element={<><ResetPassword /></>}></Route> */}
 					{/* Admin */}
 					<Route path="/admin/login" element={<Admin_login />}></Route>
 					<Route element={<AdminRoute />}>
 						<Route path="/dashboard" element={<Dashboard />} />
 					</Route>
-					<Route path="/add_users" element={<Add_users />}></Route>
-					<Route path="/manage_users" element={<Manage_user />}></Route>
+					<Route path="/manage-user" element={<Manage_user />}></Route>
+					<Route path="/manage-customer" element={<Manage_customer />}></Route>
+					<Route path="/manage-vendor" element={<Manage_vendor />}></Route>
 					{/* users */}
 					<Route
 						path="/user"
@@ -111,7 +133,16 @@ function App() {
 					<Route path="/vendor-master" element={<Vendor_master />}></Route>
 					<Route path="/customer-statement" element={<Customer_statement />}></Route>
 					<Route path="/vendor-statement" element={<Vendor_statement />}></Route>
-				</Routes>
+					<Route path="/sales-module" element={< Sales_module />}></Route >
+					<Route path="/purchase-module" element={<Purchase_module />}></Route>
+					<Route path="/bank-payment" element={<Bank_payment />}></Route>
+					<Route path="/bank-receipt" element={<Bank_receipt />}></Route >
+					<Route path="/bank-reconciliation" element={<Bank_reconciliation />}></Route >
+					<Route path="/journal" element={<Journal />}></Route >
+					<Route path="/reports" element={<Reports />}></Route >
+
+
+				</ Routes>
 			</BrowserRouter>
 		</>
 	);

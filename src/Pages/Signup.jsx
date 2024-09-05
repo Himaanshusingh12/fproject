@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { BACKEND_URL } from "../Constant";
-
+import Loaderstyle from "./Loaderstyle";
 function Signup() {
 	const [formvalue, setFormvalue] = useState({
 		id: "",
@@ -15,6 +15,9 @@ function Signup() {
 		password: "",
 		phone: "",
 	});
+
+	// here
+	const [loading, setLoading] = useState(false);
 
 	const navigate = useNavigate();
 
@@ -47,6 +50,12 @@ function Signup() {
 		if (formvalue.password === "") {
 			toast.error("Password field is required");
 			result = false;
+		} else {
+			const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/;
+			if (!passwordRegex.test(formvalue.password)) {
+				toast.error("Password must be at least 8 character long, contain at least one uppercase letter,one lowercase letter,and one special character.");
+				result = false;
+			}
 		}
 
 		if (formvalue.phone === "") {
@@ -60,6 +69,8 @@ function Signup() {
 	const submithandel = async (e) => {
 		e.preventDefault();
 		if (validation()) {
+			// here
+			setLoading(true);
 			try {
 				const response = await axios.post(`${BACKEND_URL}/signup`, formvalue);
 				if (response.status === 201) {
@@ -79,6 +90,9 @@ function Signup() {
 				} else {
 					toast.error("Registration failed: " + error.message);
 				}
+			} finally {
+				// here
+				setLoading(false);
 			}
 		}
 	};
@@ -87,69 +101,73 @@ function Signup() {
 		<>
 			<Header />
 			<div className="container py-5">
-				<div className="row justify-content-center">
-					<div className="col-md-6">
-						<div className="card shadow-sm">
-							<div className="card-body">
-								<h5 className="card-title">Sign up for services</h5>
-								<form noValidate action="" method="post" onSubmit={submithandel}>
-									<div className="row mt-5">
-										<div className="col-md-12">
-											<div className="mb-3">
-												<label htmlFor="name" className="form-label">
-													Name
-												</label>
-												<input type="text" className="form-control" id="name" name="name" value={formvalue.name} onChange={getform} />
+				{loading ? (
+					<Loaderstyle />
+				) : (
+					<div className="row justify-content-center">
+						<div className="col-md-6">
+							<div className="card shadow-sm">
+								<div className="card-body">
+									<h5 className="card-title">Sign up for services</h5>
+									<form noValidate action="" method="post" onSubmit={submithandel}>
+										<div className="row mt-5">
+											<div className="col-md-12">
+												<div className="mb-3">
+													<label htmlFor="name" className="form-label">
+														Name
+													</label>
+													<input type="text" className="form-control" id="name" name="name" value={formvalue.name} onChange={getform} />
+												</div>
+											</div>
+											<div className="col-md-12">
+												<div className="mb-3">
+													<label htmlFor="email" className="form-label">
+														Email
+													</label>
+													<input type="email" className="form-control" id="email" name="email" value={formvalue.email} onChange={getform} />
+												</div>
 											</div>
 										</div>
-										<div className="col-md-12">
-											<div className="mb-3">
-												<label htmlFor="email" className="form-label">
-													Email
-												</label>
-												<input type="email" className="form-control" id="email" name="email" value={formvalue.email} onChange={getform} />
+										<div className="row">
+											<div className="col-md-12">
+												<div className="mb-3">
+													<label htmlFor="password" className="form-label">
+														Password
+													</label>
+													<input type="password" className="form-control" id="password" name="password" value={formvalue.password} onChange={getform} />
+												</div>
 											</div>
 										</div>
-									</div>
-									<div className="row">
-										<div className="col-md-12">
-											<div className="mb-3">
-												<label htmlFor="password" className="form-label">
-													Password
-												</label>
-												<input type="password" className="form-control" id="password" name="password" value={formvalue.password} onChange={getform} />
+										<div className="row">
+											<div className="col-md-12">
+												<div className="mb-3">
+													<label htmlFor="phone" className="form-label">
+														Phone
+													</label>
+													<input type="tel" className="form-control" id="phone" name="phone" value={formvalue.phone} onChange={getform} />
+												</div>
 											</div>
 										</div>
-									</div>
-									<div className="row">
-										<div className="col-md-12">
-											<div className="mb-3">
-												<label htmlFor="phone" className="form-label">
-													Phone
-												</label>
-												<input type="tel" className="form-control" id="phone" name="phone" value={formvalue.phone} onChange={getform} />
+										<div className="row">
+											<div className="col-md-12">
+												<button type="submit" className="btn btn-primary btn-block">
+													Sign up
+												</button>
 											</div>
 										</div>
-									</div>
-									<div className="row">
-										<div className="col-md-12">
-											<button type="submit" className="btn btn-primary btn-block">
-												Sign up
-											</button>
+										<div className="row">
+											<div className="col-md-12">
+												<p>
+													Already have an account? <Link to="/login">Login here</Link>
+												</p>
+											</div>
 										</div>
-									</div>
-									<div className="row">
-										<div className="col-md-12">
-											<p>
-												Already have an account? <Link to="/login">Login here</Link>
-											</p>
-										</div>
-									</div>
-								</form>
+									</form>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				)}
 			</div>
 
 			<Footer />

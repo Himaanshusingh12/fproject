@@ -41,8 +41,6 @@ import Bank_reconciliation from "./Users/Pages/Bank_reconciliation";
 import Journal from "./Users/Pages/Journal";
 import Bank_payment from "./Users/Pages/Bank_payment";
 import Reports from "./Users/Pages/Reports";
-import Manage_customer from "./admin/Pages/Manage_customer";
-import Manage_vendor from "./admin/Pages/Manage_vendor";
 import Manage_user from "./admin/Pages/Manage_user";
 
 function App() {
@@ -113,8 +111,6 @@ function App() {
 						<Route path="/dashboard" element={<Dashboard />} />
 					</Route>
 					<Route path="/manage-user" element={<Manage_user />}></Route>
-					{/* <Route path="/manage-customer" element={<Manage_customer />}></Route> */}
-					{/* <Route path="/manage-vendor" element={<Manage_vendor />}></Route> */}
 					{/* users */}
 					<Route
 						path="/user"

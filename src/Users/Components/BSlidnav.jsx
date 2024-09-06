@@ -51,8 +51,16 @@ function BSlidnav() {
 										<p>Dashboard</p>
 									</NavLink>
 								</li>
-								<li className="nav-item">
-									<a href="#" className="nav-link">
+								<li className="nav-item dropdown">
+									<a
+										className="nav-link dropdown-toggle"
+										href="#"
+										id="basic-master-dropdown"
+										role="button"
+										data-toggle="dropdown"
+										aria-haspopup="true"
+										aria-expanded="false"
+									>
 										<i className="nav-icon fas fa-book" />
 										<p>
 											Basic Master

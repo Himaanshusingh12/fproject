@@ -14,7 +14,6 @@ function Profile() {
 		id: "",
 		name: "",
 		email: "",
-		password: "",
 		phone: "",
 	});
 
@@ -22,7 +21,7 @@ function Profile() {
 
 	useEffect(() => {
 		const userId = localStorage.getItem("userid");
-		console.log("Retrieved user ID from localStorage:", userId);
+		// console.log("Retrieved user ID from localStorage:", userId);
 		if (userId) {
 			fetchUserData(userId);
 		} else {
@@ -32,17 +31,21 @@ function Profile() {
 
 	const fetchUserData = async (userId) => {
 		try {
-			const userId = localStorage.getItem("userid");
-			console.log("Fetching data for user ID:", userId);
-
+			// const userId = localStorage.getItem("userid");
+			// console.log("Fetching data for user ID:", userId);
 			const res = await axios.get(`${BACKEND_URL}/user/${userId}`);
 			setData(res.data);
-			console.log(res.data);
+			setFormvalue(res.data);
+			// console.log(res.data);
 			setLoading(false);
 		} catch (error) {
 			console.log("Error fetching user data:", error);
 			setLoading(false);
 		}
+	};
+
+	const getform = (e) => {
+		setFormvalue({ ...formvalue, [e.target.name]: e.target.value });
 	};
 
 	const editdata = async (id) => {
@@ -54,10 +57,6 @@ function Profile() {
 		}
 	};
 
-	const getform = (e) => {
-		setFormvalue({ ...formvalue, [e.target.name]: e.target.value });
-	};
-
 	const validation = () => {
 		let result = true;
 		if (formvalue.name === "") {
@@ -66,10 +65,6 @@ function Profile() {
 		}
 		if (formvalue.email === "") {
 			toast.error("Email Field is required");
-			result = false;
-		}
-		if (formvalue.password === "") {
-			toast.error("Password Field is required");
 			result = false;
 		}
 		if (formvalue.phone === "") {
@@ -84,15 +79,15 @@ function Profile() {
 
 		if (validation()) {
 			try {
+				console.log("Submitting data:", formvalue);
 				const res = await axios.patch(`${BACKEND_URL}/user/${formvalue.id}`, formvalue);
 				if (res.status === 200) {
 					toast.success("Update success");
-					fetchUserData();
+					fetchUserData(formvalue.id);
 					setFormvalue({
 						id: "",
 						name: "",
 						email: "",
-						password: "",
 						phone: "",
 					});
 				}
@@ -107,134 +102,90 @@ function Profile() {
 		<>
 			<Bheader />
 			<BSlidnav />
-			<div class="wrapper">
+			<div className="wrapper">
 				<div className="content-wrapper">
-					<div className="container-xxl bg-white p-0">
-						{/* Team Start */}
-						<div className="container-xxl">
-							<div className="container py- px-lg-3">
-								<div className="wow fadeInUp" data-wow-delay="0.1s">
-									<h1 className="text-center mb-5">Edit Profile</h1>
-								</div>
-								{loading ? (
-									<div className="text-center">Loading...</div>
-								) : (
-									<div className="row g-4">
-										<div className="offset-lg-4 col-lg-4 col-md-6 offset-md-3 wow fadeInUp" data-wow-delay="0.1s">
-											<div className="team-item bg-light rounded">
-												<div className="text-center border-bottom p-4">
-													<h5>Id :{data.id}</h5>
-													<br />
-													<h5>Name :{data.name}</h5>
-													<span>Email : {data.email}</span>
-													<br />
-													<br />
-													{/* <span>Password : {data.password}</span> */}
-													<br />
-													<br />
-													<span>phone : {data.phone}</span>
-													<br />
-													<br />
-													<button className="btn btn-primary" onClick={() => editdata(data.id)} data-toggle="modal" data-target="#myModal">
-														Edit Profile
-													</button>
+					<section className="content mt-4">
+						<div className="container-fluid">
+							<div className="row justify-content-center">
+								<div className="col-md-6">
+									<div className="card card-primary card-outline">
+										<div className="card-body box-profile">
+											{/* <div className="text-center">
+												<img className="profile-user-img img-fluid img-circle" src="" alt="User profile picture" />
+											</div> */}
+											<h3 className="profile-username text-center">{data.name}</h3>
+											<p className="text-muted text-center">User</p>
+											<ul className="list-group list-group-unbordered mb-3">
+												<li className="list-group-item">
+													<b>ID</b> <a className="float-right">{data.id}</a>
+												</li>
+												<li className="list-group-item">
+													<b>Email</b> <a className="float-right">{data.email}</a>
+												</li>
+												<li className="list-group-item">
+													<b>Phone</b> <a className="float-right">{data.phone}</a>
+												</li>
+											</ul>
 
-													<div className="modal" id="myModal">
-														<div className="modal-dialog">
-															<div className="modal-content">
-																{/* Modal Header */}
-																<div className="modal-header">
-																	<h4 className="modal-title">Edit Profile</h4>
-																	<button type="button" className="btn-close" data-dismiss="modal" />
-																</div>
-																{/* Modal body */}
-
-																<div className="modal-body">
-																	<div className="container">
-																		<form action="" method="post">
-																			<div className="row g-3">
-																				<div className="col-md-6">
-																					<div className="form-floating">
-																						<input
-																							type="text"
-																							className="form-control"
-																							name="name"
-																							value={formvalue.name}
-																							onChange={getform}
-																							id="name"
-																						/>
-																						<label htmlFor="name">Your Name</label>
-																					</div>
-																				</div>
-																				<div className="col-md-6">
-																					<div className="form-floating">
-																						<input
-																							type="email"
-																							className="form-control"
-																							name="email"
-																							value={formvalue.email}
-																							onChange={getform}
-																							id="email"
-																						/>
-																						<label htmlFor="email">Your Email</label>
-																					</div>
-																				</div>
-																				<div className="col-md-6">
-																					<div className="form-floating">
-																						<input
-																							type="password"
-																							className="form-control"
-																							name="password"
-																							value={formvalue.password}
-																							onChange={getform}
-																							id="password"
-																						/>
-																						<label htmlFor="password">Your Password</label>
-																					</div>
-																				</div>
-
-																				<div className="col-md-6">
-																					<div className="form-floating">
-																						<input
-																							type="tel"
-																							className="form-control"
-																							name="phone"
-																							value={formvalue.phone}
-																							onChange={getform}
-																							id="phone"
-																						/>
-																						<label htmlFor="phone">Your Phone</label>
-																					</div>
-																				</div>
-																				<div className="col-12">
-																					<button onClick={submithandel} className="btn btn-primary w-100 py-3" type="submit">
-																						Save
-																					</button>
-																				</div>
-																			</div>
-																		</form>
-																	</div>
-																</div>
-																{/* Modal footer */}
-																<div className="modal-footer">
-																	<button type="button" className="btn btn-danger" data-dismiss="modal">
-																		Close
-																	</button>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
+											<button className="btn btn-primary btn-block" onClick={() => editdata(data.id)} data-toggle="modal" data-target="#myModal">
+												Edit Profile
+											</button>
 										</div>
 									</div>
-								)}
+								</div>
 							</div>
 						</div>
-						{/* Team End */}
+					</section>
+					<div className="modal" id="myModal">
+						<div className="modal-dialog">
+							<div className="modal-content">
+								<div className="modal-header">
+									<h4 className="modal-title">Edit Profile</h4>
+									<button type="button" className="btn-close" data-dismiss="modal" />
+								</div>
+
+								<div className="modal-body">
+									<div className="container">
+										<form onSubmit={submithandel}>
+											<div className="row g-3">
+												<div className="col-md-6">
+													<div className="form-floating">
+														<input type="text" className="form-control" name="name" value={formvalue.name} onChange={getform} id="name" />
+														<label htmlFor="name">Your Name</label>
+													</div>
+												</div>
+												<div className="col-md-6">
+													<div className="form-floating">
+														<input type="email" className="form-control" name="email" value={formvalue.email} onChange={getform} id="email" />
+														<label htmlFor="email">Your Email</label>
+													</div>
+												</div>
+												<div className="col-md-6">
+													<div className="form-floating">
+														<input type="tel" className="form-control" name="phone" value={formvalue.phone} onChange={getform} id="phone" />
+														<label htmlFor="phone">Your Phone</label>
+													</div>
+												</div>
+												<div className="col-12">
+													<button onClick={submithandel} className="btn btn-primary w-100 py-3" type="submit">
+														Save
+													</button>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+								<div className="modal-footer">
+									<button type="button" className="btn btn-danger" data-dismiss="modal">
+										Close
+									</button>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
+
 			<Bfooter />
 		</>
 	);

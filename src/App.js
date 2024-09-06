@@ -42,6 +42,7 @@ import Journal from "./Users/Pages/Journal";
 import Bank_payment from "./Users/Pages/Bank_payment";
 import Reports from "./Users/Pages/Reports";
 import Manage_user from "./admin/Pages/Manage_user";
+import View_customer from "./Users/Pages/View_customer";
 
 function App() {
 	return (
@@ -136,8 +137,7 @@ function App() {
 					<Route path="/bank-reconciliation" element={<Bank_reconciliation />}></Route >
 					<Route path="/journal" element={<Journal />}></Route >
 					<Route path="/reports" element={<Reports />}></Route >
-					{/* <Route path="/reports" element={<Reports />}></Route > */}
-					{/* <Route path="/reports" element={<Reports />}></Route > */}
+					<Route path="/view-customer" element={<View_customer />}></Route >
 				</ Routes>
 			</BrowserRouter>
 		</>

@@ -41,8 +41,10 @@ function Change_password() {
 		e.preventDefault();
 
 		if (validateForm()) {
+			const userId = localStorage.getItem("userid");
 			try {
 				const response = await axios.post(`${BACKEND_URL}/change-password`, {
+					userId,
 					oldPassword: formValue.oldPassword,
 					newPassword: formValue.newPassword,
 					confirmNewPassword: formValue.confirmNewPassword,
@@ -115,7 +117,7 @@ function Change_password() {
 												<div className="row">
 													<div className="col-md-12">
 														<div className="form-group">
-															<label htmlFor="confirmNewPassword">Confirm New Password</label>
+															<label htmlFor="confirmNewPassword">Confirm Password</label>
 															<input
 																type="password"
 																name="confirmNewPassword"

@@ -126,7 +126,7 @@ function Vendor_master() {
 								<div className="col-md-12">
 									<div className="card card-primary">
 										<div className="card-header">
-											<h3 className="card-title">ADD VENDOR MASTER</h3>
+											<h3 className="card-title">Add Vendor</h3>
 										</div>
 										<form onSubmit={handleSubmit}>
 											<div className="card-body">
@@ -190,15 +190,14 @@ function Vendor_master() {
 													<div className="col-md-6">
 														<div className="form-group">
 															<label htmlFor="currency">Currency</label>
-															<input
-																type="text"
-																name="currency"
-																id="currency"
-																className="form-control"
-																placeholder="Enter Currency"
-																value={vendorForm.currency}
-																onChange={handleChange}
-															/>
+															<select name="currency" id="currency" className="form-control" value={vendorForm.currency} onChange={handleChange}>
+																<option value="">Select Currency</option>
+																<option value="USD">USD - US Dollar</option>
+																<option value="EUR">EUR - Euro</option>
+																<option value="INR">Indian Rupees</option>
+																<option value="GBP">GBP-British Pound</option>
+																<option value="JPY">japanese Yen</option>
+															</select>
 														</div>
 													</div>
 													<div className="col-md-6">

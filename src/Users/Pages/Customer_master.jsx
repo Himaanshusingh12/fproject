@@ -5,6 +5,7 @@ import Bfooter from "../Components/Bfooter";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { BACKEND_URL } from "../../Constant";
+import { Link } from "react-router-dom";
 
 function Customer_master() {
 	const [customerForm, setCustomerForm] = useState({
@@ -112,6 +113,9 @@ function Customer_master() {
 		<>
 			<Bheader />
 			<BSlidnav />
+			{/* <Link to="/add_user" className="btn btn-primary float-end mb-5">
+              Add Data
+            </Link> */}
 			<div className="wrapper">
 				<div className="content-wrapper">
 					<section className="content mt-4">
@@ -119,8 +123,11 @@ function Customer_master() {
 							<div className="row">
 								<div className="col-md-12">
 									<div className="card card-primary">
-										<div className="card-header">
-											<h3 className="card-title">ADD CUSTOM MASTER</h3>
+										<div className="card-header d-flex justify-content-between align-items-center">
+											<h3 className="card-title">Add Customer</h3>
+											<Link to="/view-customer" className="btn btn-primary ml-auto">
+												View All Customer
+											</Link>
 										</div>
 										<form onSubmit={handleSubmit}>
 											<div className="card-body">
@@ -170,15 +177,14 @@ function Customer_master() {
 													<div className="col-md-6">
 														<div className="form-group">
 															<label htmlFor="currency">Currency</label>
-															<input
-																type="text"
-																name="currency"
-																id="currency"
-																className="form-control"
-																placeholder="Enter Currency"
-																value={customerForm.currency}
-																onChange={handleChange}
-															/>
+															<select name="currency" id="currency" className="form-control" value={customerForm.currency} onChange={handleChange}>
+																<option value="">Select Currency</option>
+																<option value="USD">USD - US Dollar</option>
+																<option value="EUR">EUR - Euro</option>
+																<option value="INR">Indian Rupees</option>
+																<option value="GBP">GBP-British Pound</option>
+																<option value="JPY">japanese Yen</option>
+															</select>
 														</div>
 													</div>
 													<div className="col-md-6">

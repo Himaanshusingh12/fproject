@@ -113,8 +113,8 @@ function App() {
 						<Route path="/dashboard" element={<Dashboard />} />
 					</Route>
 					<Route path="/manage-user" element={<Manage_user />}></Route>
-					<Route path="/manage-customer" element={<Manage_customer />}></Route>
-					<Route path="/manage-vendor" element={<Manage_vendor />}></Route>
+					{/* <Route path="/manage-customer" element={<Manage_customer />}></Route> */}
+					{/* <Route path="/manage-vendor" element={<Manage_vendor />}></Route> */}
 					{/* users */}
 					<Route
 						path="/user"
@@ -141,10 +141,7 @@ function App() {
 					<Route path="/journal" element={<Journal />}></Route >
 					<Route path="/reports" element={<Reports />}></Route >
 					{/* <Route path="/reports" element={<Reports />}></Route > */}
-
-
-
-
+					{/* <Route path="/reports" element={<Reports />}></Route > */}
 				</ Routes>
 			</BrowserRouter>
 		</>

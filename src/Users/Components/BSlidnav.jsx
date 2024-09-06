@@ -2,18 +2,6 @@ import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 function BSlidnav() {
-	// useEffect(() => {
-	// 	// Dynamically load adminlte.js
-	// 	const script = document.createElement("script");
-	// 	script.src = "/dist/js/adminlte.js";
-	// 	script.async = true; // Ensure the script loads asynchronously
-	// 	document.body.appendChild(script);
-
-	// 	return () => {
-	// 		// Cleanup script when component unmounts
-	// 		document.body.removeChild(script);
-	// 	};
-	// }, []);
 	return (
 		<>
 			<div class="wrapper">
@@ -64,13 +52,13 @@ function BSlidnav() {
 									</NavLink>
 								</li>
 								<li className="nav-item">
-									<NavLink href="#" className="nav-link">
+									<a href="#" className="nav-link">
 										<i className="nav-icon fas fa-book" />
 										<p>
 											Basic Master
 											<i className="fas fa-angle-left right" />
 										</p>
-									</NavLink>
+									</a>
 									<ul className="nav nav-treeview">
 										<li className="nav-item">
 											<NavLink to="/chart-account" className="nav-link">

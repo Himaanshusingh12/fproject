@@ -101,7 +101,7 @@ function Login() {
 												Don't have an account? <Link to="/signup">Sign up here</Link>
 											</p>
 											<p>
-												Forgot password? <NavLink to="/forget-password">Reset password</NavLink>
+												Forgot password? <NavLink to="#">Reset password</NavLink>
 											</p>
 										</div>
 									</div>

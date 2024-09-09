@@ -110,26 +110,35 @@ function Profile() {
 								<div className="col-md-6">
 									<div className="card card-primary card-outline">
 										<div className="card-body box-profile">
-											{/* <div className="text-center">
-												<img className="profile-user-img img-fluid img-circle" src="" alt="User profile picture" />
-											</div> */}
-											<h3 className="profile-username text-center">{data.name}</h3>
-											<p className="text-muted text-center">User</p>
-											<ul className="list-group list-group-unbordered mb-3">
-												<li className="list-group-item">
-													<b>ID</b> <a className="float-right">{data.id}</a>
-												</li>
-												<li className="list-group-item">
-													<b>Email</b> <a className="float-right">{data.email}</a>
-												</li>
-												<li className="list-group-item">
-													<b>Phone</b> <a className="float-right">{data.phone}</a>
-												</li>
-											</ul>
+											{loading ? (
+												<div className="text-center">
+													{/* Loader */}
+													<div className="spinner-border text-primary" role="status">
+														<span className="visually-hidden"></span>
+													</div>
+													<p>Loading...</p>
+												</div>
+											) : (
+												<>
+													<h3 className="profile-username text-center">{data.name}</h3>
+													<p className="text-muted text-center">User</p>
+													<ul className="list-group list-group-unbordered mb-3">
+														<li className="list-group-item">
+															<b>ID</b> <a className="float-right">{data.id}</a>
+														</li>
+														<li className="list-group-item">
+															<b>Email</b> <a className="float-right">{data.email}</a>
+														</li>
+														<li className="list-group-item">
+															<b>Phone</b> <a className="float-right">{data.phone}</a>
+														</li>
+													</ul>
 
-											<button className="btn btn-primary btn-block" onClick={() => editdata(data.id)} data-toggle="modal" data-target="#myModal">
-												Edit Profile
-											</button>
+													<button className="btn btn-primary btn-block" onClick={() => editdata(data.id)} data-toggle="modal" data-target="#myModal">
+														Edit Profile
+													</button>
+												</>
+											)}
 										</div>
 									</div>
 								</div>
@@ -167,7 +176,7 @@ function Profile() {
 													</div>
 												</div>
 												<div className="col-12">
-													<button onClick={submithandel} className="btn btn-primary w-100 py-3" type="submit">
+													<button className="btn btn-primary w-100 py-3" type="submit">
 														Save
 													</button>
 												</div>

@@ -108,7 +108,6 @@ function Customer_master() {
 			}
 		}
 	};
-
 	return (
 		<>
 			<Bheader />
@@ -125,7 +124,7 @@ function Customer_master() {
 									<div className="card card-primary">
 										<div className="card-header d-flex justify-content-between align-items-center">
 											<h3 className="card-title">Add Customer</h3>
-											<Link to="/view-customer" className="btn btn-primary ml-auto">
+											<Link to="/view-customer" className="btn btn-success ml-auto">
 												View All Customer
 											</Link>
 										</div>

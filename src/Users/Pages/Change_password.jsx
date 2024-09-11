@@ -22,21 +22,40 @@ function Change_password() {
 	const validateForm = () => {
 		const { oldPassword, newPassword, confirmNewPassword } = formValue;
 
-		// console.log("Validating form:", formValue); // Debugging line
-
+		// Check if each field is filled
 		if (!oldPassword || !newPassword || !confirmNewPassword) {
-			toast.error("All fields are required");
+			if (!oldPassword) {
+				toast.error("Old password is required");
+				return false;
+			}
+
+			if (!newPassword) {
+				toast.error("New passwords is required");
+				return false;
+			}
+			if (!confirmNewPassword) {
+				toast.error("Confirm new password is required");
+			}
 			return false;
 		}
 
+		// Check if new passwords match
 		if (newPassword !== confirmNewPassword) {
 			toast.error("New passwords do not match");
 			return false;
 		}
 
+		// Regular expression to check the password strength
+		const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+		if (!passwordRegex.test(newPassword)) {
+			toast.error(
+				"Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one special character."
+			);
+			return false;
+		}
+
 		return true;
 	};
-
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -48,8 +67,8 @@ function Change_password() {
 					oldPassword: formValue.oldPassword,
 					newPassword: formValue.newPassword,
 					confirmNewPassword: formValue.confirmNewPassword,
-					// userId: userId,
 				});
+
 				if (response.status === 200) {
 					toast.success("Password changed successfully");
 					setFormValue({
@@ -62,7 +81,13 @@ function Change_password() {
 					toast.error("Failed to change password");
 				}
 			} catch (error) {
-				toast.error("Failed to change password: " + error.message);
+				if (error.response) {
+					// Display specific error messages from server
+					toast.error(error.response.data.message || "An error occurred");
+				} else {
+					// Display generic error message for unknown errors
+					toast.error("An error occurred while changing the password");
+				}
 			}
 		}
 	};

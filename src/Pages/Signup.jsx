@@ -52,7 +52,9 @@ function Signup() {
 		} else {
 			const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/;
 			if (!passwordRegex.test(formvalue.password)) {
-				toast.error("Password must be at least 8 character long, contain at least one uppercase letter,one lowercase letter,and one special character.");
+				toast.error(
+					"Password must be at least 8 character long, contain at least one uppercase letter,one lowercase letter,and one special character."
+				);
 				result = false;
 			}
 		}
@@ -68,7 +70,6 @@ function Signup() {
 	const submithandel = async (e) => {
 		e.preventDefault();
 		if (validation()) {
-			// here
 			setLoading(true);
 			try {
 				const response = await axios.post(`${BACKEND_URL}/signup`, formvalue);
@@ -90,7 +91,6 @@ function Signup() {
 					toast.error("Registration failed: " + error.message);
 				}
 			} finally {
-				// here
 				setLoading(false);
 			}
 		}
@@ -99,7 +99,7 @@ function Signup() {
 	return (
 		<>
 			<Header />
-			<div className="container py-5">
+			{/* <div className="container py-5">
 				{loading ? (
 					<Loaderstyle />
 				) : (
@@ -167,7 +167,100 @@ function Signup() {
 						</div>
 					</div>
 				)}
-			</div>
+			</div> */}
+
+			{/* from here */}
+			<section className="content mt-4">
+				{loading ? (
+					<Loaderstyle />
+				) : (
+					<div className="container-fluid h-100">
+						<div className="row h-100 justify-content-center align-items-center">
+							<div className="col-md-6">
+								<div className="card card-primary">
+									<div className="card-header">
+										<h3 className="card-title">Sign up</h3>
+									</div>
+									<form noValidate action="" method="post" onSubmit={submithandel}>
+										<div className="card-body">
+											<div className="row">
+												<div className="col-md-12">
+													<div className="form-group">
+														<label htmlFor="name">Name</label>
+														<input
+															type="text"
+															name="name"
+															id="name"
+															className="form-control"
+															value={formvalue.name}
+															onChange={getform}
+															placeholder="Enter Name"
+														/>
+													</div>
+												</div>
+												<div className="col-md-12">
+													<div className="form-group">
+														<label htmlFor="email">Email</label>
+														<input
+															type="email"
+															name="email"
+															id="email"
+															className="form-control"
+															value={formvalue.email}
+															onChange={getform}
+															placeholder="Enter Email"
+														/>
+													</div>
+												</div>
+												<div className="col-md-12">
+													<div className="form-group">
+														<label htmlFor="password">Password</label>
+														<input
+															type="password"
+															name="password"
+															id="password"
+															className="form-control"
+															value={formvalue.password}
+															onChange={getform}
+															placeholder="Enter Password"
+														/>
+													</div>
+												</div>
+												<div className="col-md-12">
+													<div className="form-group">
+														<label htmlFor="phone">Phone</label>
+														<input
+															type="tel"
+															name="phone"
+															id="phone"
+															className="form-control"
+															value={formvalue.phone}
+															onChange={getform}
+															placeholder="Enter Phone"
+														/>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div className="card-footer">
+											<button type="submit" className="btn btn-primary btn-block">
+												Sing up
+											</button>
+											<div className="row">
+												<div className="col-md-12">
+													<p>
+														Already have an account? <Link to="/login">Login here</Link>
+													</p>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				)}
+			</section>
 
 			<Footer />
 		</>

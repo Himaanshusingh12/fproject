@@ -6,47 +6,47 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { BACKEND_URL } from "../../Constant";
 
-function View_customer() {
-	const [customers, setCustomers] = useState([]);
-	const [searchQuery, setSearchQuery] = useState(""); //add this
-	const [filteredCustomers, setFilteredCustomers] = useState([]); // Add this
-	const [selectedCustomer, setSelectedCustomer] = useState(null); //add this
+function View_vendor() {
+	const [vendors, setVendors] = useState([]);
+	const [searchQuery, setSearchQuery] = useState("");
+	const [filteredVendors, setFilteredVendors] = useState([]);
+	const [selectedVendor, setSelectedVendor] = useState(null);
 	const [formValue, setFormValue] = useState({
-		customer_name: "",
+		vendor_name: "",
 		operating_as: "",
 		address: "",
+		address_send: "",
 		currency: "",
-		email_sales: "",
 		email_statement: "",
+		email_payment: "",
 		gst_no: "",
 		credit_terms: "",
 	});
-
 	useEffect(() => {
-		fetchCustomers();
+		fetchVendors();
 	}, []);
 
-	const fetchCustomers = async (searchQuery = "") => {
+	const fetchVendors = async (searchQuery = "") => {
 		try {
-			let url = `${BACKEND_URL}/api/customers`;
+			let url = `${BACKEND_URL}/api/vendors`;
 			if (searchQuery) {
-				url = `${BACKEND_URL}/api/customers/search?search=${searchQuery}`;
+				url = `${BACKEND_URL}/api/vendors/search?search=${searchQuery}`;
 			}
 			const response = await axios.get(url);
 
 			if (response.status === 200) {
-				setCustomers(response.data);
-				setFilteredCustomers(response.data); // Store fetched customers for client-side filtering
+				setVendors(response.data);
+				setFilteredVendors(response.data); // Store fetched customers for client-side filtering
 			} else {
-				toast.error(`Failed to fetch customers: ${response.statusText}`);
+				toast.error(`Failed to fetch vendors: ${response.statusText}`);
 			}
 		} catch (error) {
 			if (error.response) {
-				toast.error(`Failed to fetch customers 2: ${error.response.data.message || error.response.statusText}`);
+				toast.error(`Failed to fetch vendors 2: ${error.response.data.message || error.response.statusText}`);
 			} else if (error.request) {
-				toast.error("Failed to fetch customers 3: No response received");
+				toast.error("Failed to fetch vendors 3: No response received");
 			} else {
-				toast.error(`Failed to fetch customers 4: ${error.message}`);
+				toast.error(`Failed to fetch vendors 4: ${error.message}`);
 			}
 		}
 	};
@@ -57,9 +57,9 @@ function View_customer() {
 	};
 
 	// Open the modal and set the selected customer for editing
-	const handleEdit = (customer) => {
-		setSelectedCustomer(customer);
-		setFormValue(customer); // Populate the form with the selected customer's data
+	const handleEdit = (vendor) => {
+		setSelectedVendor(vendor);
+		setFormValue(vendor); // Populate the form with the selected vendors's data
 		const modal = new window.bootstrap.Modal(document.getElementById("editModal"));
 		modal.show(); // Show the Bootstrap modal
 	};
@@ -68,39 +68,39 @@ function View_customer() {
 	const handleSave = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await axios.put(`${BACKEND_URL}/api/customers/${selectedCustomer.id}`, formValue);
+			const response = await axios.put(`${BACKEND_URL}/api/vendors/${selectedVendor.id}`, formValue);
 			if (response.status === 200) {
-				toast.success("Customer updated successfully");
-				fetchCustomers(); // Refresh the customer list
+				toast.success("Vendor updated successfully");
+				fetchVendors(); // Refresh the customer list
 			}
 		} catch (error) {
-			console.error("Error updating customer", error);
+			console.error("Error updating vendor", error);
 			console.log("Response:", error.response); // Add this line
-			toast.error("Failed to update customer");
+			toast.error("Failed to update vendor");
 		}
 	};
 
 	// Delete customer
-	const handleDelete = async (customerId) => {
+	const handleDelete = async (vendorId) => {
 		try {
-			const response = await axios.delete(`${BACKEND_URL}/api/customers/${customerId}`);
+			const response = await axios.delete(`${BACKEND_URL}/api/vendors/${vendorId}`); //here
 			if (response.status === 200) {
-				toast.success("Customer deleted successfully");
-				fetchCustomers(); // Refresh the customer list
+				toast.success("Vendor deleted successfully");
+				fetchVendors(); // Refresh the customer list
 			}
 		} catch (error) {
-			console.error("Error deleting customer", error);
-			toast.error("Failed to delete customer");
+			console.error("Error deleting vendor", error);
+			toast.error("Failed to delete vendor");
 		}
 	};
 	// Block/Unblock customer
-	const handleBlockUnblock = async (customer) => {
+	const handleBlockUnblock = async (vendor) => {
 		try {
-			const updatedStatus = customer.is_blocked ? 0 : 1;
-			const response = await axios.patch(`${BACKEND_URL}/api/customers/${customer.id}/block`, { is_blocked: updatedStatus });
+			const updatedStatus = vendor.is_blocked ? 0 : 1;
+			const response = await axios.patch(`${BACKEND_URL}/api/vendors/${vendor.id}/block`, { is_blocked: updatedStatus });
 			if (response.status === 200) {
-				toast.success(`Customer ${updatedStatus ? "blocked" : "unblocked"} successfully`);
-				fetchCustomers(); // Refresh the customer list
+				toast.success(`Vendor ${updatedStatus ? "blocked" : "unblocked"} successfully`);
+				fetchVendors(); // Refresh the customer list
 			}
 		} catch (error) {
 			console.error("Error updating block status", error);
@@ -112,29 +112,28 @@ function View_customer() {
 		setSearchQuery(searchQuery);
 
 		if (searchQuery) {
-			fetchCustomers(searchQuery);
+			fetchVendors(searchQuery);
 		} else {
-			setFilteredCustomers(customers);
+			setFilteredVendors(vendors);
 		}
 	};
 	useEffect(() => {
 		if (searchQuery) {
-			setFilteredCustomers(
-				customers.filter(
-					(customer) =>
-						customer.customer_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						customer.operating_as.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						customer.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						customer.email_sales.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						customer.email_statement.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						customer.gst_no.toLowerCase().includes(searchQuery.toLowerCase())
+			setFilteredVendors(
+				vendors.filter(
+					(vendor) =>
+						vendor.vendor_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						vendor.operating_as.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						vendor.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						vendor.email_statement.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						vendor.email_payment.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						vendor.gst_no.toLowerCase().includes(searchQuery.toLowerCase())
 				)
 			);
 		} else {
-			setFilteredCustomers(customers);
+			setFilteredVendors(vendors);
 		}
-	}, [searchQuery, customers]);
-
+	}, [searchQuery, vendors]);
 	return (
 		<>
 			<Bheader />
@@ -143,14 +142,14 @@ function View_customer() {
 				<div className="content-wrapper">
 					<div className="container mt-4">
 						<div className="d-flex justify-content-between align-items-center mb-3">
-							<h2>Customer Management</h2>
+							<h2>Vendor Management</h2>
 							<div className="d-flex align-items-center">
 								<span className="me-2">Search:</span>
 								<input
 									type="text"
 									value={searchQuery}
 									onChange={handleSearch}
-									placeholder="Search customers"
+									placeholder="Search vendors"
 									className="form-control"
 									style={{ width: "250px" }}
 								/>
@@ -161,12 +160,13 @@ function View_customer() {
 								<thead>
 									<tr>
 										<th>ID</th>
-										<th>Customer Name</th>
+										<th>Vendor Name</th>
 										<th>Operating As</th>
 										<th>Address</th>
+										<th>Address send</th>
 										<th>Currency</th>
-										<th>Email (Sales)</th>
-										{/* <th>Email (Statement)</th> */}
+										<th>Email (Statement)</th>
+										<th>Email (Payment)</th>
 										<th>GST No</th>
 										<th>Credit Terms</th>
 										<th>Actions</th>
@@ -174,37 +174,37 @@ function View_customer() {
 								</thead>
 								<tbody>
 									{/* {customers.map((customer) => ( */}
-									{filteredCustomers.map((customer) => (
-										<tr key={customer.id}>
-											<td>{customer.id}</td>
-											<td>{customer.customer_name}</td>
-											<td>{customer.operating_as}</td>
-											<td>{customer.address}</td>
-											<td>{customer.currency}</td>
-											<td>{customer.email_sales}</td>
-											{/* <td>{customer.email_statement}</td> */}
-											<td>{customer.gst_no}</td>
-											<td>{customer.credit_terms}</td>
+									{filteredVendors.map((vendor) => (
+										<tr key={vendor.id}>
+											<td>{vendor.id}</td>
+											<td>{vendor.vendor_name}</td>
+											<td>{vendor.operating_as}</td>
+											<td>{vendor.address}</td>
+											<td>{vendor.address_send}</td>
+											<td>{vendor.currency}</td>
+											<td>{vendor.email_statement}</td>
+											<td>{vendor.email_payment}</td>
+											<td>{vendor.gst_no}</td>
+											<td>{vendor.credit_terms}</td>
 											<td>
-												<button className="btn btn-primary me-2" onClick={() => handleEdit(customer)}>
+												<button className="btn btn-primary me-2" onClick={() => handleEdit(vendor)}>
 													{/* Edit */}
 													<i className="fas fa-edit" title="Edit"></i>
 												</button>
-												<button className="btn btn-danger me-2" onClick={() => handleDelete(customer.id)}>
+												<button className="btn btn-danger me-2" onClick={() => handleDelete(vendor.id)}>
 													{/* Delete */}
 													<i className="fas fa-trash" title="Delete"></i>
 												</button>
 												{/* <button className={`btn ${customer.is_blocked ? "btn-warning" : "btn-secondary"}`} onClick={() => handleBlockUnblock(customer)}>
 													{customer.is_blocked ? "Unblock" : "Block"}
 												</button> */}
-
 												<button
-													className={`btn ${customer.is_blocked ? "btn-warning" : "btn-secondary"}`}
-													onClick={() => handleBlockUnblock(customer)}
+													className={`btn ${vendor.is_blocked ? "btn-warning" : "btn-secondary"}`}
+													onClick={() => handleBlockUnblock(vendor)}
 												>
 													<i
-														className={`fas ${customer.is_blocked ? "fa-check-circle" : "fa-ban"}`}
-														title={customer.is_blocked ? "Unblock" : "Block"}
+														className={`fas ${vendor.is_blocked ? "fa-check-circle" : "fa-ban"}`}
+														title={vendor.is_blocked ? "Unblock" : "Block"}
 													></i>
 												</button>
 											</td>
@@ -234,7 +234,7 @@ function View_customer() {
 													className="form-control"
 													id="customer_name"
 													name="customer_name"
-													value={formValue.customer_name}
+													value={formValue.vendor_name}
 													onChange={handleFormChange}
 													required
 												/>
@@ -264,6 +264,18 @@ function View_customer() {
 												/>
 											</div>
 											<div className="form-group">
+												<label htmlFor="address">Address(Send)</label>
+												<input
+													type="text"
+													className="form-control"
+													id="address_send"
+													name="address_send"
+													value={formValue.address_send}
+													onChange={handleFormChange}
+													required
+												/>
+											</div>
+											<div className="form-group">
 												<label htmlFor="currency">Currency</label>
 												<input
 													type="text"
@@ -275,26 +287,35 @@ function View_customer() {
 													required
 												/>
 											</div>
+											{/* <td>{vendor.vendor_name}</td>
+											<td>{vendor.operating_as}</td>
+											<td>{vendor.address}</td>
+											<td>{vendor.address_send}</td>
+                                            <td>{vendor.currency}</td>
+											<td>{vendor.email_statement}</td>
+											<td>{vendor.email_payment}</td>
+											<td>{vendor.gst_no}</td>
+											<td>{vendor.credit_terms}</td> */}
 											<div className="form-group">
-												<label htmlFor="email_sales">Sales Email</label>
-												<input
-													type="email"
-													className="form-control"
-													id="email_sales"
-													name="email_sales"
-													value={formValue.email_sales}
-													onChange={handleFormChange}
-													required
-												/>
-											</div>
-											<div className="form-group">
-												<label htmlFor="email_statement">Statement Email</label>
+												<label htmlFor="email_sales">Email (Statement)</label>
 												<input
 													type="email"
 													className="form-control"
 													id="email_statement"
 													name="email_statement"
 													value={formValue.email_statement}
+													onChange={handleFormChange}
+													required
+												/>
+											</div>
+											<div className="form-group">
+												<label htmlFor="email_statement">Email (Payment)</label>
+												<input
+													type="email"
+													className="form-control"
+													id="email_payment"
+													name="email_payment"
+													value={formValue.email_payment}
 													onChange={handleFormChange}
 													required
 												/>
@@ -344,4 +365,4 @@ function View_customer() {
 	);
 }
 
-export default View_customer;
+export default View_vendor;

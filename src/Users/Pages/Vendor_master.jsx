@@ -5,6 +5,7 @@ import Bfooter from "../Components/Bfooter";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { BACKEND_URL } from "../../Constant";
+import { Link } from "react-router-dom";
 
 function Vendor_master() {
 	const [vendorForm, setVendorForm] = useState({
@@ -125,8 +126,11 @@ function Vendor_master() {
 							<div className="row">
 								<div className="col-md-12">
 									<div className="card card-primary">
-										<div className="card-header">
+										<div className="card-header d-flex justify-content-between align-items-center">
 											<h3 className="card-title">Add Vendor</h3>
+											<Link to="/view-vendor" className="btn btn-success ml-auto">
+												View All Vendor
+											</Link>
 										</div>
 										<form onSubmit={handleSubmit}>
 											<div className="card-body">
@@ -190,7 +194,13 @@ function Vendor_master() {
 													<div className="col-md-6">
 														<div className="form-group">
 															<label htmlFor="currency">Currency</label>
-															<select name="currency" id="currency" className="form-control" value={vendorForm.currency} onChange={handleChange}>
+															<select
+																name="currency"
+																id="currency"
+																className="form-control"
+																value={vendorForm.currency}
+																onChange={handleChange}
+															>
 																<option value="">Select Currency</option>
 																<option value="USD">USD - US Dollar</option>
 																<option value="EUR">EUR - Euro</option>

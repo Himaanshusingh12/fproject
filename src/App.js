@@ -142,6 +142,7 @@ function App() {
 					<Route path="/reports" element={<Reports />}></Route >
 					<Route path="/view-customer" element={<View_customer />}></Route >
 					<Route path="/view-vendor" element={<View_vendor />}></Route >
+					{/* <Route path="/view-vendor" element={<View_vendor />}></Route > */}
 				</ Routes>
 			</BrowserRouter>
 		</>

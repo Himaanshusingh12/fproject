@@ -107,7 +107,6 @@ function App() {
 					<Route path="/login" element={<Login />}></Route>
 					<Route path="/verify-otp" element={<VerifyOtp />}></Route>
 					<Route path="/forget-password" element={<><ForgotPassword /></>}></Route>
-					{/* <Route path="/reset-password" element={<><ResetPassword /></>}></Route> */}
 					<Route path="/reset-password/:resetToken" element={<ResetPassword />} />
 					{/* Admin */}
 					<Route path="/admin/login" element={<Admin_login />}></Route>
@@ -142,7 +141,6 @@ function App() {
 					<Route path="/reports" element={<Reports />}></Route >
 					<Route path="/view-customer" element={<View_customer />}></Route >
 					<Route path="/view-vendor" element={<View_vendor />}></Route >
-					{/* <Route path="/view-vendor" element={<View_vendor />}></Route > */}
 				</ Routes>
 			</BrowserRouter>
 		</>

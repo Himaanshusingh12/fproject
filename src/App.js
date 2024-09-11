@@ -43,6 +43,7 @@ import Bank_payment from "./Users/Pages/Bank_payment";
 import Reports from "./Users/Pages/Reports";
 import Manage_user from "./admin/Pages/Manage_user";
 import View_customer from "./Users/Pages/View_customer";
+import View_vendor from "./Users/Pages/View_vendor";
 
 function App() {
 	return (
@@ -92,6 +93,7 @@ function App() {
 			{/* <Bank_reconciliation /> */}
 			{/* <Journal /> */}
 			{/* <Reports /> */}
+			{/* <View_vendor/> */}
 
 
 			<BrowserRouter>
@@ -104,8 +106,9 @@ function App() {
 					<Route path="/signup" element={<Signup />}></Route>
 					<Route path="/login" element={<Login />}></Route>
 					<Route path="/verify-otp" element={<VerifyOtp />}></Route>
-					{/* <Route path="/forget-password" element={<><ForgotPassword /></>}></Route> */}
-					{/* <Route path="/" element={<><ResetPassword /></>}></Route> */}
+					<Route path="/forget-password" element={<><ForgotPassword /></>}></Route>
+					{/* <Route path="/reset-password" element={<><ResetPassword /></>}></Route> */}
+					<Route path="/reset-password/:resetToken" element={<ResetPassword />} />
 					{/* Admin */}
 					<Route path="/admin/login" element={<Admin_login />}></Route>
 					<Route element={<AdminRoute />}>
@@ -138,6 +141,7 @@ function App() {
 					<Route path="/journal" element={<Journal />}></Route >
 					<Route path="/reports" element={<Reports />}></Route >
 					<Route path="/view-customer" element={<View_customer />}></Route >
+					<Route path="/view-vendor" element={<View_vendor />}></Route >
 				</ Routes>
 			</BrowserRouter>
 		</>

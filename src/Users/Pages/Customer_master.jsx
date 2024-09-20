@@ -12,6 +12,8 @@ function Customer_master() {
 		customer_name: "",
 		operating_as: "",
 		address: "",
+		phone_no: "",
+		website: "",
 		currency: "",
 		email_sales: "",
 		email_statement: "",
@@ -46,7 +48,14 @@ function Customer_master() {
 			toast.error("Address field is required");
 			result = false;
 		}
-
+		if (customerForm.phone_no === "") {
+			toast.error("Phone field is required");
+			result = false;
+		}
+		if (customerForm.website === "") {
+			toast.error("Website field is required");
+			result = false;
+		}
 		if (customerForm.currency === "") {
 			toast.error("Currency field is required");
 			result = false;
@@ -94,6 +103,8 @@ function Customer_master() {
 				customer_name: "",
 				operating_as: "",
 				address: "",
+				phone_no: "",
+				website: "",
 				currency: "",
 				email_sales: "",
 				email_statement: "",
@@ -175,8 +186,42 @@ function Customer_master() {
 													</div>
 													<div className="col-md-6">
 														<div className="form-group">
+															<label htmlFor="phone_no">Phone no</label>
+															<input
+																type="text"
+																name="phone_no"
+																id="phone_no"
+																className="form-control"
+																placeholder="Enter phone"
+																value={customerForm.phone_no}
+																onChange={handleChange}
+															/>
+														</div>
+													</div>
+													<div className="col-md-6">
+														<div className="form-group">
+															<label htmlFor="website">Website</label>
+															<input
+																type="text"
+																name="website"
+																id="website"
+																className="form-control"
+																placeholder="Enter website"
+																value={customerForm.website}
+																onChange={handleChange}
+															/>
+														</div>
+													</div>
+													<div className="col-md-6">
+														<div className="form-group">
 															<label htmlFor="currency">Currency</label>
-															<select name="currency" id="currency" className="form-control" value={customerForm.currency} onChange={handleChange}>
+															<select
+																name="currency"
+																id="currency"
+																className="form-control"
+																value={customerForm.currency}
+																onChange={handleChange}
+															>
 																<option value="">Select Currency</option>
 																<option value="USD">USD - US Dollar</option>
 																<option value="EUR">EUR - Euro</option>

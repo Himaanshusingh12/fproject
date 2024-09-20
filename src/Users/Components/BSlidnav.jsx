@@ -1,17 +1,31 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-
 function BSlidnav() {
+	const [username, setUsername] = useState("Guest");
+
+	useEffect(() => {
+		const uname = localStorage.getItem("uname");
+		if (uname) {
+			const nameParts = uname.split(" ");
+			const firstName = nameParts.length > 0 ? nameParts[0] : uname;
+			setUsername(firstName);
+		}
+	}, []);
 	return (
 		<>
 			<div class="wrapper">
 				{/* Main Sidebar Container */}
 				<aside className="main-sidebar sidebar-dark-primary elevation-4">
 					{/* Brand Logo */}
-					<a href="#" className="brand-link">
-						<img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{ opacity: "0.8" }} />
+					<a href="#Home" className="brand-link">
+						<img
+							src="dist/img/AdminLTELogo.png"
+							alt="AdminLTE Logo"
+							className="brand-image img-circle elevation-3"
+							style={{ opacity: "0.8" }}
+						/>
 						<span className="brand-text font-weight-light" style={{ textDecoration: "none" }}>
-							Codein Web
+							{username}
 						</span>
 					</a>
 					{/* Sidebar */}
@@ -51,8 +65,15 @@ function BSlidnav() {
 										<p>Dashboard</p>
 									</NavLink>
 								</li>
-								<li className="nav-item">
-									<a href="#" className="nav-link">
+								{/* <li className="nav-item" key="basic-master">
+									<a
+										className="nav-link"
+										data-toggle="collapse"
+										href="#basic-master"
+										role="button"
+										aria-expanded="false"
+										aria-controls="basic-master"
+									>
 										<i className="nav-icon fas fa-book" />
 										<p>
 											Basic Master
@@ -103,50 +124,298 @@ function BSlidnav() {
 											</NavLink>
 										</li>
 									</ul>
+								</li> */}
+
+								<li className="nav-item" key="sales-module">
+									<a
+										className="nav-link"
+										data-toggle="collapse"
+										href="#sales-module"
+										role="button"
+										aria-expanded="false"
+										aria-controls="sales-module"
+									>
+										<i className="nav-icon fas fa-book" />
+										<p>
+											Sales Module
+											<i className="fas fa-angle-left right" />
+										</p>
+									</a>
+									<ul className="nav nav-treeview">
+										<li className="nav-item">
+											<NavLink to="/sales-invoice" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Sales Invoice</p>
+											</NavLink>
+										</li>
+										<li className="nav-item">
+											<NavLink to="/credit-memo" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Credit Memo</p>
+											</NavLink>
+										</li>
+										<li className="nav-item">
+											<NavLink to="/customer-master" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Customer Master</p>
+											</NavLink>
+										</li>
+										<li className="nav-item">
+											<NavLink to="/account-report" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Aged Account Receivable report</p>
+											</NavLink>
+										</li>
+										<li className="nav-item">
+											<NavLink to="/customer-ledger" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Customer Ledger</p>
+											</NavLink>
+										</li>
+										{/* <li className="nav-item">
+											<NavLink to="/customer-statement" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Customer Statement Format</p>
+											</NavLink>
+										</li> */}
+										{/* <li className="nav-item">
+											<NavLink to="/vendor-statement" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Vendor Statement Formant</p>
+											</NavLink>
+										</li> */}
+									</ul>
+								</li>
+								<li className="nav-item" key="purchase-module">
+									<a
+										className="nav-link"
+										data-toggle="collapse"
+										href="#purchase-module"
+										role="button"
+										aria-expanded="false"
+										aria-controls="purchase-module"
+									>
+										<i className="nav-icon fas fa-book" />
+										<p>
+											Purchase Module
+											<i className="fas fa-angle-left right" />
+										</p>
+									</a>
+									<ul className="nav nav-treeview">
+										<li className="nav-item">
+											<NavLink to="/purchase-invoice" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Purchase Invoice</p>
+											</NavLink>
+										</li>
+										<li className="nav-item">
+											<NavLink to="/debit-memo" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Debit Memo</p>
+											</NavLink>
+										</li>
+										<li className="nav-item">
+											<NavLink to="/vendor-master" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Vendor Master</p>
+											</NavLink>
+										</li>
+										<li className="nav-item">
+											<NavLink to="/accountpayble-report" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Aged Account Payable report</p>
+											</NavLink>
+										</li>
+										<li className="nav-item">
+											<NavLink to="/vendor-ledger" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Vendor Ledger</p>
+											</NavLink>
+										</li>
+										{/* <li className="nav-item">
+											<NavLink to="/customer-statement" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Customer Statement Format</p>
+											</NavLink>
+										</li> */}
+										{/* <li className="nav-item">
+											<NavLink to="/vendor-statement" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Vendor Statement Formant</p>
+											</NavLink>
+										</li> */}
+									</ul>
 								</li>
 
-								<li className="nav-item">
-									<NavLink to="/sales-module" className="nav-link">
-										<i className="nav-icon far fa-image" />
-										<p>Sales Module</p>
-									</NavLink>
+								<li className="nav-item" key="bank-module">
+									<a
+										className="nav-link"
+										data-toggle="collapse"
+										href="#bank-module"
+										role="button"
+										aria-expanded="false"
+										aria-controls="bank-module"
+									>
+										<i className="nav-icon fas fa-book" />
+										<p>
+											Bank Module
+											<i className="fas fa-angle-left right" />
+										</p>
+									</a>
+									<ul className="nav nav-treeview">
+										<li className="nav-item">
+											<NavLink to="/bank-payment" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Make a Payment</p>
+											</NavLink>
+										</li>
+										<li className="nav-item">
+											<NavLink to="/bank-receipt" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Reciept a Payment</p>
+											</NavLink>
+										</li>
+										<li className="nav-item">
+											<NavLink to="" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Contra Entries</p>
+											</NavLink>
+										</li>
+										<li className="nav-item">
+											<NavLink to="" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Transaction Summary</p>
+											</NavLink>
+										</li>
+										<li className="nav-item">
+											<NavLink to="/bank-reconciliation" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Bank Reconcilation</p>
+											</NavLink>
+										</li>
+										{/* <li className="nav-item">
+											<NavLink to="" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Bank Reconcilation</p>
+											</NavLink>
+										</li> */}
+										{/* <li className="nav-item">
+											<NavLink to="/vendor-statement" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Vendor Statement Formant</p>
+											</NavLink>
+										</li> */}
+									</ul>
 								</li>
-								<li className="nav-item">
-									<NavLink to="/purchase-module" className="nav-link">
-										<i className="nav-icon far fa-image" />
-										<p>Purchase Module</p>
-									</NavLink>
-								</li>
-								<li className="nav-item">
-									<NavLink to="/bank-payment" className="nav-link">
-										<i className="nav-icon far fa-image" />
-										<p>Bank Payment</p>
-									</NavLink>
-								</li>
-								<li className="nav-item">
-									<NavLink to="/bank-receipt" className="nav-link">
-										<i className="nav-icon far fa-image" />
-										<p>Bank Receipt</p>
-									</NavLink>
-								</li>
-								<li className="nav-item">
-									<NavLink to="/bank-reconciliation" className="nav-link">
-										<i className="nav-icon far fa-image" />
-										<p>Bank Reconcilation</p>
-									</NavLink>
+
+								<li className="nav-item" key="basic-master">
+									<a
+										className="nav-link"
+										data-toggle="collapse"
+										href="#basic-master"
+										role="button"
+										aria-expanded="false"
+										aria-controls="basic-master"
+									>
+										<i className="nav-icon fas fa-book" />
+										<p>
+											Reports
+											<i className="fas fa-angle-left right" />
+										</p>
+									</a>
+									<ul className="nav nav-treeview">
+										<li className="nav-item">
+											<NavLink to="" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Aged Account Payable</p>
+											</NavLink>
+										</li>
+										<li className="nav-item">
+											<NavLink to="" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Aged Account Receivable</p>
+											</NavLink>
+										</li>
+										<li className="nav-item">
+											<NavLink to="" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Trial Balance</p>
+											</NavLink>
+										</li>
+										<li className="nav-item">
+											<NavLink to="/profit-loss" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Profit and Loss</p>
+											</NavLink>
+										</li>
+										<li className="nav-item">
+											<NavLink to="/balance-sheet" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Balance Sheet</p>
+											</NavLink>
+										</li>
+										<li className="nav-item">
+											<NavLink to="" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>General Ledger</p>
+											</NavLink>
+										</li>
+										<li className="nav-item">
+											<NavLink to="" className="nav-link">
+												<i className="far fa-circle nav-icon" />
+												<p>Bank Reconcilation</p>
+											</NavLink>
+										</li>
+									</ul>
 								</li>
 								<li className="nav-item">
 									<NavLink to="/journal" className="nav-link">
 										<i className="nav-icon far fa-image" />
-										<p>Journal</p>
+										<p>Journal Entry</p>
 									</NavLink>
 								</li>
 								<li className="nav-item">
-									<NavLink to="/reports" className="nav-link">
+									<NavLink to="/chart-account" className="nav-link">
 										<i className="nav-icon far fa-image" />
-										<p>Reports</p>
+										<p>Chart of Account</p>
 									</NavLink>
 								</li>
+								<li className="nav-item">
+									<NavLink to="#" className="nav-link">
+										<i className="nav-icon far fa-image" />
+										<p>Taxation</p>
+									</NavLink>
+								</li>
+								<li className="nav-item">
+									<NavLink to="#" className="nav-link">
+										<i className="nav-icon far fa-image" />
+										<p>Payroll</p>
+									</NavLink>
+								</li>
+								{/* <li className="nav-item">
+									<NavLink to="/bank-receipt" className="nav-link">
+										<i className="nav-icon far fa-image" />
+										<p>Bank Receipt</p>
+									</NavLink>
+								</li> */}
+								{/* <li className="nav-item">
+									<NavLink to="/bank-reconciliation" className="nav-link">
+										<i className="nav-icon far fa-image" />
+										<p>Bank Reconcilation</p>
+									</NavLink>
+								</li> */}
+								{/* <li className="nav-item">
+									<NavLink to="" className="nav-link">
+										<i className="nav-icon far fa-image" />
+										<p>Journal</p>
+									</NavLink>
+								</li> */}
+								{/* <li className="nav-item">
+									<NavLink to="" className="nav-link">
+										<i className="nav-icon far fa-image" />
+										<p>Chart of Account</p>
+									</NavLink>
+								</li> */}
 							</ul>
 						</nav>
 						{/* /.sidebar-menu */}

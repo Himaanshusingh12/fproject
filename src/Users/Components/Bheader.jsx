@@ -71,6 +71,10 @@ function Bheader() {
 							<NavLink to="/" onClick={handleLogout} className="dropdown-item">
 								<i className="fas fa-sign-out-alt mr-2" /> Logout
 							</NavLink>
+
+							<NavLink to="/create-company" className="dropdown-item">
+								<i className="fas fa-building mr-2" /> Create Company
+							</NavLink>
 							{/* <a to="/login" className="dropdown-item">
                 <i className="fas fa-sign-in-alt mr-2" /> Login
               </a> */}

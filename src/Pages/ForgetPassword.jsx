@@ -105,7 +105,6 @@ function ForgetPassword() {
 														id="email"
 														value={email}
 														onChange={(e) => setEmail(e.target.value)}
-														// required
 													/>
 												</div>
 											</div>

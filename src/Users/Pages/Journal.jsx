@@ -28,7 +28,25 @@ function Journal() {
 													<div className="col-md-6">
 														<div className="form-group">
 															<label htmlFor="postingDate">Posting Date</label>
-															<input type="date" name="posting_date" id="postingDate" className="form-control" placeholder="Enter Posting Date" />
+															<input
+																type="date"
+																name="posting_date"
+																id="postingDate"
+																className="form-control"
+																placeholder="Enter Posting Date"
+															/>
+														</div>
+													</div>
+													<div className="col-md-6">
+														<div className="form-group">
+															<label htmlFor="reference">Reference</label>
+															<input
+																type="text"
+																name="reference"
+																id="reference"
+																className="form-control"
+																placeholder="Enter Posting Date"
+															/>
 														</div>
 													</div>
 													<div className="col-md-6">
@@ -58,7 +76,14 @@ function Journal() {
 													<div className="col-md-6">
 														<div className="form-group">
 															<label htmlFor="debit">Debit</label>
-															<input type="number" className="form-control" id="debit" name="debit" step="0.01" placeholder="Enter Debit Amount" />
+															<input
+																type="number"
+																className="form-control"
+																id="debit"
+																name="debit"
+																step="0.01"
+																placeholder="Enter Debit Amount"
+															/>
 														</div>
 													</div>
 													<div className="col-md-6">
@@ -92,9 +117,16 @@ function Journal() {
 													<div className="col-md-6">
 														<div className="form-group">
 															<label htmlFor="documentUpload">Upload Document</label>
-															<input type="file" className="form-control" id="documentUpload" name="document_upload" accept=".pdf,.docx,.jpg,.png" />
+															<input
+																type="file"
+																className="form-control"
+																id="documentUpload"
+																name="document_upload"
+																accept=".pdf,.docx,.jpg,.png"
+															/>
 															<small className="form-text text-muted">
-																Max. 25MB per transaction. Storage charges may apply (e.g., 1GB space for 25 cents per month).
+																Max. 25MB per transaction. Storage charges may apply (e.g., 1GB space for 25 cents per
+																month).
 															</small>
 														</div>
 													</div>

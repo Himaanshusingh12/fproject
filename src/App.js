@@ -1,24 +1,17 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./App.css";
-import Footer from "./Components/Footer";
-import Header from "./Components/Header";
 import About from "./Pages/About";
 import Home from "./Pages/Home";
 import Serivces from "./Pages/Serivces";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // admin
 import Dashboard from "./admin/Pages/Dashboard";
-import Aheader from "./admin/Components/Aheader";
-import Slidnav from "./admin/Components/Slidnav";
 import VerifyOtp from "./Pages/VerifyOtp";
-import BSlidnav from "./Users/Components/BSlidnav";
-import Bfooter from "./Users/Components/Bfooter";
-import BDashboard from "./Users/Pages/User";
 import User from "./Users/Pages/User";
 import Profile from "./Users/Pages/Profile";
 import Change_password from "./Users/Pages/Change_password";
@@ -32,18 +25,23 @@ import Profit_Loss from "./Users/Pages/Profint_Loss";
 import Balance_sheet from "./Users/Pages/Balance_sheet";
 import Customer_master from "./Users/Pages/Customer_master";
 import Vendor_master from "./Users/Pages/Vendor_master";
-import Customer_statement from "./Users/Pages/Customer_statement";
-import Vendor_statement from "./Users/Pages/Vendor_statement";
-import Sales_module from "./Users/Pages/Sales_module";
-import Purchase_module from "./Users/Pages/Purchase_module";
+import PurchaseModule from "./Users/Pages/PurchaseModule";
 import Bank_receipt from "./Users/Pages/Bank_receipt";
 import Bank_reconciliation from "./Users/Pages/Bank_reconciliation";
 import Journal from "./Users/Pages/Journal";
 import Bank_payment from "./Users/Pages/Bank_payment";
-import Reports from "./Users/Pages/Reports";
 import Manage_user from "./admin/Pages/Manage_user";
 import View_customer from "./Users/Pages/View_customer";
 import View_vendor from "./Users/Pages/View_vendor";
+import SalesInvoice from "./Users/Pages/SalesInvoice";
+import CreditMemo from "./Users/Pages/CreditMemo";
+import AccountReport from "./Users/Pages/AccountReport";
+import CustomerLedger from "./Users/Pages/CustomerLedger";
+import PurchaseInvoice from "./Users/Pages/PurchaseInvoice";
+import DebitMemo from "./Users/Pages/DebitMemo";
+import VendorLedger from "./Users/Pages/VendorLedger";
+import AccountPaybleReport from "./Users/Pages/AccountPaybleReport";
+import CreateCompany from "./Users/Pages/CreateCompany";
 
 function App() {
 	return (
@@ -85,7 +83,6 @@ function App() {
 			{/* <Customer_master /> */}
 			{/* <Vendor_master /> */}
 			{/* <Customer_statement /> */}
-			{/* <Vendor_statement /> */}
 			{/* <Sales_module /> */}
 			{/* <Purchase_module /> */}
 			{/* <Bank_payment/> */}
@@ -94,6 +91,15 @@ function App() {
 			{/* <Journal /> */}
 			{/* <Reports /> */}
 			{/* <View_vendor/> */}
+			{/* <Credit_Memo/> */}
+			{/* <Account_Report/> */}
+			{/* <Customer_Ledger/> */}
+			{/* <Purchase_Invoice /> */}
+			{/* <DebitMemo /> */}
+			{/* <VendorLedger /> */}
+			{/* <AccountPaybleReport /> */}
+			{/* <CreateCompany /> */}
+
 
 
 			<BrowserRouter>
@@ -130,17 +136,30 @@ function App() {
 					<Route path="/balance-sheet" element={<Balance_sheet />}></Route>
 					<Route path="/customer-master" element={<Customer_master />}></Route>
 					<Route path="/vendor-master" element={<Vendor_master />}></Route>
-					<Route path="/customer-statement" element={<Customer_statement />}></Route>
-					<Route path="/vendor-statement" element={<Vendor_statement />}></Route>
-					<Route path="/sales-module" element={< Sales_module />}></Route >
-					<Route path="/purchase-module" element={<Purchase_module />}></Route>
+					<Route path="/vendor-ledger" element={<VendorLedger />}></Route>
+					<Route path="/sales-invoice" element={< SalesInvoice />}></Route >
+					<Route path="/purchase-module" element={<PurchaseModule />}></Route>
 					<Route path="/bank-payment" element={<Bank_payment />}></Route>
 					<Route path="/bank-receipt" element={<Bank_receipt />}></Route >
 					<Route path="/bank-reconciliation" element={<Bank_reconciliation />}></Route >
 					<Route path="/journal" element={<Journal />}></Route >
-					<Route path="/reports" element={<Reports />}></Route >
+					{/* <Route path="/reports" element={<Reports />}></Route > */}
 					<Route path="/view-customer" element={<View_customer />}></Route >
 					<Route path="/view-vendor" element={<View_vendor />}></Route >
+					<Route path="/credit-memo" element={<CreditMemo />}></Route >
+					<Route path="/account-report" element={<AccountReport />}></Route >
+					<Route path="/customer-ledger" element={<CustomerLedger />}></Route >
+					<Route path="/purchase-invoice" element={<PurchaseInvoice />}></Route >
+					<Route path="/debit-memo" element={<DebitMemo />}></Route >
+					<Route path="/accountpayble-report" element={<AccountPaybleReport />}></Route >
+					<Route path="/create-company" element={<CreateCompany />}></Route >
+
+
+
+
+
+
+
 				</ Routes>
 			</BrowserRouter>
 		</>

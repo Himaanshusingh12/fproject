@@ -8,7 +8,7 @@ import axios from "axios";
 
 function CreateCompany() {
 	const [formData, setFormData] = useState({
-		user_id: localStorage.getItem("userId") || "", // Set a default value
+		user_id: localStorage.getItem("userid") || "",
 		company_name: "",
 		operating_name: "",
 		logo: "",
@@ -28,17 +28,30 @@ function CreateCompany() {
 	});
 
 	const [activeSection, setActiveSection] = useState("company");
+	const [companies, setCompanies] = useState([]);
+	const [currentSection, setCurrentSection] = useState(0);
+	const sections = ["company", "contact", "tax", "fiscal", "notes"];
 
-	// useEffect(() => {
-	// 	const userId = localStorage.getItem("userId");
-	// 	console.log("Retrieved userId:", userId); //
-	// 	if (userId) {
-	// 		setFormData((prevForm) => ({
-	// 			...prevForm,
-	// 			user_id: userId, // Set user ID automatically
-	// 		}));
-	// 	}
-	// }, []);
+	useEffect(() => {
+		getcompanies();
+	}, []);
+
+	const getcompanies = async () => {
+		const userId = localStorage.getItem("userid");
+		console.log("Retrieved userId:", userId); //
+		if (userId) {
+			try {
+				const response = await axios.get(`${BACKEND_URL}/api/companies/${userId}`);
+				if (response.status === 200) {
+					console.log(response.data);
+					setCompanies(response.data);
+				}
+			} catch (error) {
+				console.error("Error Get Company", error);
+				toast.error("Failed to Get Company");
+			}
+		}
+	};
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -56,6 +69,14 @@ function CreateCompany() {
 		}
 	};
 
+	// this
+	const handleNextClick = () => {
+		if (currentSection < sections.length - 1) {
+			setCurrentSection(currentSection + 1);
+			handleSectionClick(sections[currentSection + 1]);
+		}
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const userId = localStorage.getItem("userid");
@@ -63,22 +84,10 @@ function CreateCompany() {
 			toast.error("User ID is required to create a company.");
 			return;
 		}
-
-		// Create the dataToSubmit object
-		const dataToSubmit = {
-			...formData,
-			user_id: userId, // Add user_id to the form data
-		};
-
-		console.log("Submitting form data:", formData);
-		console.log("User ID:", userId);
-
 		try {
 			await axios.post(`${BACKEND_URL}/api/companies`, formData);
-			// await axios.post(`${BACKEND_URL}/api/companies`, dataToSubmit);
 			toast.success("Company added successfully!");
 			setFormData({
-				user_id: "",
 				company_name: "",
 				operating_name: "",
 				logo: "",
@@ -100,6 +109,7 @@ function CreateCompany() {
 			toast.error("Failed to add company");
 		}
 	};
+
 	return (
 		<>
 			<Bheader />
@@ -110,9 +120,8 @@ function CreateCompany() {
 						<div className="row">
 							{/* Sidebar for section names */}
 							<div className="col-md-3">
-								{/* <div className="mb-4"> */}
 								<h4 className="mb-3">Manage Profile</h4>
-								<div className="list-group">
+								{/* <div className="list-group">
 									<button
 										className={`list-group-item list-group-item-action ${activeSection === "company" ? "active" : ""}`}
 										onClick={() => handleSectionClick("company")}
@@ -143,13 +152,30 @@ function CreateCompany() {
 									>
 										Additional Notes
 									</button>
-									{/* New Businesses Section */}
-									{/* <button
+									<button
 										className={`list-group-item list-group-item-action ${activeSection === "businesses" ? "active" : ""}`}
 										onClick={() => handleSectionClick("businesses")}
 									>
 										Businesses
-									</button> */}
+									</button>
+								</div> */}
+								{/* from here */}
+								<div className="list-group">
+									{sections.map((section) => (
+										<button
+											key={section}
+											className={`list-group-item list-group-item-action ${activeSection === section ? "active" : ""}`}
+											onClick={() => handleSectionClick(section)}
+										>
+											{section.charAt(0).toUpperCase() + section.slice(1)} Information
+										</button>
+									))}
+									<button
+										className={`list-group-item list-group-item-action ${activeSection === "businesses" ? "active" : ""}`}
+										onClick={() => handleSectionClick("businesses")}
+									>
+										Businesses
+									</button>
 								</div>
 							</div>
 
@@ -210,6 +236,9 @@ function CreateCompany() {
 													placeholder="Enter Business Type"
 												/>
 											</div>
+											<button type="button" className="btn btn-primary" onClick={handleNextClick}>
+												Next
+											</button>
 										</div>
 									)}
 
@@ -263,6 +292,9 @@ function CreateCompany() {
 													placeholder="Enter Website"
 												/>
 											</div>
+											<button type="button" className="btn btn-primary" onClick={handleNextClick}>
+												Next
+											</button>
 										</div>
 									)}
 
@@ -316,6 +348,9 @@ function CreateCompany() {
 													placeholder="Enter PST Numbers"
 												/>
 											</div>
+											<button type="button" className="btn btn-primary" onClick={handleNextClick}>
+												Next
+											</button>
 										</div>
 									)}
 
@@ -357,6 +392,9 @@ function CreateCompany() {
 													placeholder="Enter Bank Details"
 												/>
 											</div>
+											<button type="button" className="btn btn-primary" onClick={handleNextClick}>
+												Next
+											</button>
 										</div>
 									)}
 
@@ -381,25 +419,39 @@ function CreateCompany() {
 									)}
 
 									{/* Businesses Section */}
-									{/* {activeSection === "businesses" && (
+									{activeSection === "businesses" && (
 										<div className="mb-4">
 											<h4>Businesses</h4>
 											{companies.length > 0 ? (
-												<ul className="list-group">
-													{companies.map((company) => (
-														<li key={company.id} className="list-group-item">
-															{company.company_name}
-														</li>
-													))}
-												</ul>
+												<table className="table table-striped">
+													<thead>
+														<tr>
+															<th>Company ID</th>
+															<th>Company Name</th>
+															<th>Actions</th>
+														</tr>
+													</thead>
+													<tbody>
+														{companies.map((company) => (
+															<tr key={company.id}>
+																<td>{company.company_id}</td>
+																<td>{company.company_name}</td>
+																<td>
+																	{/* Edit button */}
+																	{/* <button className="btn btn-primary" onClick={() => handleEdit(company.id)}> */}
+																	<button className="btn btn-primary">
+																		<i className="fas fa-edit" title="Edit"></i>
+																	</button>
+																</td>
+															</tr>
+														))}
+													</tbody>
+												</table>
 											) : (
 												<p>No companies created yet.</p>
 											)}
 										</div>
-									)} */}
-									{/* <button type="submit" className="btn btn-primary">
-										Submit
-									</button> */}
+									)}
 								</form>
 							</div>
 						</div>

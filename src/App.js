@@ -42,7 +42,6 @@ import DebitMemo from "./Users/Pages/DebitMemo";
 import VendorLedger from "./Users/Pages/VendorLedger";
 import AccountPaybleReport from "./Users/Pages/AccountPaybleReport";
 import CreateCompany from "./Users/Pages/CreateCompany";
-import EditCompany from "./Users/Pages/EditCompany";
 import ViewSalesInvoice from "./Users/Pages/ViewSalesInvoice";
 
 function App() {

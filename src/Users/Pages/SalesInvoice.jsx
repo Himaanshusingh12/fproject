@@ -5,13 +5,14 @@ import Bfooter from "../Components/Bfooter";
 import { BACKEND_URL } from "../../Constant";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 function SalesInvoice() {
 	const [formData, setFormData] = useState({
 		user_id: localStorage.getItem("userid") || "",
 		posting_date: "",
 		invoice_no: "",
-		customer_id: "",
+		customer_name: "",
 		currency: "",
 		exchange_rate: 0,
 		sales_line: "",
@@ -20,8 +21,9 @@ function SalesInvoice() {
 		sales_rate: "",
 		sales_amount: 0,
 		tax: "",
-		sales_invoice_amount: 0,
+		total_invoice_amount: 0,
 		document_upload: null,
+		document_name: "",
 		bank_details: "",
 		customer_address: "",
 		shipping_address: "",
@@ -55,45 +57,6 @@ function SalesInvoice() {
 		}
 	};
 
-	//Fetch exchange rate based on the selected currency
-	// const fetchExchangeRate = async (currency) => {
-	// 	const apiKey = "ef85597ad49e12c548c7d7f8";
-	// 	try {
-	// 		console.log("Fetching exchange rate for:", currency);
-	// 		const response = await axios.get(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/USD`);
-
-	// 		console.log("API Response:", response.data); // Log the entire response
-
-	// 		if (response.status === 200) {
-	// 			// Check if rates object is present
-	// 			const rates = response.data.conversion_rates;
-
-	// 			if (rates && typeof rates === "object") {
-	// 				const rate = rates[currency];
-
-	// 				if (rate) {
-	// 					setFormData((prevData) => ({
-	// 						...prevData,
-	// 						exchange_rate: rate,
-	// 					}));
-	// 				} else {
-	// 					toast.error(`Exchange rate for ${currency} not found. Defaulting to 1.`);
-	// 					setFormData((prevData) => ({
-	// 						...prevData,
-	// 						exchange_rate: 1,
-	// 					}));
-	// 				}
-	// 			} else {
-	// 				toast.error("Rates data is not available.");
-	// 			}
-	// 		} else {
-	// 			toast.error("Failed to fetch exchange rate");
-	// 		}
-	// 	} catch (error) {
-	// 		toast.error(`Error fetching exchange rate: ${error.message}`);
-	// 	}
-	// };
-
 	// Handle form input changes
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -104,7 +67,7 @@ function SalesInvoice() {
 			};
 
 			// If customer_id changes, set the currency based on the selected customer
-			if (name === "customer_id") {
+			if (name === "customer_name") {
 				const selectedCustomer = customers.find((customer) => customer.id === Number(value));
 				if (selectedCustomer) {
 					updatedData.currency = selectedCustomer.currency; // Set the selected customer's currency
@@ -120,34 +83,24 @@ function SalesInvoice() {
 				const tax = parseFloat(updatedData.tax) || 0;
 
 				const sales_amount = sales_qty * sales_rate;
-				const sales_invoice_amount = sales_amount + tax;
+				const total_invoice_amount = sales_amount + tax;
 
 				return {
 					...updatedData,
 					sales_amount,
-					sales_invoice_amount,
+					total_invoice_amount,
 				};
 			}
 
 			return updatedData;
 		});
 	};
-
-	// // for exchange rate
-	// const validCurrencies = ["USD", "EUR", "INR", "GBP"]; // Add all valid currency codes you expect
-	// const handleCurrencyChange = (newCurrency) => {
-	// 	console.log("New currency selected:", newCurrency);
-	// 	if (validCurrencies.includes(newCurrency)) {
-	// 		fetchExchangeRate(newCurrency);
-	// 	} else {
-	// 		console.error("Invalid currency selected:", newCurrency);
-	// 		toast.error("Invalid currency selected. Please choose a valid currency.");
-	// 	}
-	// };
 	const handleFileChange = (e) => {
+		const file = e.target.files[0]; // Get the selected file
 		setFormData((prevData) => ({
 			...prevData,
-			document_upload: e.target.files[0],
+			document_upload: file, //Store the file object
+			document_name: file ? file.name : "", // Store the file name
 		}));
 	};
 
@@ -155,9 +108,9 @@ function SalesInvoice() {
 		e.preventDefault();
 
 		const formDataToSend = new FormData();
-		for (const key in formData) {
-			formDataToSend.append(key, formData[key]);
-		}
+		Object.entries(formData).forEach(([key, value]) => {
+			formDataToSend.append(key, value);
+		});
 
 		try {
 			const response = await axios.post(`${BACKEND_URL}/api/sales-invoice`, formDataToSend, {
@@ -172,7 +125,7 @@ function SalesInvoice() {
 				user_id: "",
 				posting_date: "",
 				invoice_no: "",
-				customer_id: "",
+				customer_name: "",
 				currency: "",
 				exchange_rate: 0,
 				sales_line: "",
@@ -181,7 +134,7 @@ function SalesInvoice() {
 				sales_rate: "",
 				sales_amount: 0,
 				tax: "",
-				sales_invoice_amount: 0, // Ensure this is reset to a number
+				total_invoice_amount: 0, // Ensure this is reset to a number
 				document_upload: null,
 				bank_details: "",
 				customer_address: "",
@@ -203,9 +156,15 @@ function SalesInvoice() {
 							<div className="row">
 								<div className="col-md-12">
 									<div className="card card-primary">
-										<div className="card-header">
-											<h3 className="card-title">Sales Invoice</h3>
+										<div className="card-header d-flex justify-content-between align-items-center">
+											<h3 className="card-title">Sales Invoices</h3>
+											<Link to="/view-sales-invoice" className="btn btn-success ml-auto">
+												View All Sales Invoices
+											</Link>
 										</div>
+										{/* <div className="card-header">
+											<h3 className="card-title">Sales Invoice</h3>
+										</div> */}
 										<form onSubmit={handleSubmit}>
 											<div className="card-body">
 												<div className="row">
@@ -244,12 +203,12 @@ function SalesInvoice() {
 													{/* Customer Name */}
 													<div className="col-md-6">
 														<div className="form-group">
-															<label htmlFor="customer_id">Customer Name</label>
+															<label htmlFor="customer_name">Customer Name</label>
 															<select
-																name="customer_id"
-																id="customer_id"
+																name="customer_name"
+																id="customer_name"
 																className="form-control"
-																value={formData.customer_id}
+																value={formData.customer_name}
 																onChange={handleChange}
 															>
 																<option value="">Select Customer</option>
@@ -370,7 +329,7 @@ function SalesInvoice() {
 																step="0.01"
 																className="form-control"
 																value={formData.sales_amount}
-																readOnly // Make it read-only since it is calculated
+																readOnly
 																placeholder="Enter Sales Amount"
 															/>
 														</div>
@@ -393,7 +352,7 @@ function SalesInvoice() {
 														</div>
 													</div>
 
-													{/* Sales Invoice Amount (K + L) */}
+													{/* Sales Invoice*/}
 													<div className="col-md-6">
 														<div className="form-group">
 															<label htmlFor="invoice_amount">Sales Invoice Amount</label>
@@ -403,8 +362,8 @@ function SalesInvoice() {
 																id="invoice_amount"
 																step="0.01"
 																className="form-control"
-																value={formData.sales_invoice_amount}
-																readOnly // Make it read-only since it is calculated
+																value={formData.total_invoice_amount}
+																readOnly
 																placeholder="Enter Sales Invoice Amount"
 															/>
 														</div>
@@ -421,7 +380,9 @@ function SalesInvoice() {
 																onChange={handleFileChange}
 																accept=".pdf,.docx,.jpg,.png"
 															/>
-															<small className="form-text text-muted">Max. 25MB per transaction</small>
+															{formData.document_name && (
+																<small className="text-success">Uploaded : {formData.document_name}</small>
+															)}
 														</div>
 													</div>
 

@@ -8,13 +8,15 @@ import { BACKEND_URL } from "../../Constant";
 
 function View_customer() {
 	const [customers, setCustomers] = useState([]);
-	const [searchQuery, setSearchQuery] = useState(""); //add this
-	const [filteredCustomers, setFilteredCustomers] = useState([]); // Add this
-	const [selectedCustomer, setSelectedCustomer] = useState(null); //add this
+	const [searchQuery, setSearchQuery] = useState("");
+	const [filteredCustomers, setFilteredCustomers] = useState([]);
+	const [selectedCustomer, setSelectedCustomer] = useState(null);
 	const [formValue, setFormValue] = useState({
 		customer_name: "",
 		operating_as: "",
 		address: "",
+		phone_no: "",
+		website: "",
 		currency: "",
 		email_sales: "",
 		email_statement: "",
@@ -163,11 +165,13 @@ function View_customer() {
 										<th>ID</th>
 										<th>Customer Name</th>
 										<th>Operating As</th>
-										<th>Address</th>
-										<th>Currency</th>
+										{/* <th>Address</th> */}
+										<th>Phone no</th>
+										{/* <th>Website</th> */}
+										{/* <th>Currency</th> */}
 										<th>Email (Sales)</th>
 										{/* <th>Email (Statement)</th> */}
-										<th>GST No</th>
+										{/* <th>GST No</th> */}
 										<th>Credit Terms</th>
 										<th>Actions</th>
 									</tr>
@@ -179,11 +183,13 @@ function View_customer() {
 											<td>{customer.id}</td>
 											<td>{customer.customer_name}</td>
 											<td>{customer.operating_as}</td>
-											<td>{customer.address}</td>
-											<td>{customer.currency}</td>
+											{/* <td>{customer.address}</td> */}
+											<td>{customer.phone_no}</td>
+											{/* <td>{customer.website}</td> */}
+											{/* <td>{customer.currency}</td> */}
 											<td>{customer.email_sales}</td>
 											{/* <td>{customer.email_statement}</td> */}
-											<td>{customer.gst_no}</td>
+											{/* <td>{customer.gst_no}</td> */}
 											<td>{customer.credit_terms}</td>
 											<td>
 												<button className="btn btn-primary me-2" onClick={() => handleEdit(customer)}>
@@ -259,6 +265,30 @@ function View_customer() {
 													id="address"
 													name="address"
 													value={formValue.address}
+													onChange={handleFormChange}
+													required
+												/>
+											</div>
+											<div className="form-group">
+												<label htmlFor="phone_no">Phone no</label>
+												<input
+													type="number"
+													className="form-control"
+													id="phone_no"
+													name="phone_no"
+													value={formValue.phone_no}
+													onChange={handleFormChange}
+													required
+												/>
+											</div>
+											<div className="form-group">
+												<label htmlFor="website">Website</label>
+												<input
+													type="text"
+													className="form-control"
+													id="website"
+													name="website"
+													value={formValue.website}
 													onChange={handleFormChange}
 													required
 												/>

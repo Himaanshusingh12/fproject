@@ -42,6 +42,8 @@ import DebitMemo from "./Users/Pages/DebitMemo";
 import VendorLedger from "./Users/Pages/VendorLedger";
 import AccountPaybleReport from "./Users/Pages/AccountPaybleReport";
 import CreateCompany from "./Users/Pages/CreateCompany";
+import EditCompany from "./Users/Pages/EditCompany";
+import ViewSalesInvoice from "./Users/Pages/ViewSalesInvoice";
 
 function App() {
 	return (
@@ -99,6 +101,8 @@ function App() {
 			{/* <VendorLedger /> */}
 			{/* <AccountPaybleReport /> */}
 			{/* <CreateCompany /> */}
+			{/* <EditCompany/> */}
+			{/* <ViewSalesInvoice /> */}
 
 
 
@@ -153,6 +157,10 @@ function App() {
 					<Route path="/debit-memo" element={<DebitMemo />}></Route >
 					<Route path="/accountpayble-report" element={<AccountPaybleReport />}></Route >
 					<Route path="/create-company" element={<CreateCompany />}></Route >
+					<Route path="/view-sales-invoice" element={<ViewSalesInvoice />}></Route >
+
+					{/* <Route path="/edit-company" element={<EditCompany />}></Route > */}
+
 
 
 

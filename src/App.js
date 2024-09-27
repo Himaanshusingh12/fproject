@@ -147,7 +147,6 @@ function App() {
 					<Route path="/bank-receipt" element={<Bank_receipt />}></Route >
 					<Route path="/bank-reconciliation" element={<Bank_reconciliation />}></Route >
 					<Route path="/journal" element={<Journal />}></Route >
-					{/* <Route path="/reports" element={<Reports />}></Route > */}
 					<Route path="/view-customer" element={<View_customer />}></Route >
 					<Route path="/view-vendor" element={<View_vendor />}></Route >
 					<Route path="/credit-memo" element={<CreditMemo />}></Route >
@@ -158,8 +157,6 @@ function App() {
 					<Route path="/accountpayble-report" element={<AccountPaybleReport />}></Route >
 					<Route path="/create-company" element={<CreateCompany />}></Route >
 					<Route path="/view-sales-invoice" element={<ViewSalesInvoice />}></Route >
-
-					{/* <Route path="/edit-company" element={<EditCompany />}></Route > */}
 
 
 

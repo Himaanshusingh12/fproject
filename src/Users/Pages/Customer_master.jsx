@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 
 function Customer_master() {
 	const [customerForm, setCustomerForm] = useState({
+		user_id: localStorage.getItem("userid") || "",
 		customer_name: "",
 		operating_as: "",
 		address: "",
@@ -19,7 +20,12 @@ function Customer_master() {
 		email_statement: "",
 		gst_no: "",
 		credit_terms: "",
+		credit_limit: "",
+		suggested_tax: "",
+		additional_details: "",
 	});
+
+	const [documentFile, setDocumentFile] = useState(null);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -29,6 +35,9 @@ function Customer_master() {
 		}));
 	};
 
+	const handleFileChange = (e) => {
+		setDocumentFile(e.target.files[0]);
+	};
 	const validation = () => {
 		let result = true;
 		if (customerForm.customer_name === "") {
@@ -54,6 +63,9 @@ function Customer_master() {
 		}
 		if (customerForm.website === "") {
 			toast.error("Website field is required");
+			result = false;
+		} else if (!/^https?:\/\//i.test(customerForm.website)) {
+			toast.error("Website must start with http:// or http://");
 			result = false;
 		}
 		if (customerForm.currency === "") {
@@ -86,9 +98,53 @@ function Customer_master() {
 			result = false;
 		}
 
+		if (customerForm.credit_limit === "") {
+			toast.error("Credit Limit field is required");
+			result = false;
+		}
+
+		if (customerForm.suggested_tax === "") {
+			toast.error("Suggested Tax field is required");
+			result = false;
+		}
 		return result;
 	};
 
+	// const handleSubmit = async (e) => {
+	// 	e.preventDefault();
+
+	// 	if (!validation()) {
+	// 		return;
+	// 	}
+
+	// 	try {
+	// 		const response = await axios.post(`${BACKEND_URL}/api/customers`, customerForm);
+	// 		toast.success(response.data.message);
+	// 		setCustomerForm({
+	// 			customer_name: "",
+	// 			operating_as: "",
+	// 			address: "",
+	// 			phone_no: "",
+	// 			website: "",
+	// 			currency: "",
+	// 			email_sales: "",
+	// 			email_statement: "",
+	// 			gst_no: "",
+	// 			credit_terms: "",
+	// 			credit_limit: "",
+	// 			suggested_tax: "",
+	// 			additional_details: "",
+	// 		});
+	// 	} catch (error) {
+	// 		if (error.response) {
+	// 			toast.error(error.response.data.message || "An error occurred");
+	// 		} else {
+	// 			toast("An error occurred");
+	// 		}
+	// 	}
+	// };
+
+	//new handleSubmit
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -96,8 +152,24 @@ function Customer_master() {
 			return;
 		}
 
+		const formData = new FormData(); // Create FormData to handle file and form data together
+
+		// Append all form data fields
+		Object.keys(customerForm).forEach((key) => {
+			formData.append(key, customerForm[key]);
+		});
+
+		// Append the document file if present
+		if (documentFile) {
+			formData.append("document", documentFile);
+		}
+
 		try {
-			const response = await axios.post(`${BACKEND_URL}/api/customers`, customerForm);
+			const response = await axios.post(`${BACKEND_URL}/api/customers`, formData, {
+				headers: {
+					"Content-Type": "multipart/form-data", // Set proper content type for file upload
+				},
+			});
 			toast.success(response.data.message);
 			setCustomerForm({
 				customer_name: "",
@@ -110,15 +182,20 @@ function Customer_master() {
 				email_statement: "",
 				gst_no: "",
 				credit_terms: "",
+				credit_limit: "",
+				suggested_tax: "",
+				additional_details: "",
 			});
+			setDocumentFile(null); // Reset the file input
 		} catch (error) {
 			if (error.response) {
 				toast.error(error.response.data.message || "An error occurred");
 			} else {
-				toast("An error occurred");
+				toast.error("An error occurred");
 			}
 		}
 	};
+
 	return (
 		<>
 			<Bheader />
@@ -285,6 +362,64 @@ function Customer_master() {
 																value={customerForm.credit_terms}
 																onChange={handleChange}
 															/>
+														</div>
+													</div>
+
+													<div className="col-md-6">
+														<div className="form-group">
+															<label htmlFor="credit_limit">Credit Limit</label>
+															<input
+																type="number"
+																name="credit_limit"
+																id="credit_limit"
+																className="form-control"
+																placeholder="Enter Credit Limit"
+																value={customerForm.credit_limit}
+																onChange={handleChange}
+															/>
+														</div>
+													</div>
+
+													<div className="col-md-6">
+														<div className="form-group">
+															<label htmlFor="suggested_tax">Suggested Tax</label>
+															<input
+																type="number"
+																name="suggested_tax"
+																id="suggested_tax"
+																className="form-control"
+																placeholder="Enter Suggested Tax"
+																value={customerForm.suggested_tax}
+																onChange={handleChange}
+															/>
+														</div>
+													</div>
+
+													<div className="col-md-6">
+														<div className="form-group">
+															<label htmlFor="additional_details">Additional Details</label>
+															<textarea
+																name="additional_details"
+																id="additional_details"
+																className="form-control"
+																placeholder="Enter Additional Details"
+																value={customerForm.additional_details}
+																onChange={handleChange}
+															/>
+														</div>
+													</div>
+													<div className="col-md-6">
+														<div className="form-group">
+															<label htmlFor="document">Upload Document</label>
+															<input
+																type="file"
+																className="form-control"
+																id="document"
+																name="document"
+																onChange={handleFileChange}
+																accept=".pdf,.docx,.jpg,.png"
+															/>
+															{documentFile && <small className="text-success">Uploaded:{documentFile.name}</small>}
 														</div>
 													</div>
 												</div>

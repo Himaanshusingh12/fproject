@@ -30,6 +30,8 @@ function CreateCompany() {
 	const [activeSection, setActiveSection] = useState("company");
 	const [companies, setCompanies] = useState([]);
 	const [currentSection, setCurrentSection] = useState(0);
+	const [companyId, setCompanyId] = useState(null); //this
+	const [isEditing, setIsEditing] = useState(false);
 	const sections = ["company", "contact", "tax", "fiscal", "notes"];
 
 	useEffect(() => {
@@ -77,6 +79,31 @@ function CreateCompany() {
 		}
 	};
 
+	const handleEditCompany = (company) => {
+		setFormData({
+			user_id: localStorage.getItem("userid"),
+			company_name: company.company_name,
+			operating_name: company.operating_name,
+			logo: company.logo,
+			business_type: company.business_type,
+			address: company.address,
+			phone: company.phone,
+			email: company.email,
+			website: company.website,
+			business_no: company.business_no,
+			corporate_tax_no: company.corporate_tax_no,
+			gst_no: company.gst_no,
+			pst_nos: company.pst_nos,
+			fiscal_year: company.fiscal_year,
+			home_currency: company.home_currency,
+			bank_details: company.bank_details,
+			additional_notes: company.additional_notes,
+		});
+		setActiveSection("company");
+		setCompanyId(company.company_id);
+		setIsEditing(true);
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const userId = localStorage.getItem("userid");
@@ -84,29 +111,58 @@ function CreateCompany() {
 			toast.error("User ID is required to create a company.");
 			return;
 		}
-		try {
-			await axios.post(`${BACKEND_URL}/api/companies`, formData);
-			toast.success("Company added successfully!");
-			setFormData({
-				company_name: "",
-				operating_name: "",
-				logo: "",
-				business_type: "",
-				address: "",
-				phone: "",
-				email: "",
-				website: "",
-				business_no: "",
-				corporate_tax_no: "",
-				gst_no: "",
-				pst_nos: "",
-				fiscal_year: "",
-				home_currency: "",
-				bank_details: "",
-				additional_notes: "",
-			});
-		} catch (error) {
-			toast.error("Failed to add company");
+		if (isEditing) {
+			try {
+				await axios.put(`${BACKEND_URL}/api/companies/${companyId}`, formData);
+				toast.success("Company updated successfully!");
+				setIsEditing(false);
+				setCompanyId(null);
+				setFormData({
+					company_name: "",
+					operating_name: "",
+					logo: "",
+					business_type: "",
+					address: "",
+					phone: "",
+					email: "",
+					website: "",
+					business_no: "",
+					corporate_tax_no: "",
+					gst_no: "",
+					pst_nos: "",
+					fiscal_year: "",
+					home_currency: "",
+					bank_details: "",
+					additional_notes: "",
+				});
+			} catch (error) {
+				toast.error("Failed to update company");
+			}
+		} else {
+			try {
+				await axios.post(`${BACKEND_URL}/api/companies`, formData);
+				toast.success("Company added successfully!");
+				setFormData({
+					company_name: "",
+					operating_name: "",
+					logo: "",
+					business_type: "",
+					address: "",
+					phone: "",
+					email: "",
+					website: "",
+					business_no: "",
+					corporate_tax_no: "",
+					gst_no: "",
+					pst_nos: "",
+					fiscal_year: "",
+					home_currency: "",
+					bank_details: "",
+					additional_notes: "",
+				});
+			} catch (error) {
+				toast.error("Failed to add company");
+			}
 		}
 	};
 
@@ -121,45 +177,6 @@ function CreateCompany() {
 							{/* Sidebar for section names */}
 							<div className="col-md-3">
 								<h4 className="mb-3">Manage Profile</h4>
-								{/* <div className="list-group">
-									<button
-										className={`list-group-item list-group-item-action ${activeSection === "company" ? "active" : ""}`}
-										onClick={() => handleSectionClick("company")}
-									>
-										Company Information
-									</button>
-									<button
-										className={`list-group-item list-group-item-action ${activeSection === "contact" ? "active" : ""}`}
-										onClick={() => handleSectionClick("contact")}
-									>
-										Contact Information
-									</button>
-									<button
-										className={`list-group-item list-group-item-action ${activeSection === "tax" ? "active" : ""}`}
-										onClick={() => handleSectionClick("tax")}
-									>
-										Tax Information
-									</button>
-									<button
-										className={`list-group-item list-group-item-action ${activeSection === "fiscal" ? "active" : ""}`}
-										onClick={() => handleSectionClick("fiscal")}
-									>
-										Fiscal Information
-									</button>
-									<button
-										className={`list-group-item list-group-item-action ${activeSection === "notes" ? "active" : ""}`}
-										onClick={() => handleSectionClick("notes")}
-									>
-										Additional Notes
-									</button>
-									<button
-										className={`list-group-item list-group-item-action ${activeSection === "businesses" ? "active" : ""}`}
-										onClick={() => handleSectionClick("businesses")}
-									>
-										Businesses
-									</button>
-								</div> */}
-								{/* from here */}
 								<div className="list-group">
 									{sections.map((section) => (
 										<button
@@ -433,14 +450,12 @@ function CreateCompany() {
 													</thead>
 													<tbody>
 														{companies.map((company) => (
-															<tr key={company.id}>
+															<tr key={company.company_id}>
 																<td>{company.company_id}</td>
 																<td>{company.company_name}</td>
 																<td>
-																	{/* Edit button */}
-																	{/* <button className="btn btn-primary" onClick={() => handleEdit(company.id)}> */}
-																	<button className="btn btn-primary">
-																		<i className="fas fa-edit" title="Edit"></i>
+																	<button className="btn btn-primary" onClick={() => handleEditCompany(company)}>
+																		Edit
 																	</button>
 																</td>
 															</tr>

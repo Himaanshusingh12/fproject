@@ -5,6 +5,7 @@ import Bfooter from "../Components/Bfooter";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { BACKEND_URL } from "../../Constant";
+import { Link } from "react-router-dom";
 
 function View_customer() {
 	const [customers, setCustomers] = useState([]);
@@ -22,7 +23,13 @@ function View_customer() {
 		email_statement: "",
 		gst_no: "",
 		credit_terms: "",
+		credit_limit: "",
+		suggested_tax: "",
+		additional_details: "",
 	});
+
+	const [showModal, setShowModal] = useState(false);
+	const [reason, setReason] = useState("");
 
 	useEffect(() => {
 		fetchCustomers();
@@ -81,20 +88,6 @@ function View_customer() {
 			toast.error("Failed to update customer");
 		}
 	};
-
-	// Delete customer
-	const handleDelete = async (customerId) => {
-		try {
-			const response = await axios.delete(`${BACKEND_URL}/api/customers/${customerId}`);
-			if (response.status === 200) {
-				toast.success("Customer deleted successfully");
-				fetchCustomers(); // Refresh the customer list
-			}
-		} catch (error) {
-			console.error("Error deleting customer", error);
-			toast.error("Failed to delete customer");
-		}
-	};
 	// Block/Unblock customer
 	const handleBlockUnblock = async (customer) => {
 		try {
@@ -109,6 +102,47 @@ function View_customer() {
 			toast.error("Failed to update block status");
 		}
 	};
+	//active/inactive function
+	const handleActiveInactive = async (customer) => {
+		try {
+			const updatedStatus = customer.status === "Active" ? "Inactive" : "Active";
+			if (customer.status === updatedStatus) {
+				toast.info(`Customer is already ${updatedStatus}`);
+				return;
+			}
+			setShowModal(true);
+			setSelectedCustomer(customer);
+			const modal = new window.bootstrap.Modal(document.getElementById("inactivateModal"));
+			modal.show(); // Show the Bootstrap modal
+		} catch (error) {
+			console.error("Error updating active/inactive status", error);
+			toast.error(" Failed to update active/inactive status");
+		}
+	};
+
+	const handleReasonChange = (e) => {
+		setReason(e.target.value);
+	};
+
+	const handleInactivate = async () => {
+		try {
+			const response = await axios.patch(`${BACKEND_URL}/api/customers/${selectedCustomer.id}/status`, { status: "Inactive", reason: reason });
+			if (response.status === 200) {
+				toast.success("Customer inactivated successfully");
+				const updatedCustomers = customers.map((c) => (c.id === selectedCustomer.id ? { ...c, status: "Inactive" } : c));
+				setCustomers(updatedCustomers);
+				fetchCustomers(); // Refresh the customer list
+			} else {
+				console.error("Error inactivating customer", response);
+				toast.error(" Failed to inactivate customer");
+			}
+		} catch (error) {
+			console.error("Error inactivating customer", error);
+			toast.error(" Failed to inactivate customer");
+		}
+	};
+
+	//  for search
 	const handleSearch = (e) => {
 		const searchQuery = e.target.value;
 		setSearchQuery(searchQuery);
@@ -137,6 +171,10 @@ function View_customer() {
 		}
 	}, [searchQuery, customers]);
 
+	useEffect(() => {
+		setFilteredCustomers(customers.filter((customer) => customer.status === "Active"));
+	}, [customers]);
+
 	return (
 		<>
 			<Bheader />
@@ -146,6 +184,9 @@ function View_customer() {
 					<div className="container mt-4">
 						<div className="d-flex justify-content-between align-items-center mb-3">
 							<h2>Customer Management</h2>
+							<Link to="/inactive-customer" className="btn btn-success ml-auto me-5">
+								Inactive Customers
+							</Link>
 							<div className="d-flex align-items-center">
 								<span className="me-2">Search:</span>
 								<input
@@ -164,15 +205,19 @@ function View_customer() {
 									<tr>
 										<th>ID</th>
 										<th>Customer Name</th>
-										<th>Operating As</th>
+										{/* <th>Operating As</th> */}
 										{/* <th>Address</th> */}
 										<th>Phone no</th>
 										{/* <th>Website</th> */}
-										{/* <th>Currency</th> */}
-										<th>Email (Sales)</th>
+										<th>Currency</th>
+										{/* <th>Email (Sales)</th> */}
 										{/* <th>Email (Statement)</th> */}
-										{/* <th>GST No</th> */}
-										<th>Credit Terms</th>
+										<th>GST No</th>
+										{/* <th>Credit Terms</th> */}
+										<th>Credit Limit</th>
+										{/* <th>Suggested tax</th> */}
+										<th>Additional Details</th>
+										<th>Stauts</th>
 										<th>Actions</th>
 									</tr>
 								</thead>
@@ -182,35 +227,41 @@ function View_customer() {
 										<tr key={customer.id}>
 											<td>{customer.id}</td>
 											<td>{customer.customer_name}</td>
-											<td>{customer.operating_as}</td>
+											{/* <td>{customer.operating_as}</td> */}
 											{/* <td>{customer.address}</td> */}
 											<td>{customer.phone_no}</td>
 											{/* <td>{customer.website}</td> */}
-											{/* <td>{customer.currency}</td> */}
-											<td>{customer.email_sales}</td>
+											<td>{customer.currency}</td>
+											{/* <td>{customer.email_sales}</td> */}
 											{/* <td>{customer.email_statement}</td> */}
-											{/* <td>{customer.gst_no}</td> */}
-											<td>{customer.credit_terms}</td>
+											<td>{customer.gst_no}</td>
+											{/* <td>{customer.credit_terms}</td> */}
+											<td>{customer.credit_limit}</td>
+											{/* <td>{customer.suggested_tax}</td> */}
+											<td>{customer.additional_details}</td>
+											<td>{customer.status}</td>
 											<td>
 												<button className="btn btn-primary me-2" onClick={() => handleEdit(customer)}>
 													{/* Edit */}
 													<i className="fas fa-edit" title="Edit"></i>
 												</button>
-												<button className="btn btn-danger me-2" onClick={() => handleDelete(customer.id)}>
-													{/* Delete */}
-													<i className="fas fa-trash" title="Delete"></i>
-												</button>
-												{/* <button className={`btn ${customer.is_blocked ? "btn-warning" : "btn-secondary"}`} onClick={() => handleBlockUnblock(customer)}>
-													{customer.is_blocked ? "Unblock" : "Block"}
-												</button> */}
-
 												<button
-													className={`btn ${customer.is_blocked ? "btn-warning" : "btn-secondary"}`}
+													className={`btn ${customer.is_blocked ? "btn-warning" : "btn-secondary me-2"}`}
 													onClick={() => handleBlockUnblock(customer)}
 												>
 													<i
 														className={`fas ${customer.is_blocked ? "fa-check-circle" : "fa-ban"}`}
 														title={customer.is_blocked ? "Unblock" : "Block"}
+													></i>
+												</button>
+
+												<button
+													className={`btn ${customer.status === "Active" ? "btn-success" : "btn-secondary"}`}
+													onClick={() => handleActiveInactive(customer)}
+												>
+													<i
+														className={`fas ${customer.status === "Active" ? "fa-check-circle" : "fa-times-circle"}`}
+														title={customer.status === "Active" ? "Deactivate" : "Activate"}
 													></i>
 												</button>
 											</td>
@@ -353,6 +404,42 @@ function View_customer() {
 													required
 												/>
 											</div>
+											<div className="form-group">
+												<label htmlFor="credit_limit">Credit Limit</label>
+												<input
+													type="number"
+													className="form-control"
+													id="credit_limit"
+													name="credit_limit"
+													value={formValue.credit_limit}
+													onChange={handleFormChange}
+													required
+												/>
+											</div>
+											<div className="form-group">
+												<label htmlFor="suggested_tax">Suggested Tax</label>
+												<input
+													type="number"
+													className="form-control"
+													id="suggested_tax"
+													name="suggested_tax"
+													value={formValue.suggested_tax}
+													onChange={handleFormChange}
+													required
+												/>
+											</div>
+											<div className="form-group">
+												<label htmlFor="suggested_tax">Additional Details</label>
+												<input
+													type="text"
+													className="form-control"
+													id="additional_details"
+													name="additional_details"
+													value={formValue.additional_details}
+													onChange={handleFormChange}
+													required
+												/>
+											</div>
 											<button type="submit" className="btn btn-primary">
 												Save changes
 											</button>
@@ -360,6 +447,52 @@ function View_customer() {
 									</div>
 									<div className="modal-footer">
 										<button type="button" className="btn btn-secondary" data-dismiss="modal">
+											Close
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						{/* from here */}
+						<div
+							className={`modal fade ${showModal ? "show" : ""}`}
+							id="inactivateModal"
+							tabIndex="-1"
+							role="dialog"
+							aria-labelledby="inactivateModalLabel"
+							aria-hidden="true"
+						>
+							<div className="modal-dialog" role="document">
+								<div className="modal-content">
+									<div className="modal-header">
+										<h5 className="modal-title" id="inactivateModalLabel">
+											Inactivate Customer
+										</h5>
+										<button type="button" className="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div className="modal-body">
+										<form>
+											<div className="form-group">
+												<label htmlFor="reason">Reason for inactivation:</label>
+												<textarea
+													type="text"
+													className="form-control"
+													id="reason"
+													name="reason"
+													value={reason}
+													onChange={handleReasonChange}
+													required
+												/>
+											</div>
+											<button type="button" className="btn btn-primary" onClick={handleInactivate}>
+												Inactivate
+											</button>
+										</form>
+									</div>
+									<div className="modal-footer">
+										<button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={() => setShowModal(false)}>
 											Close
 										</button>
 									</div>

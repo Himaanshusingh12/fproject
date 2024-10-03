@@ -43,6 +43,7 @@ import VendorLedger from "./Users/Pages/VendorLedger";
 import AccountPaybleReport from "./Users/Pages/AccountPaybleReport";
 import CreateCompany from "./Users/Pages/CreateCompany";
 import ViewSalesInvoice from "./Users/Pages/ViewSalesInvoice";
+import InactiveCustomer from "./Users/Pages/InactiveCustomer";
 
 function App() {
 	return (
@@ -102,6 +103,7 @@ function App() {
 			{/* <CreateCompany /> */}
 			{/* <EditCompany/> */}
 			{/* <ViewSalesInvoice /> */}
+			{/* <InactiveCustomer /> */}
 
 
 
@@ -156,13 +158,7 @@ function App() {
 					<Route path="/accountpayble-report" element={<AccountPaybleReport />}></Route >
 					<Route path="/create-company" element={<CreateCompany />}></Route >
 					<Route path="/view-sales-invoice" element={<ViewSalesInvoice />}></Route >
-
-
-
-
-
-
-
+					<Route path="/inactive-customer" element={<InactiveCustomer />}></Route >
 
 				</ Routes>
 			</BrowserRouter>

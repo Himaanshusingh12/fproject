@@ -22,6 +22,7 @@ function CreateCompany() {
 		gst_no: "",
 		pst_nos: "",
 		fiscal_year: "",
+		fiscal_year_to: "", //this
 		home_currency: "",
 		bank_details: "",
 		additional_notes: "",
@@ -71,7 +72,6 @@ function CreateCompany() {
 		}
 	};
 
-	// this
 	const handleNextClick = () => {
 		if (currentSection < sections.length - 1) {
 			setCurrentSection(currentSection + 1);
@@ -95,6 +95,7 @@ function CreateCompany() {
 			gst_no: company.gst_no,
 			pst_nos: company.pst_nos,
 			fiscal_year: company.fiscal_year,
+			fiscal_year_to: company.fiscal_year_to, //this
 			home_currency: company.home_currency,
 			bank_details: company.bank_details,
 			additional_notes: company.additional_notes,
@@ -131,6 +132,7 @@ function CreateCompany() {
 					gst_no: "",
 					pst_nos: "",
 					fiscal_year: "",
+					fiscal_year_to: "", //this
 					home_currency: "",
 					bank_details: "",
 					additional_notes: "",
@@ -156,6 +158,7 @@ function CreateCompany() {
 					gst_no: "",
 					pst_nos: "",
 					fiscal_year: "",
+					fiscal_year_to: "", //this
 					home_currency: "",
 					bank_details: "",
 					additional_notes: "",
@@ -262,7 +265,7 @@ function CreateCompany() {
 									{activeSection === "contact" && (
 										<div className="mb-4">
 											<h4>Contact Information</h4>
-											<div className="mb-3">
+											{/* <div className="mb-3">
 												<label htmlFor="address">Address</label>
 												<textarea
 													name="address"
@@ -272,6 +275,85 @@ function CreateCompany() {
 													className="form-control"
 													placeholder="Enter Address"
 												/>
+											</div> */}
+
+											{/* from here */}
+											<div className="mb-3">
+												<label htmlFor="address">Address</label>
+												<div className="row">
+													<div className="col-md-12">
+														<input
+															type="text"
+															name="address_line_1"
+															id="address_line_1"
+															value={formData.address_line_1}
+															onChange={handleChange}
+															className="form-control"
+															placeholder="Address Line 1"
+														/>
+													</div>
+												</div>
+												<div className="row mt-2">
+													<div className="col-md-12">
+														<input
+															type="text"
+															name="address_line_2"
+															id="address_line_2"
+															value={formData.address_line_2}
+															onChange={handleChange}
+															className="form-control"
+															placeholder="Address Line 2"
+														/>
+													</div>
+												</div>
+												<div className="row mt-2">
+													<div className="col-md-6">
+														<input
+															type="text"
+															name="city"
+															id="city"
+															value={formData.city}
+															onChange={handleChange}
+															className="form-control"
+															placeholder="City"
+														/>
+													</div>
+													<div className="col-md-6">
+														<input
+															type="text"
+															name="province"
+															id="province"
+															value={formData.province}
+															onChange={handleChange}
+															className="form-control"
+															placeholder="Province"
+														/>
+													</div>
+												</div>
+												<div className="row mt-2">
+													<div className="col-md-6">
+														<input
+															type="text"
+															name="postal_code"
+															id="postal_code"
+															value={formData.postal_code}
+															onChange={handleChange}
+															className="form-control"
+															placeholder="Postal Code"
+														/>
+													</div>
+													<div className="col-md-6">
+														<input
+															type="text"
+															name="country"
+															id="country"
+															value={formData.country}
+															onChange={handleChange}
+															className="form-control"
+															placeholder="Country"
+														/>
+													</div>
+												</div>
 											</div>
 											<div className="mb-3">
 												<label htmlFor="phone">Phone</label>
@@ -375,30 +457,58 @@ function CreateCompany() {
 										<div className="mb-4">
 											<h4>Fiscal Information</h4>
 											<div className="mb-3">
-												<label htmlFor="fiscal_year">Fiscal Year</label>
-												<input
-													type="text"
-													name="fiscal_year"
-													id="fiscal_year"
-													value={formData.fiscal_year}
-													onChange={handleChange}
-													className="form-control"
-													placeholder="Enter Fiscal Year"
-												/>
+												<label htmlFor="fiscal_year">Fiscal Year (From - To)</label>
+												<div className="d-flex">
+													<div className="mr-2">
+														<input
+															type="date"
+															name="fiscal_year"
+															id="fiscal_year"
+															value={formData.fiscal_year}
+															onChange={handleChange}
+															className="form-control"
+															placeholder="Enter Fiscal Year"
+														/>
+													</div>
+													<div className="mr-2">
+														<input
+															type="date"
+															name="fiscal_year_to"
+															id="fiscal_year_to"
+															value={formData.fiscal_year_to}
+															onChange={handleChange}
+															className="form-control"
+															placeholder="To"
+														/>
+													</div>
+												</div>
 											</div>
+
 											<div className="mb-3">
 												<label htmlFor="home_currency">Home Currency</label>
-												<input
-													type="text"
+												<select
 													name="home_currency"
 													id="home_currency"
 													value={formData.home_currency}
 													onChange={handleChange}
 													className="form-control"
 													placeholder="Enter Home Currency"
-												/>
+												>
+													<option value="">Select Currency</option>
+													<option value="">Select Currency</option>
+													<option value="USD">USD</option>
+													<option value="EUR">EUR</option>
+													<option value="GBP">GBP</option>
+													<option value="INR">INR</option>
+													<option value="AUD">AUD</option>
+													<option value="CAD">CAD</option>
+													<option value="JPY">JPY</option>
+													<option value="CNY">CNY</option>
+													<option value="Other">Other</option>
+												</select>
 											</div>
-											<div className="mb-3">
+
+											{/* <div className="mb-3">
 												<label htmlFor="bank_details">Bank Details</label>
 												<textarea
 													name="bank_details"
@@ -408,7 +518,86 @@ function CreateCompany() {
 													className="form-control"
 													placeholder="Enter Bank Details"
 												/>
+											</div> */}
+
+											{/* from here */}
+
+											<div className="mb-3">
+												<label htmlFor="bank_details">Bank Details</label>
+												<div className="row">
+													<div className="col-md-6">
+														<input
+															type="text"
+															name="bank_name"
+															id="bank_name"
+															value={formData.bank_name}
+															onChange={handleChange}
+															className="form-control"
+															placeholder="Enter Bank Name"
+														/>
+													</div>
+													<div className="col-md-6">
+														<input
+															type="text"
+															name="bank_account_number"
+															id="bank_account_number"
+															value={formData.bank_account_number}
+															onChange={handleChange}
+															className="form-control"
+															placeholder="Enter Bank Account Number"
+														/>
+													</div>
+												</div>
+												<div className="row mt-2">
+													<div className="col-md-6">
+														<input
+															type="text"
+															name="bank_branch"
+															id="bank_branch"
+															value={formData.bank_branch}
+															onChange={handleChange}
+															className="form-control"
+															placeholder="Enter Bank Branch"
+														/>
+													</div>
+													<div className="col-md-6">
+														<input
+															type="text"
+															name="bank_ifsc_code"
+															id="bank_ifsc_code"
+															value={formData.bank_ifsc_code}
+															onChange={handleChange}
+															className="form-control"
+															placeholder="Enter Bank IFSC Code"
+														/>
+													</div>
+												</div>
+												<div className="row mt-2">
+													<div className="col-md-6">
+														<input
+															type="text"
+															name="transit_number"
+															id="transit_number"
+															value={formData.transit_number}
+															onChange={handleChange}
+															className="form-control"
+															placeholder="Enter Transit Number"
+														/>
+													</div>
+													<div className="col-md-6">
+														<input
+															type="text"
+															name="institute_number"
+															id="institute_number"
+															value={formData.institute_number}
+															onChange={handleChange}
+															className="form-control"
+															placeholder="Enter Institute Number"
+														/>
+													</div>
+												</div>
 											</div>
+
 											<button type="button" className="btn btn-primary" onClick={handleNextClick}>
 												Next
 											</button>

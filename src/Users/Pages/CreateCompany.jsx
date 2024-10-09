@@ -13,7 +13,12 @@ function CreateCompany() {
 		operating_name: "",
 		logo: "",
 		business_type: "",
-		address: "",
+		country: "",
+		province: "",
+		city: "",
+		postal_code: "",
+		address_line_1: "",
+		address_line_2: "",
 		phone: "",
 		email: "",
 		website: "",
@@ -22,8 +27,11 @@ function CreateCompany() {
 		gst_no: "",
 		pst_nos: "",
 		fiscal_year: "",
-		fiscal_year_to: "", //this
+		fiscal_year_to: "",
 		home_currency: "",
+		bank_transit_number: "",
+		bank_institution_number: "",
+		bank_account_number: "",
 		bank_details: "",
 		additional_notes: "",
 	});
@@ -58,10 +66,11 @@ function CreateCompany() {
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-		setFormData((prevForm) => ({
-			...prevForm,
-			[name]: value,
-		}));
+		if (name === "fiscal_year_to") {
+			setFormData((prevForm) => ({ ...prevForm, fiscal_year_to: value }));
+		} else {
+			setFormData((prevForm) => ({ ...prevForm, [name]: value }));
+		}
 	};
 
 	const handleSectionClick = (section) => {
@@ -86,7 +95,12 @@ function CreateCompany() {
 			operating_name: company.operating_name,
 			logo: company.logo,
 			business_type: company.business_type,
-			address: company.address,
+			country: company.country,
+			province: company.province,
+			city: company.city,
+			postal_code: company.postal_code,
+			address_line_1: company.address_line_1,
+			address_line_2: company.address_line_2,
 			phone: company.phone,
 			email: company.email,
 			website: company.website,
@@ -95,8 +109,11 @@ function CreateCompany() {
 			gst_no: company.gst_no,
 			pst_nos: company.pst_nos,
 			fiscal_year: company.fiscal_year,
-			fiscal_year_to: company.fiscal_year_to, //this
+			fiscal_year_to: company.fiscal_year_to,
 			home_currency: company.home_currency,
+			bank_transit_number: company.bank_transit_number,
+			bank_institution_number: company.bank_institution_number,
+			bank_account_number: company.bank_account_number,
 			bank_details: company.bank_details,
 			additional_notes: company.additional_notes,
 		});
@@ -105,8 +122,122 @@ function CreateCompany() {
 		setIsEditing(true);
 	};
 
+	// validation
+	const validation = () => {
+		let result = true;
+		if (formData.company_name === "") {
+			toast.error("Company Name field is required");
+			result = false;
+		} else if (formData.company_name.length < 3) {
+			toast.error("Company Name must be at least 3 character");
+			result = false;
+		}
+		if (formData.operating_name === "") {
+			toast.error("Operating Name field is required");
+			result = false;
+		}
+		if (formData.country === "") {
+			toast.error("Country field is required");
+			result = false;
+		}
+		if (formData.province === "") {
+			toast.error("Province field is required");
+			result = false;
+		}
+		if (formData.city === "") {
+			toast.error("City field is required");
+			result = false;
+		}
+		if (formData.postal_code === "") {
+			toast.error("Postal Code field is required");
+			result = false;
+		}
+		if (formData.address_line_1 === "") {
+			toast.error("Address Line 1 field is required");
+			result = false;
+		}
+		if (formData.phone === "") {
+			toast.error("Phone field is required");
+			result = false;
+		}
+		if (formData.email === "") {
+			toast.error("Email field is required");
+			result = false;
+		} else if (!formData.email.includes("@")) {
+			toast.error("Invalid Email. Please include '@' in your email.");
+			result = false;
+		}
+		if (formData.website === "") {
+			toast.error("Website field is required");
+			result = false;
+		} else if (!/^https?:\/\//i.test(formData.website)) {
+			toast.error("Website must start with http:// or https://");
+			result = false;
+		}
+		if (formData.business_no === "") {
+			toast.error("Business No. field is required");
+			result = false;
+		}
+		if (formData.corporate_tax_no === "") {
+			toast.error("Corporate Tax No. field is required");
+			result = false;
+		}
+		if (formData.gst_no === "") {
+			toast.error("GST No. field is required");
+			result = false;
+		}
+		if (formData.pst_nos === "") {
+			toast.error("PST Nos. field is required");
+			result = false;
+		}
+		if (formData.fiscal_year === "") {
+			toast.error("Fiscal Year field is required");
+			result = false;
+		}
+		if (formData.fiscal_year_to === "") {
+			toast.error("Fiscal Year To field is required");
+			result = false;
+		}
+		if (formData.home_currency === "") {
+			toast.error("Home Currency field is required");
+			result = false;
+		}
+		if (formData.bank_transit_number === "") {
+			toast.error("Bank Transit Number field is required");
+			result = false;
+		} else if (!/^\d{5}$/.test(formData.bank_transit_number)) {
+			toast.error("Transit Number must be a 5-digit number");
+			result = false;
+		}
+		if (formData.bank_institution_number === "") {
+			toast.error("Bank Institution Number field is required");
+			result = false;
+		} else if (!/^\d{3}$/.test(formData.bank_institution_number)) {
+			toast.error("Institution Number must be a 3-digit number");
+			result = false;
+		}
+
+		if (formData.bank_account_number === "") {
+			toast.error("Bank Account Number field is required");
+			result = false;
+		}
+
+		if (formData.bank_details === "") {
+			toast.error("Bank Details field is required");
+			result = false;
+		}
+		if (formData.additional_notes === "") {
+			toast.error("Additional Notes field is required");
+			result = false;
+		}
+		return result;
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		if (!validation()) {
+			return;
+		}
 		const userId = localStorage.getItem("userid");
 		if (!userId) {
 			toast.error("User ID is required to create a company.");
@@ -123,7 +254,12 @@ function CreateCompany() {
 					operating_name: "",
 					logo: "",
 					business_type: "",
-					address: "",
+					country: "",
+					province: "",
+					city: "",
+					postal_code: "",
+					address_line_1: "",
+					address_line_2: "",
 					phone: "",
 					email: "",
 					website: "",
@@ -132,8 +268,11 @@ function CreateCompany() {
 					gst_no: "",
 					pst_nos: "",
 					fiscal_year: "",
-					fiscal_year_to: "", //this
+					fiscal_year_to: "",
 					home_currency: "",
+					bank_transit_number: "",
+					bank_institution_number: "",
+					bank_account_number: "",
 					bank_details: "",
 					additional_notes: "",
 				});
@@ -149,7 +288,12 @@ function CreateCompany() {
 					operating_name: "",
 					logo: "",
 					business_type: "",
-					address: "",
+					country: "",
+					province: "",
+					city: "",
+					postal_code: "",
+					address_line_1: "",
+					address_line_2: "",
 					phone: "",
 					email: "",
 					website: "",
@@ -158,8 +302,11 @@ function CreateCompany() {
 					gst_no: "",
 					pst_nos: "",
 					fiscal_year: "",
-					fiscal_year_to: "", //this
+					fiscal_year_to: "",
 					home_currency: "",
+					bank_transit_number: "",
+					bank_institution_number: "",
+					bank_account_number: "",
 					bank_details: "",
 					additional_notes: "",
 				});
@@ -246,15 +393,31 @@ function CreateCompany() {
 											</div>
 											<div className="mb-3">
 												<label htmlFor="business_type">Business Type</label>
-												<input
+												<select
 													type="text"
 													name="business_type"
 													id="business_type"
 													value={formData.business_type}
 													onChange={handleChange}
 													className="form-control"
-													placeholder="Enter Business Type"
-												/>
+												>
+													<option value="">Select Business Type</option>
+													<option value="Sole Proprietorship">Sole Proprietorship</option>
+													<option value="Partnership">Partnership</option>
+													<option value="Limited Liability Company (LLC)">Limited Liability Company (LLC)</option>
+													<option value="Corporation">Corporation</option>
+													<option value="Non-Profit Organization">Non-Profit Organization</option>
+													<option value="S-Corporation">S-Corporation</option>
+													<option value="C-Corporation">C-Corporation</option>
+													<option value="Limited Partnership (LP)">Limited Partnership (LP)</option>
+													<option value="Limited Liability Partnership (LLP)">Limited Liability Partnership (LLP)</option>
+													<option value="Professional Corporation (PC)">Professional Corporation (PC)</option>
+													<option value="Professional Association (PA)">Professional Association (PA)</option>
+													<option value="Trust">Trust</option>
+													<option value="Estate">Estate</option>
+													<option value="Other">Other</option>
+												</select>
+												<small className="form-text text-muted">Select the type of business you are operating.</small>
 											</div>
 											<button type="button" className="btn btn-primary" onClick={handleNextClick}>
 												Next
@@ -265,96 +428,80 @@ function CreateCompany() {
 									{activeSection === "contact" && (
 										<div className="mb-4">
 											<h4>Contact Information</h4>
-											{/* <div className="mb-3">
-												<label htmlFor="address">Address</label>
-												<textarea
-													name="address"
-													id="address"
-													value={formData.address}
+											<div className="mb-3">
+												<label htmlFor="country">Country</label>
+												<input
+													type="text"
+													name="country"
+													id="country"
+													value={formData.country}
 													onChange={handleChange}
 													className="form-control"
-													placeholder="Enter Address"
+													placeholder="Enter Country"
 												/>
-											</div> */}
-
-											{/* from here */}
-											<div className="mb-3">
-												<label htmlFor="address">Address</label>
-												<div className="row">
-													<div className="col-md-12">
-														<input
-															type="text"
-															name="address_line_1"
-															id="address_line_1"
-															value={formData.address_line_1}
-															onChange={handleChange}
-															className="form-control"
-															placeholder="Address Line 1"
-														/>
-													</div>
-												</div>
-												<div className="row mt-2">
-													<div className="col-md-12">
-														<input
-															type="text"
-															name="address_line_2"
-															id="address_line_2"
-															value={formData.address_line_2}
-															onChange={handleChange}
-															className="form-control"
-															placeholder="Address Line 2"
-														/>
-													</div>
-												</div>
-												<div className="row mt-2">
-													<div className="col-md-6">
-														<input
-															type="text"
-															name="city"
-															id="city"
-															value={formData.city}
-															onChange={handleChange}
-															className="form-control"
-															placeholder="City"
-														/>
-													</div>
-													<div className="col-md-6">
-														<input
-															type="text"
-															name="province"
-															id="province"
-															value={formData.province}
-															onChange={handleChange}
-															className="form-control"
-															placeholder="Province"
-														/>
-													</div>
-												</div>
-												<div className="row mt-2">
-													<div className="col-md-6">
-														<input
-															type="text"
-															name="postal_code"
-															id="postal_code"
-															value={formData.postal_code}
-															onChange={handleChange}
-															className="form-control"
-															placeholder="Postal Code"
-														/>
-													</div>
-													<div className="col-md-6">
-														<input
-															type="text"
-															name="country"
-															id="country"
-															value={formData.country}
-															onChange={handleChange}
-															className="form-control"
-															placeholder="Country"
-														/>
-													</div>
-												</div>
 											</div>
+
+											<div className="mb-3">
+												<label htmlFor="province">Province</label>
+												<input
+													type="text"
+													name="province"
+													id="province"
+													value={formData.province}
+													onChange={handleChange}
+													className="form-control"
+													placeholder="Enter Province"
+												/>
+											</div>
+											<div className="mb-3">
+												<label htmlFor="city">City</label>
+												<input
+													type="text"
+													name="city"
+													id="city"
+													value={formData.city}
+													onChange={handleChange}
+													className="form-control"
+													placeholder="Enter City"
+												/>
+											</div>
+											<div className="mb-3">
+												<label htmlFor="postal_code">Postal Code</label>
+												<input
+													type="text"
+													name="postal_code"
+													id="postal_code"
+													value={formData.postal_code}
+													onChange={handleChange}
+													className="form-control"
+													placeholder="Enter Postal Code"
+												/>
+											</div>
+											<div className="mb-3">
+												<label htmlFor="address_line_1">Address Line 1</label>
+												<input
+													type="text"
+													name="address_line_1"
+													id="address_line_1"
+													value={formData.address_line_1}
+													onChange={handleChange}
+													className="form-control"
+													placeholder="Enter Address Line 1"
+												/>
+											</div>
+											<div className="mb-3">
+												<label htmlFor="address_line_2">Address Line 2</label>
+												<input
+													type="text"
+													name="address_line_2"
+													id="address_line_2"
+													value={formData.address_line_2}
+													onChange={handleChange}
+													className="form-control"
+													placeholder="Enter Address Line 2"
+												/>
+											</div>
+
 											<div className="mb-3">
 												<label htmlFor="phone">Phone</label>
 												<input
@@ -507,8 +654,47 @@ function CreateCompany() {
 													<option value="Other">Other</option>
 												</select>
 											</div>
+											{/* from here */}
+											<div className="mb-3">
+												<label htmlFor="bank_transit_number">Bank Transit Number</label>
+												<input
+													type="text"
+													name="bank_transit_number"
+													id="bank_transit_number"
+													value={formData.bank_transit_number}
+													onChange={handleChange}
+													className="form-control"
+													placeholder="Enter Bank Transit Number"
+												/>
+											</div>
 
-											{/* <div className="mb-3">
+											<div className="mb-3">
+												<label htmlFor="bank_institution_number">Bank Institution Number</label>
+												<input
+													type="text"
+													name="bank_institution_number"
+													id="bank_institution_number"
+													value={formData.bank_institution_number}
+													onChange={handleChange}
+													className="form-control"
+													placeholder="Enter Bank Institution Number"
+												/>
+											</div>
+
+											<div className="mb-3">
+												<label htmlFor="bank_account_number">Bank Account Number</label>
+												<input
+													type="text"
+													name="bank_account_number"
+													id="bank_account_number"
+													value={formData.bank_account_number}
+													onChange={handleChange}
+													className="form-control"
+													placeholder="Enter Bank Account Number"
+												/>
+											</div>
+
+											<div className="mb-3">
 												<label htmlFor="bank_details">Bank Details</label>
 												<textarea
 													name="bank_details"
@@ -518,84 +704,6 @@ function CreateCompany() {
 													className="form-control"
 													placeholder="Enter Bank Details"
 												/>
-											</div> */}
-
-											{/* from here */}
-
-											<div className="mb-3">
-												<label htmlFor="bank_details">Bank Details</label>
-												<div className="row">
-													<div className="col-md-6">
-														<input
-															type="text"
-															name="bank_name"
-															id="bank_name"
-															value={formData.bank_name}
-															onChange={handleChange}
-															className="form-control"
-															placeholder="Enter Bank Name"
-														/>
-													</div>
-													<div className="col-md-6">
-														<input
-															type="text"
-															name="bank_account_number"
-															id="bank_account_number"
-															value={formData.bank_account_number}
-															onChange={handleChange}
-															className="form-control"
-															placeholder="Enter Bank Account Number"
-														/>
-													</div>
-												</div>
-												<div className="row mt-2">
-													<div className="col-md-6">
-														<input
-															type="text"
-															name="bank_branch"
-															id="bank_branch"
-															value={formData.bank_branch}
-															onChange={handleChange}
-															className="form-control"
-															placeholder="Enter Bank Branch"
-														/>
-													</div>
-													<div className="col-md-6">
-														<input
-															type="text"
-															name="bank_ifsc_code"
-															id="bank_ifsc_code"
-															value={formData.bank_ifsc_code}
-															onChange={handleChange}
-															className="form-control"
-															placeholder="Enter Bank IFSC Code"
-														/>
-													</div>
-												</div>
-												<div className="row mt-2">
-													<div className="col-md-6">
-														<input
-															type="text"
-															name="transit_number"
-															id="transit_number"
-															value={formData.transit_number}
-															onChange={handleChange}
-															className="form-control"
-															placeholder="Enter Transit Number"
-														/>
-													</div>
-													<div className="col-md-6">
-														<input
-															type="text"
-															name="institute_number"
-															id="institute_number"
-															value={formData.institute_number}
-															onChange={handleChange}
-															className="form-control"
-															placeholder="Enter Institute Number"
-														/>
-													</div>
-												</div>
 											</div>
 
 											<button type="button" className="btn btn-primary" onClick={handleNextClick}>

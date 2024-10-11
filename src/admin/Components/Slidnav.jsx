@@ -9,7 +9,12 @@ function Slidnav() {
 				<aside className="main-sidebar sidebar-dark-primary elevation-4">
 					{/* Brand Logo */}
 					<a href="index3.html" className="brand-link">
-						<img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{ opacity: "0.8" }} />
+						<img
+							src="dist/img/AdminLTELogo.png"
+							alt="AdminLTE Logo"
+							className="brand-image img-circle elevation-3"
+							style={{ opacity: "0.8" }}
+						/>
 						<span className="brand-text font-weight-light">Codein Web</span>
 					</a>
 					{/* Sidebar */}
@@ -91,34 +96,46 @@ function Slidnav() {
 								</li>
 								<li className="nav-item">
 									<NavLink to="/manage-user" className="nav-link">
-										<i className="nav-icon far fa-image" />
+										<i className="nav-icon fas fa-users" />
 										<p>Manage User</p>
 									</NavLink>
 								</li>
-								{/* <li className="nav-item">
+								<li className="nav-item">
 									<Link to="#" className="nav-link">
-										<i className="nav-icon fas fa-book" />
+										<i className="nav-icon fas fa-building" />
 										<p>
-											Basic Master
+											Manage Businesses
 											<i className="fas fa-angle-left right" />
 										</p>
 									</Link>
 									<ul className="nav nav-treeview">
 										<li className="nav-item">
-											<NavLink to="/manage-customer" className="nav-link">
-												<i className="far fa-circle nav-icon" />
-												<p>Manage Customer-Master</p>
+											<NavLink to="/business-type" className="nav-link">
+												<i className="far fa-building nav-icon" />
+												<p>Business Type</p>
 											</NavLink>
 										</li>
 										<li className="nav-item">
-											<NavLink to="/manage-vendor" className="nav-link">
-												<i className="far fa-circle nav-icon" />
-												<p>Manage Vendor-Master</p>
+											<NavLink to="/country" className="nav-link">
+												<i className="fas fa-location-arrow nav-icon" />
+												<p>Country</p>
+											</NavLink>
+										</li>
+										<li className="nav-item">
+											<NavLink to="/province" className="nav-link">
+												<i className="far fa-map nav-icon" />
+												<p>Province</p>
+											</NavLink>
+										</li>
+										<li className="nav-item">
+											<NavLink to="/city" className="nav-link">
+												<i className="fas fa-city nav-icon" />
+												<p>City</p>
 											</NavLink>
 										</li>
 									</ul>
-								</li> */}
-								<li className="nav-item">
+								</li>
+								{/* <li className="nav-item">
 									<a href="#" className="nav-link">
 										<i className="nav-icon fas fa-copy" />
 										<p>
@@ -179,8 +196,9 @@ function Slidnav() {
 											</a>
 										</li>
 									</ul>
-								</li>
-								<li className="nav-item">
+								</li> */}
+
+								{/* <li className="nav-item">
 									<a href="#" className="nav-link">
 										<i className="nav-icon fas fa-chart-pie" />
 										<p>
@@ -214,8 +232,8 @@ function Slidnav() {
 											</a>
 										</li>
 									</ul>
-								</li>
-								<li className="nav-item">
+								</li> */}
+								{/* <li className="nav-item">
 									<a href="#" className="nav-link">
 										<i className="nav-icon fas fa-tree" />
 										<p>
@@ -273,8 +291,8 @@ function Slidnav() {
 											</a>
 										</li>
 									</ul>
-								</li>
-								<li className="nav-item">
+								</li> */}
+								{/* <li className="nav-item">
 									<a href="#" className="nav-link">
 										<i className="nav-icon fas fa-edit" />
 										<p>
@@ -308,8 +326,8 @@ function Slidnav() {
 											</a>
 										</li>
 									</ul>
-								</li>
-								<li className="nav-item">
+								</li> */}
+								{/* <li className="nav-item">
 									<a href="#" className="nav-link">
 										<i className="nav-icon fas fa-table" />
 										<p>
@@ -337,9 +355,9 @@ function Slidnav() {
 											</a>
 										</li>
 									</ul>
-								</li>
+								</li> */}
 								<li className="nav-header">EXAMPLES</li>
-								<li className="nav-item">
+								{/* <li className="nav-item">
 									<a href="pages/calendar.html" className="nav-link">
 										<i className="nav-icon far fa-calendar-alt" />
 										<p>
@@ -347,20 +365,20 @@ function Slidnav() {
 											<span className="badge badge-info right">2</span>
 										</p>
 									</a>
-								</li>
-								<li className="nav-item">
+								</li> */}
+								{/* <li className="nav-item">
 									<a href="pages/gallery.html" className="nav-link">
 										<i className="nav-icon far fa-image" />
 										<p>Gallery</p>
 									</a>
-								</li>
-								<li className="nav-item">
+								</li> */}
+								{/* <li className="nav-item">
 									<a href="pages/kanban.html" className="nav-link">
 										<i className="nav-icon fas fa-columns" />
 										<p>Kanban Board</p>
 									</a>
-								</li>
-								<li className="nav-item">
+								</li> */}
+								{/* <li className="nav-item">
 									<a href="#" className="nav-link">
 										<i className="nav-icon far fa-envelope" />
 										<p>
@@ -388,8 +406,8 @@ function Slidnav() {
 											</a>
 										</li>
 									</ul>
-								</li>
-								<li className="nav-item">
+								</li> */}
+								{/* <li className="nav-item">
 									<a href="#" className="nav-link">
 										<i className="nav-icon fas fa-book" />
 										<p>
@@ -459,8 +477,8 @@ function Slidnav() {
 											</a>
 										</li>
 									</ul>
-								</li>
-								<li className="nav-item">
+								</li> */}
+								{/* <li className="nav-item">
 									<a href="#" className="nav-link">
 										<i className="nav-icon far fa-plus-square" />
 										<p>
@@ -588,8 +606,8 @@ function Slidnav() {
 											</a>
 										</li>
 									</ul>
-								</li>
-								<li className="nav-item">
+								</li> */}
+								{/* <li className="nav-item">
 									<a href="#" className="nav-link">
 										<i className="nav-icon fas fa-search" />
 										<p>
@@ -611,28 +629,28 @@ function Slidnav() {
 											</a>
 										</li>
 									</ul>
-								</li>
+								</li> */}
 								<li className="nav-header">MISCELLANEOUS</li>
-								<li className="nav-item">
+								{/* <li className="nav-item">
 									<a href="iframe.html" className="nav-link">
 										<i className="nav-icon fas fa-ellipsis-h" />
 										<p>Tabbed IFrame Plugin</p>
 									</a>
-								</li>
-								<li className="nav-item">
+								</li> */}
+								{/* <li className="nav-item">
 									<a href="https://adminlte.io/docs/3.1/" className="nav-link">
 										<i className="nav-icon fas fa-file" />
 										<p>Documentation</p>
 									</a>
-								</li>
+								</li> */}
 								<li className="nav-header">MULTI LEVEL EXAMPLE</li>
-								<li className="nav-item">
+								{/* <li className="nav-item">
 									<a href="#" className="nav-link">
 										<i className="fas fa-circle nav-icon" />
 										<p>Level 1</p>
 									</a>
-								</li>
-								<li className="nav-item">
+								</li> */}
+								{/* <li className="nav-item">
 									<a href="#" className="nav-link">
 										<i className="nav-icon fas fa-circle" />
 										<p>
@@ -683,32 +701,32 @@ function Slidnav() {
 											</a>
 										</li>
 									</ul>
-								</li>
-								<li className="nav-item">
+								</li> */}
+								{/* <li className="nav-item">
 									<a href="#" className="nav-link">
 										<i className="fas fa-circle nav-icon" />
 										<p>Level 1</p>
 									</a>
-								</li>
+								</li> */}
 								<li className="nav-header">LABELS</li>
-								<li className="nav-item">
+								{/* <li className="nav-item">
 									<a href="#" className="nav-link">
 										<i className="nav-icon far fa-circle text-danger" />
 										<p className="text">Important</p>
 									</a>
-								</li>
-								<li className="nav-item">
+								</li> */}
+								{/* <li className="nav-item">
 									<a href="#" className="nav-link">
 										<i className="nav-icon far fa-circle text-warning" />
 										<p>Warning</p>
 									</a>
-								</li>
-								<li className="nav-item">
+								</li> */}
+								{/* <li className="nav-item">
 									<a href="#" className="nav-link">
 										<i className="nav-icon far fa-circle text-info" />
 										<p>Informational</p>
 									</a>
-								</li>
+								</li> */}
 							</ul>
 						</nav>
 						{/* /.sidebar-menu */}

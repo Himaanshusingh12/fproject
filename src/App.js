@@ -44,6 +44,12 @@ import AccountPaybleReport from "./Users/Pages/AccountPaybleReport";
 import CreateCompany from "./Users/Pages/CreateCompany";
 import ViewSalesInvoice from "./Users/Pages/ViewSalesInvoice";
 import InactiveCustomer from "./Users/Pages/InactiveCustomer";
+import BusinessType from "./admin/Pages/BusinessType";
+import ViewBusinesses from "./admin/Pages/ViewBusinesses";
+import Country from "./admin/Pages/Country";
+import Province from "./admin/Pages/Province";
+import City from "./admin/Pages/City";
+import ViewCountry from "./admin/Pages/ViewCountry";
 
 function App() {
 	return (
@@ -68,6 +74,13 @@ function App() {
 			{/* <Manage_user /> */}
 			{/* <Manage_customer /> */}
 			{/* <Manage_vendor /> */}
+			{/* <BusinessType /> */}
+			{/* <ViewBusinesses /> */}
+			{/* <Country /> */}
+			{/* <City /> */}
+			{/* <Province /> */}
+			{/* <ViewCountry /> */}
+
 
 
 
@@ -125,6 +138,18 @@ function App() {
 						<Route path="/dashboard" element={<Dashboard />} />
 					</Route>
 					<Route path="/manage-user" element={<Manage_user />}></Route>
+					<Route path="/business-type" element={<BusinessType />}></Route>
+					<Route path="/view-businesses" element={<ViewBusinesses />}></Route>
+					<Route path="/country" element={<Country />}></Route>
+					<Route path="/view-country" element={<ViewCountry />}></Route>
+					<Route path="/province" element={<Province />}></Route>
+					<Route path="/city" element={<City />}></Route>
+
+
+
+
+
+
 					{/* users */}
 					<Route
 						path="/user"

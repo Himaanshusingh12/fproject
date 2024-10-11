@@ -39,14 +39,44 @@ function CreateCompany() {
 	const [activeSection, setActiveSection] = useState("company");
 	const [companies, setCompanies] = useState([]);
 	const [currentSection, setCurrentSection] = useState(0);
-	const [companyId, setCompanyId] = useState(null); //this
+	const [companyId, setCompanyId] = useState(null);
+	const [businessTypes, setBusinessTypes] = useState([]);
+	const [country, setCountry] = useState([]);
 	const [isEditing, setIsEditing] = useState(false);
 	const sections = ["company", "contact", "tax", "fiscal", "notes"];
 
 	useEffect(() => {
 		getcompanies();
+		getBusinessTypes();
+		getCountry();
 	}, []);
 
+	// for get Active business types
+	const getBusinessTypes = async () => {
+		try {
+			const response = await axios.get(`${BACKEND_URL}/api/business-types/active`);
+			if (response.status === 200) {
+				setBusinessTypes(response.data);
+			}
+		} catch (error) {
+			console.error("Error fetching business types:", error);
+			toast.error("Failed to fetch business types");
+		}
+	};
+	// for get Active countries
+	const getCountry = async () => {
+		try {
+			const response = await axios.get(`${BACKEND_URL}/api/country/active`);
+			if (response.status === 200) {
+				setCountry(response.data);
+			}
+		} catch (error) {
+			console.error("Error fetching Country:", error);
+			toast.error("Failed to fetch Country");
+		}
+	};
+
+	//for fetch companies
 	const getcompanies = async () => {
 		const userId = localStorage.getItem("userid");
 		console.log("Retrieved userId:", userId); //
@@ -402,20 +432,11 @@ function CreateCompany() {
 													className="form-control"
 												>
 													<option value="">Select Business Type</option>
-													<option value="Sole Proprietorship">Sole Proprietorship</option>
-													<option value="Partnership">Partnership</option>
-													<option value="Limited Liability Company (LLC)">Limited Liability Company (LLC)</option>
-													<option value="Corporation">Corporation</option>
-													<option value="Non-Profit Organization">Non-Profit Organization</option>
-													<option value="S-Corporation">S-Corporation</option>
-													<option value="C-Corporation">C-Corporation</option>
-													<option value="Limited Partnership (LP)">Limited Partnership (LP)</option>
-													<option value="Limited Liability Partnership (LLP)">Limited Liability Partnership (LLP)</option>
-													<option value="Professional Corporation (PC)">Professional Corporation (PC)</option>
-													<option value="Professional Association (PA)">Professional Association (PA)</option>
-													<option value="Trust">Trust</option>
-													<option value="Estate">Estate</option>
-													<option value="Other">Other</option>
+													{businessTypes.map((type) => (
+														<option key={type.id} value={type.id}>
+															{type.name}
+														</option>
+													))}
 												</select>
 												<small className="form-text text-muted">Select the type of business you are operating.</small>
 											</div>
@@ -430,15 +451,24 @@ function CreateCompany() {
 											<h4>Contact Information</h4>
 											<div className="mb-3">
 												<label htmlFor="country">Country</label>
-												<input
+												<select
 													type="text"
 													name="country"
 													id="country"
 													value={formData.country}
 													onChange={handleChange}
 													className="form-control"
-													placeholder="Enter Country"
-												/>
+												>
+													<option value="">Select Country</option>
+													{country.map((type) => (
+														<option key={type.id} value={type.id}>
+															{type.name}
+														</option>
+													))}
+												</select>
+												<small className="form-text text-muted">
+													Your country selection is essential for determining currency and taxation details.
+												</small>
 											</div>
 
 											<div className="mb-3">

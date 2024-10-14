@@ -50,6 +50,7 @@ import Country from "./admin/Pages/Country";
 import Province from "./admin/Pages/Province";
 import City from "./admin/Pages/City";
 import ViewCountry from "./admin/Pages/ViewCountry";
+import ViewProvince from "./admin/Pages/ViewProvince";
 
 function App() {
 	return (
@@ -80,6 +81,7 @@ function App() {
 			{/* <City /> */}
 			{/* <Province /> */}
 			{/* <ViewCountry /> */}
+			{/* <ViewProvince /> */}
 
 
 
@@ -143,6 +145,7 @@ function App() {
 					<Route path="/country" element={<Country />}></Route>
 					<Route path="/view-country" element={<ViewCountry />}></Route>
 					<Route path="/province" element={<Province />}></Route>
+					<Route path="/view-province" element={<ViewProvince />}></Route>
 					<Route path="/city" element={<City />}></Route>
 
 

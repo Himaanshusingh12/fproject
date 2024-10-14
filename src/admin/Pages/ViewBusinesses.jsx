@@ -116,7 +116,7 @@ function ViewBusinesses() {
 															title={business.status === "Active" ? "Deactivate" : "Activate"}
 														></i>
 													</button>
-													<button className="btn btn-warning" onClick={() => handleEdit(business)}>
+													<button className="btn btn-warning ms-1" onClick={() => handleEdit(business)}>
 														<i className="fas fa-edit" title="Edit"></i>
 													</button>
 													<button className="btn btn-danger ms-2" onClick={() => handleDelete(business.id)}>

@@ -41,10 +41,10 @@ function BusinessType() {
 							<div className="row">
 								<div className="col-md-6">
 									<div className="card card-primary">
-										<div className="card-header">
+										<div className="card-header d-flex justify-content-between">
 											<h3 className="card-title">Business Types</h3>
-											<Link to="/view-businesses" className="btn btn-success ml-auto ms-5">
-												View
+											<Link to="/view-businesses" className="btn btn-success ml-auto">
+												View Business Types
 											</Link>
 										</div>
 										<form id="quickForm" onSubmit={handleSubmit}>

@@ -41,10 +41,10 @@ function Country() {
 							<div className="row">
 								<div className="col-md-6">
 									<div className="card card-primary">
-										<div className="card-header">
+										<div className="card-header d-flex jsutify-content-between">
 											<h3 className="card-title">Country</h3>
-											<Link to="/view-country" className="btn btn-success ml-auto ms-5">
-												View
+											<Link to="/view-country" className="btn btn-success ml-auto">
+												View All Country
 											</Link>
 										</div>
 										<form id="quickForm" onSubmit={handleSubmit}>

@@ -101,20 +101,26 @@ function Slidnav() {
 									</NavLink>
 								</li>
 								<li className="nav-item">
+									<NavLink to="/business-type" className="nav-link">
+										<i className="nav-icon fas fa-users" />
+										<p>Manage Businesses</p>
+									</NavLink>
+								</li>
+								<li className="nav-item">
 									<Link to="#" className="nav-link">
 										<i className="nav-icon fas fa-building" />
 										<p>
-											Manage Businesses
+											Manage Places
 											<i className="fas fa-angle-left right" />
 										</p>
 									</Link>
 									<ul className="nav nav-treeview">
-										<li className="nav-item">
+										{/* <li className="nav-item">
 											<NavLink to="/business-type" className="nav-link">
 												<i className="far fa-building nav-icon" />
 												<p>Business Type</p>
 											</NavLink>
-										</li>
+										</li> */}
 										<li className="nav-item">
 											<NavLink to="/country" className="nav-link">
 												<i className="fas fa-location-arrow nav-icon" />
@@ -356,7 +362,7 @@ function Slidnav() {
 										</li>
 									</ul>
 								</li> */}
-								<li className="nav-header">EXAMPLES</li>
+								{/* <li className="nav-header">EXAMPLES</li> */}
 								{/* <li className="nav-item">
 									<a href="pages/calendar.html" className="nav-link">
 										<i className="nav-icon far fa-calendar-alt" />
@@ -630,7 +636,7 @@ function Slidnav() {
 										</li>
 									</ul>
 								</li> */}
-								<li className="nav-header">MISCELLANEOUS</li>
+								{/* <li className="nav-header">MISCELLANEOUS</li> */}
 								{/* <li className="nav-item">
 									<a href="iframe.html" className="nav-link">
 										<i className="nav-icon fas fa-ellipsis-h" />
@@ -643,7 +649,7 @@ function Slidnav() {
 										<p>Documentation</p>
 									</a>
 								</li> */}
-								<li className="nav-header">MULTI LEVEL EXAMPLE</li>
+								{/* <li className="nav-header">MULTI LEVEL EXAMPLE</li> */}
 								{/* <li className="nav-item">
 									<a href="#" className="nav-link">
 										<i className="fas fa-circle nav-icon" />
@@ -708,7 +714,7 @@ function Slidnav() {
 										<p>Level 1</p>
 									</a>
 								</li> */}
-								<li className="nav-header">LABELS</li>
+								{/* <li className="nav-header">LABELS</li> */}
 								{/* <li className="nav-item">
 									<a href="#" className="nav-link">
 										<i className="nav-icon far fa-circle text-danger" />

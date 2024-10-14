@@ -42,6 +42,7 @@ function CreateCompany() {
 	const [companyId, setCompanyId] = useState(null);
 	const [businessTypes, setBusinessTypes] = useState([]);
 	const [country, setCountry] = useState([]);
+	const [provinces, setProvinces] = useState([]); //this
 	const [isEditing, setIsEditing] = useState(false);
 	const sections = ["company", "contact", "tax", "fiscal", "notes"];
 
@@ -49,6 +50,7 @@ function CreateCompany() {
 		getcompanies();
 		getBusinessTypes();
 		getCountry();
+		getProvinces(); //this
 	}, []);
 
 	// for get Active business types
@@ -76,6 +78,19 @@ function CreateCompany() {
 		}
 	};
 
+	//for get Provinces
+	const getProvinces = async (countryId) => {
+		try {
+			const response = await axios.get(`${BACKEND_URL}/api/provinces/${countryId}`);
+			if (response.status === 200) {
+				setProvinces(response.data);
+			}
+		} catch (error) {
+			console.error("Error fetching provinces:", error);
+			toast.error("Failed to fetch provinces");
+		}
+	};
+
 	//for fetch companies
 	const getcompanies = async () => {
 		const userId = localStorage.getItem("userid");
@@ -94,9 +109,22 @@ function CreateCompany() {
 		}
 	};
 
+	// const handleChange = (e) => {
+	// 	const { name, value } = e.target;
+	// 	if (name === "fiscal_year_to") {
+	// 		setFormData((prevForm) => ({ ...prevForm, fiscal_year_to: value }));
+	// 	} else {
+	// 		setFormData((prevForm) => ({ ...prevForm, [name]: value }));
+	// 	}
+	// };
+
+	// new handlechange
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-		if (name === "fiscal_year_to") {
+		if (name === "country") {
+			setFormData((prevForm) => ({ ...prevForm, country: value, province: "" }));
+			getProvinces(value); // Fetch provinces for the selected country
+		} else if (name === "fiscal_year_to") {
 			setFormData((prevForm) => ({ ...prevForm, fiscal_year_to: value }));
 		} else {
 			setFormData((prevForm) => ({ ...prevForm, [name]: value }));
@@ -473,15 +501,21 @@ function CreateCompany() {
 
 											<div className="mb-3">
 												<label htmlFor="province">Province</label>
-												<input
+												<select
 													type="text"
 													name="province"
 													id="province"
 													value={formData.province}
 													onChange={handleChange}
 													className="form-control"
-													placeholder="Enter Province"
-												/>
+												>
+													<option value="">Select Province</option>
+													{provinces.map((province) => (
+														<option key={province.id} value={province.id}>
+															{province.province_name}
+														</option>
+													))}
+												</select>
 											</div>
 											<div className="mb-3">
 												<label htmlFor="city">City</label>

@@ -5,6 +5,7 @@ import Afooter from "../Components/Afooter";
 import axios from "axios";
 import { BACKEND_URL } from "../../Constant";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 function Province() {
 	const [country, setCountry] = useState([]);
@@ -66,7 +67,7 @@ function Province() {
 
 		try {
 			await axios.post(`${BACKEND_URL}/api/province`, {
-				country_name: formData.country,
+				country_id: formData.country,
 				name: formData.province,
 			});
 			toast.success("Province added successfully");
@@ -91,9 +92,11 @@ function Province() {
 							<div className="row">
 								<div className="col-md-6">
 									<div className="card card-primary">
-										<div className="card-header">
+										<div className="card-header d-flex justify-content-between">
 											<h3 className="card-title">Province</h3>
-											{/* <Link to="/view-country" className="btn btn-success ml-auto ms-5"> View </Link> */}
+											<Link to="/view-province" className="btn btn-success ml-auto">
+												View Province
+											</Link>
 										</div>
 										<form id="quickForm" onSubmit={handleSubmit}>
 											<div className="card-body">

@@ -51,6 +51,9 @@ import Province from "./admin/Pages/Province";
 import City from "./admin/Pages/City";
 import ViewCountry from "./admin/Pages/ViewCountry";
 import ViewProvince from "./admin/Pages/ViewProvince";
+import BillingInformation from "./Users/Pages/BillingInformation";
+import CompanyList from "./Users/Pages/CompanyList";
+import CountryCode from "./admin/Pages/CountryCode";
 
 function App() {
 	return (
@@ -82,6 +85,7 @@ function App() {
 			{/* <Province /> */}
 			{/* <ViewCountry /> */}
 			{/* <ViewProvince /> */}
+			{/* <CountryCode /> */}
 
 
 
@@ -119,6 +123,8 @@ function App() {
 			{/* <EditCompany/> */}
 			{/* <ViewSalesInvoice /> */}
 			{/* <InactiveCustomer /> */}
+			{/* <BillingInformation /> */}
+			{/* <CompanyList /> */}
 
 
 
@@ -147,6 +153,8 @@ function App() {
 					<Route path="/province" element={<Province />}></Route>
 					<Route path="/view-province" element={<ViewProvince />}></Route>
 					<Route path="/city" element={<City />}></Route>
+					<Route path="/country-code" element={<CountryCode />}></Route>
+
 
 
 
@@ -187,6 +195,10 @@ function App() {
 					<Route path="/create-company" element={<CreateCompany />}></Route >
 					<Route path="/view-sales-invoice" element={<ViewSalesInvoice />}></Route >
 					<Route path="/inactive-customer" element={<InactiveCustomer />}></Route >
+					<Route path="/biling-information" element={<BillingInformation />}></Route >
+					<Route path="/company-list" element={<CompanyList />}></Route >
+
+
 
 				</ Routes>
 			</BrowserRouter>

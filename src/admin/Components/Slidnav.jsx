@@ -134,6 +134,12 @@ function Slidnav() {
 											</NavLink>
 										</li>
 										<li className="nav-item">
+											<NavLink to="/country-code" className="nav-link">
+												<i className="far fa-map nav-icon" />
+												<p>Country Code</p>
+											</NavLink>
+										</li>
+										<li className="nav-item">
 											<NavLink to="/city" className="nav-link">
 												<i className="fas fa-city nav-icon" />
 												<p>City</p>

@@ -1,9 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { BACKEND_URL } from "../../Constant";
+import axios from "axios";
 
 function Bheader() {
 	const navigate = useNavigate();
+	const [companies, setCompanies] = useState([]);
+
+	const getCompanies = async () => {
+		const userId = localStorage.getItem("userid");
+		console.log("Fetching companies for user ID:", userId);
+		if (userId) {
+			try {
+				const response = await axios.get(`${BACKEND_URL}/api/companies/${userId}`);
+				console.log("Response data:", response.data); // Check what data is returned
+				if (response.status === 200) {
+					setCompanies(response.data); // Set the response data (could be empty)
+					if (response.data.length === 0) {
+						toast.info("No companies created yet.");
+					}
+				}
+			} catch (error) {
+				console.error("Error fetching companies:", error);
+				toast.error("Failed to fetch companies");
+			}
+		}
+	};
+
+	//Fetch companies when the component mounts
+	useEffect(() => {
+		getCompanies();
+	}, []);
 
 	// Delete session
 	const handleLogout = () => {
@@ -22,6 +50,33 @@ function Bheader() {
 							<i className="fas fa-bars" />
 						</a>
 					</li>
+
+					<li className="nav-item dropdown">
+						<button
+							className="btn btn-secondary dropdown-toggle ms-2"
+							type="button"
+							id="dropdownMenuButton"
+							data-toggle="dropdown"
+							aria-haspopup="true"
+							aria-expanded="false"
+						>
+							List of Companies
+						</button>
+						<div className="dropdown-menu ms-2" aria-labelledby="dropdownMenuButton">
+							{companies.length > 0 ? (
+								companies.map((company) => (
+									<a key={company.company_id} className="dropdown-item" href="#">
+										{company.company_name}
+									</a>
+								))
+							) : (
+								<a className="dropdown-item" href="#">
+									No companies available
+								</a>
+							)}
+						</div>
+					</li>
+
 					{/* <li className="nav-item d-none d-sm-inline-block">
             <a href="index3.html" className="nav-link">
               Home
@@ -68,12 +123,16 @@ function Bheader() {
 							</NavLink>
 							<div className="dropdown-divider" />
 
-							<NavLink to="/" onClick={handleLogout} className="dropdown-item">
-								<i className="fas fa-sign-out-alt mr-2" /> Logout
-							</NavLink>
-
 							<NavLink to="/create-company" className="dropdown-item">
 								<i className="fas fa-building mr-2" /> Create Company
+							</NavLink>
+
+							<NavLink to="/biling-information" className="dropdown-item">
+								<i className="fas fa-dollar-sign mr-2" /> Billing Information
+							</NavLink>
+
+							<NavLink to="/" onClick={handleLogout} className="dropdown-item">
+								<i className="fas fa-sign-out-alt mr-2" /> Logout
 							</NavLink>
 							{/* <a to="/login" className="dropdown-item">
                 <i className="fas fa-sign-in-alt mr-2" /> Login

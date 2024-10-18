@@ -284,161 +284,201 @@ function View_customer() {
 									</div>
 									<div className="modal-body">
 										<form onSubmit={handleSave}>
-											<div className="form-group">
-												<label htmlFor="customer_name">Customer Name</label>
-												<input
-													type="text"
-													className="form-control"
-													id="customer_name"
-													name="customer_name"
-													value={formValue.customer_name}
-													onChange={handleFormChange}
-													required
-												/>
+											<div className="row">
+												<div className="col-md-6">
+													<div className="form-group">
+														<label htmlFor="customer_name">Customer Name</label>
+														<input
+															type="text"
+															className="form-control"
+															id="customer_name"
+															name="customer_name"
+															value={formValue.customer_name}
+															onChange={handleFormChange}
+															required
+														/>
+													</div>
+												</div>
+												<div className="col-md-6">
+													<div className="form-group">
+														<label htmlFor="operating_as">Operating As</label>
+														<input
+															type="text"
+															className="form-control"
+															id="operating_as"
+															name="operating_as"
+															value={formValue.operating_as}
+															onChange={handleFormChange}
+															required
+														/>
+													</div>
+												</div>
 											</div>
-											<div className="form-group">
-												<label htmlFor="operating_as">Operating As</label>
-												<input
-													type="text"
-													className="form-control"
-													id="operating_as"
-													name="operating_as"
-													value={formValue.operating_as}
-													onChange={handleFormChange}
-													required
-												/>
+											<div className="row">
+												<div className="col-md-6">
+													<div className="form-group">
+														<label htmlFor="address">Address</label>
+														<input
+															type="text"
+															className="form-control"
+															id="address"
+															name="address"
+															value={formValue.address}
+															onChange={handleFormChange}
+															required
+														/>
+													</div>
+												</div>
+												<div className="col-md-6">
+													<div className="form-group">
+														<label htmlFor="phone_no">Phone No</label>
+														<input
+															type="number"
+															className="form-control"
+															id="phone_no"
+															name="phone_no"
+															value={formValue.phone_no}
+															onChange={handleFormChange}
+															required
+														/>
+													</div>
+												</div>
 											</div>
-											<div className="form-group">
-												<label htmlFor="address">Address</label>
-												<input
-													type="text"
-													className="form-control"
-													id="address"
-													name="address"
-													value={formValue.address}
-													onChange={handleFormChange}
-													required
-												/>
+											<div className="row">
+												<div className="col-md-6">
+													<div className="form-group">
+														<label htmlFor="website">Website</label>
+														<input
+															type="text"
+															className="form-control"
+															id="website"
+															name="website"
+															value={formValue.website}
+															onChange={handleFormChange}
+															required
+														/>
+													</div>
+												</div>
+												<div className="col-md-6">
+													<div className="form-group">
+														<label htmlFor="currency">Currency</label>
+														<input
+															type="text"
+															className="form-control"
+															id="currency"
+															name="currency"
+															value={formValue.currency}
+															onChange={handleFormChange}
+															required
+														/>
+													</div>
+												</div>
 											</div>
-											<div className="form-group">
-												<label htmlFor="phone_no">Phone no</label>
-												<input
-													type="number"
-													className="form-control"
-													id="phone_no"
-													name="phone_no"
-													value={formValue.phone_no}
-													onChange={handleFormChange}
-													required
-												/>
+											<div className="row">
+												<div className="col-md-6">
+													<div className="form-group">
+														<label htmlFor="email_sales">Sales Email</label>
+														<input
+															type="email"
+															className="form-control"
+															id="email_sales"
+															name="email_sales"
+															value={formValue.email_sales}
+															onChange={handleFormChange}
+															required
+														/>
+													</div>
+												</div>
+												<div className="col-md-6">
+													<div className="form-group">
+														<label htmlFor="email_statement">Statement Email</label>
+														<input
+															type="email"
+															className="form-control"
+															id="email_statement"
+															name="email_statement"
+															value={formValue.email_statement}
+															onChange={handleFormChange}
+															required
+														/>
+													</div>
+												</div>
 											</div>
-											<div className="form-group">
-												<label htmlFor="website">Website</label>
-												<input
-													type="text"
-													className="form-control"
-													id="website"
-													name="website"
-													value={formValue.website}
-													onChange={handleFormChange}
-													required
-												/>
+											<div className="row">
+												<div className="col-md-6">
+													<div className="form-group">
+														<label htmlFor="gst_no">GST No</label>
+														<input
+															type="text"
+															className="form-control"
+															id="gst_no"
+															name="gst_no"
+															value={formValue.gst_no}
+															onChange={handleFormChange}
+															required
+														/>
+													</div>
+												</div>
+												<div className="col-md-6">
+													<div className="form-group">
+														<label htmlFor="credit_terms">Credit Terms</label>
+														<input
+															type="text"
+															className="form-control"
+															id="credit_terms"
+															name="credit_terms"
+															value={formValue.credit_terms}
+															onChange={handleFormChange}
+															required
+														/>
+													</div>
+												</div>
 											</div>
-											<div className="form-group">
-												<label htmlFor="currency">Currency</label>
-												<input
-													type="text"
-													className="form-control"
-													id="currency"
-													name="currency"
-													value={formValue.currency}
-													onChange={handleFormChange}
-													required
-												/>
+											<div className="row">
+												<div className="col-md-6">
+													<div className="form-group">
+														<label htmlFor="credit_limit">Credit Limit</label>
+														<input
+															type="number"
+															className="form-control"
+															id="credit_limit"
+															name="credit_limit"
+															value={formValue.credit_limit}
+															onChange={handleFormChange}
+															required
+														/>
+													</div>
+												</div>
+												<div className="col-md-6">
+													<div className="form-group">
+														<label htmlFor="suggested_tax">Suggested Tax</label>
+														<input
+															type="number"
+															className="form-control"
+															id="suggested_tax"
+															name="suggested_tax"
+															value={formValue.suggested_tax}
+															onChange={handleFormChange}
+															required
+														/>
+													</div>
+												</div>
 											</div>
-											<div className="form-group">
-												<label htmlFor="email_sales">Sales Email</label>
-												<input
-													type="email"
-													className="form-control"
-													id="email_sales"
-													name="email_sales"
-													value={formValue.email_sales}
-													onChange={handleFormChange}
-													required
-												/>
-											</div>
-											<div className="form-group">
-												<label htmlFor="email_statement">Statement Email</label>
-												<input
-													type="email"
-													className="form-control"
-													id="email_statement"
-													name="email_statement"
-													value={formValue.email_statement}
-													onChange={handleFormChange}
-													required
-												/>
-											</div>
-											<div className="form-group">
-												<label htmlFor="gst_no">GST No</label>
-												<input
-													type="text"
-													className="form-control"
-													id="gst_no"
-													name="gst_no"
-													value={formValue.gst_no}
-													onChange={handleFormChange}
-													required
-												/>
-											</div>
-											<div className="form-group">
-												<label htmlFor="credit_terms">Credit Terms</label>
-												<input
-													type="text"
-													className="form-control"
-													id="credit_terms"
-													name="credit_terms"
-													value={formValue.credit_terms}
-													onChange={handleFormChange}
-													required
-												/>
-											</div>
-											<div className="form-group">
-												<label htmlFor="credit_limit">Credit Limit</label>
-												<input
-													type="number"
-													className="form-control"
-													id="credit_limit"
-													name="credit_limit"
-													value={formValue.credit_limit}
-													onChange={handleFormChange}
-													required
-												/>
-											</div>
-											<div className="form-group">
-												<label htmlFor="suggested_tax">Suggested Tax</label>
-												<input
-													type="number"
-													className="form-control"
-													id="suggested_tax"
-													name="suggested_tax"
-													value={formValue.suggested_tax}
-													onChange={handleFormChange}
-													required
-												/>
-											</div>
-											<div className="form-group">
-												<label htmlFor="suggested_tax">Additional Details</label>
-												<input
-													type="text"
-													className="form-control"
-													id="additional_details"
-													name="additional_details"
-													value={formValue.additional_details}
-													onChange={handleFormChange}
-													required
-												/>
+											<div className="row">
+												<div className="col-md-6">
+													<div className="form-group">
+														<label htmlFor="additional_details">Additional Details</label>
+														<input
+															type="text"
+															className="form-control"
+															id="additional_details"
+															name="additional_details"
+															value={formValue.additional_details}
+															onChange={handleFormChange}
+															required
+														/>
+													</div>
+												</div>
 											</div>
 											<button type="submit" className="btn btn-primary">
 												Save changes
@@ -453,6 +493,7 @@ function View_customer() {
 								</div>
 							</div>
 						</div>
+
 						{/* from here */}
 						<div
 							className={`modal fade ${showModal ? "show" : ""}`}

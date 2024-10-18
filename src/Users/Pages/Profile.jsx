@@ -106,7 +106,7 @@ function Profile() {
 				<div className="content-wrapper">
 					<section className="content mt-4">
 						<div className="container-fluid">
-							<div className="row justify-content-center">
+							<div>
 								<div className="col-md-6">
 									<div className="card card-primary card-outline">
 										<div className="card-body box-profile">
@@ -134,7 +134,12 @@ function Profile() {
 														</li>
 													</ul>
 
-													<button className="btn btn-primary btn-block" onClick={() => editdata(data.id)} data-toggle="modal" data-target="#myModal">
+													<button
+														className="btn btn-primary btn-block"
+														onClick={() => editdata(data.id)}
+														data-toggle="modal"
+														data-target="#myModal"
+													>
 														Edit Profile
 													</button>
 												</>
@@ -159,19 +164,40 @@ function Profile() {
 											<div className="row g-3">
 												<div className="col-md-6">
 													<div className="form-floating">
-														<input type="text" className="form-control" name="name" value={formvalue.name} onChange={getform} id="name" />
+														<input
+															type="text"
+															className="form-control"
+															name="name"
+															value={formvalue.name}
+															onChange={getform}
+															id="name"
+														/>
 														<label htmlFor="name">Your Name</label>
 													</div>
 												</div>
 												<div className="col-md-6">
 													<div className="form-floating">
-														<input type="email" className="form-control" name="email" value={formvalue.email} onChange={getform} id="email" />
+														<input
+															type="email"
+															className="form-control"
+															name="email"
+															value={formvalue.email}
+															onChange={getform}
+															id="email"
+														/>
 														<label htmlFor="email">Your Email</label>
 													</div>
 												</div>
 												<div className="col-md-6">
 													<div className="form-floating">
-														<input type="tel" className="form-control" name="phone" value={formvalue.phone} onChange={getform} id="phone" />
+														<input
+															type="tel"
+															className="form-control"
+															name="phone"
+															value={formvalue.phone}
+															onChange={getform}
+															id="phone"
+														/>
 														<label htmlFor="phone">Your Phone</label>
 													</div>
 												</div>

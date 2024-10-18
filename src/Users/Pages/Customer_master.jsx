@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Bheader from "../Components/Bheader";
 import BSlidnav from "../Components/BSlidnav";
 import Bfooter from "../Components/Bfooter";
@@ -24,6 +24,24 @@ function Customer_master() {
 		suggested_tax: "",
 		additional_details: "",
 	});
+
+	const [currency, setCurrency] = useState([]);
+
+	useEffect(() => {
+		getCurrency();
+	}, []);
+	// for get Active Currency
+	const getCurrency = async () => {
+		try {
+			const response = await axios.get(`${BACKEND_URL}/api/currency/active`);
+			if (response.status === 200) {
+				setCurrency(response.data);
+			}
+		} catch (error) {
+			console.error("Error fetching Currency:", error);
+			toast.error("Failed to fetch Currency");
+		}
+	};
 
 	const [documentFile, setDocumentFile] = useState(null);
 
@@ -110,41 +128,6 @@ function Customer_master() {
 		return result;
 	};
 
-	// const handleSubmit = async (e) => {
-	// 	e.preventDefault();
-
-	// 	if (!validation()) {
-	// 		return;
-	// 	}
-
-	// 	try {
-	// 		const response = await axios.post(`${BACKEND_URL}/api/customers`, customerForm);
-	// 		toast.success(response.data.message);
-	// 		setCustomerForm({
-	// 			customer_name: "",
-	// 			operating_as: "",
-	// 			address: "",
-	// 			phone_no: "",
-	// 			website: "",
-	// 			currency: "",
-	// 			email_sales: "",
-	// 			email_statement: "",
-	// 			gst_no: "",
-	// 			credit_terms: "",
-	// 			credit_limit: "",
-	// 			suggested_tax: "",
-	// 			additional_details: "",
-	// 		});
-	// 	} catch (error) {
-	// 		if (error.response) {
-	// 			toast.error(error.response.data.message || "An error occurred");
-	// 		} else {
-	// 			toast("An error occurred");
-	// 		}
-	// 	}
-	// };
-
-	//new handleSubmit
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -293,18 +276,19 @@ function Customer_master() {
 														<div className="form-group">
 															<label htmlFor="currency">Currency</label>
 															<select
+																type="text"
 																name="currency"
 																id="currency"
-																className="form-control"
 																value={customerForm.currency}
 																onChange={handleChange}
+																className="form-control"
 															>
 																<option value="">Select Currency</option>
-																<option value="USD">USD - US Dollar</option>
-																<option value="EUR">EUR - Euro</option>
-																<option value="INR">Indian Rupees</option>
-																<option value="GBP">GBP-British Pound</option>
-																<option value="JPY">japanese Yen</option>
+																{currency.map((type) => (
+																	<option key={type.id} value={type.id}>
+																		{type.name}
+																	</option>
+																))}
 															</select>
 														</div>
 													</div>

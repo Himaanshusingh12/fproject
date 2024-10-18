@@ -1,35 +1,36 @@
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+import { BACKEND_URL } from "../../Constant";
 import Aheader from "../Components/Aheader";
 import Slidnav from "../Components/Slidnav";
 import Afooter from "../Components/Afooter";
-import axios from "axios";
-import { BACKEND_URL } from "../../Constant";
-import { toast } from "react-toastify";
 
-function ViewCountry() {
-	const [countries, setCountries] = useState([]);
-	const [selectedCountry, setSelectedCountry] = useState(null);
-	const [filteredcountries, setFilteredCountries] = useState([]);
-	const [formValue, setFormValue] = useState({ name: "", country_code: "" });
+function ViewCurrency() {
+	const [currency, setCurrency] = useState([]);
+	const [filteredCurrencies, setFilteredCurrencies] = useState([]);
+	const [selectCurrency, setSelectCurrency] = useState(null);
+	const [formValue, setFormValue] = useState({ name: "" });
 	const [searchQuery, setSearchQuery] = useState("");
 
 	useEffect(() => {
-		fetchCountry();
+		fetchCurrency();
 	}, []);
 
-	const fetchCountry = async (searchQuery = "") => {
+	const fetchCurrency = async (searchQuery = "") => {
 		try {
-			let url = `${BACKEND_URL}/api/country`;
+			let url = `${BACKEND_URL}/api/currency`;
 			if (searchQuery) {
-				url = `${BACKEND_URL}/api/country/search?search=${searchQuery}`;
+				url = `${BACKEND_URL}/api/currency/search?search=${searchQuery}`;
 			}
 			const response = await axios.get(url);
 			if (response.status === 200) {
 				console.log(response.data);
-				setCountries(response.data);
-				setFilteredCountries(response.data);
+				setCurrency(response.data);
+				setFilteredCurrencies(response.data);
 			} else {
-				toast.error(`Failed to fetch Country: ${response.statusText}`);
+				toast.error(`Failed to fetch currencies: ${response.statusText}`);
 			}
 		} catch (error) {
 			toast.error(`Failed to fetch currencies: ${error.response?.data?.message || error.message}`);
@@ -41,42 +42,40 @@ function ViewCountry() {
 		setSearchQuery(searchQuery);
 
 		if (searchQuery) {
-			fetchCountry(searchQuery);
+			fetchCurrency(searchQuery);
 		} else {
-			setFilteredCountries(countries);
+			setFilteredCurrencies(currency);
 		}
 	};
 
 	useEffect(() => {
 		if (searchQuery) {
-			setFilteredCountries(
-				countries.filter((countryItem) => {
-					const nameMatch = countryItem.name && countryItem.name.toLowerCase().includes(searchQuery.toLowerCase());
-					const codeMatch = countryItem.code && countryItem.code.toLowerCase().includes(searchQuery.toLowerCase());
+			setFilteredCurrencies(
+				currency.filter((currencyItem) => {
+					const nameMatch = currencyItem.name && currencyItem.name.toLowerCase().includes(searchQuery.toLowerCase());
+					const codeMatch = currencyItem.code && currencyItem.code.toLowerCase().includes(searchQuery.toLowerCase());
 					return nameMatch || codeMatch;
 				})
 			);
 		} else {
-			setFilteredCountries(countries);
+			setFilteredCurrencies(currency);
 		}
-	}, [searchQuery, countries]);
+	}, [searchQuery, currency]);
 
-	// Handle deletion of Country
 	const handleDelete = async (id) => {
 		try {
-			await axios.delete(`${BACKEND_URL}/api/country/${id}`);
-			toast.success("Country deleted successfully");
-			fetchCountry();
+			await axios.delete(`${BACKEND_URL}/api/currency/${id}`);
+			toast.success("currency deleted successfully");
+			fetchCurrency();
 		} catch (error) {
-			console.error("Error deleting country", error);
-			toast.error("Error deleting country");
+			console.error("Error deleting currency", error);
+			toast.error("Error deleting currency");
 		}
 	};
-
-	// Open the modal and set the selected Country for editing
-	const handleEdit = (country) => {
-		setSelectedCountry(country);
-		setFormValue({ name: country.name, country_code: country.country_code });
+	//Open the modal and set the selected currency for editing
+	const handleEdit = (currency_manage) => {
+		setSelectCurrency(currency_manage);
+		setFormValue({ name: currency_manage.name });
 		const modal = new window.bootstrap.Modal(document.getElementById("editModal"));
 		modal.show();
 	};
@@ -84,31 +83,31 @@ function ViewCountry() {
 	const handleSave = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await axios.put(`${BACKEND_URL}/api/country/${selectedCountry.id}`, formValue);
+			const response = await axios.put(`${BACKEND_URL}/api/currency/${selectCurrency.currency_id}`, formValue);
 			console.log("Response:", response);
 			if (response.status === 200) {
-				toast.success("Country updated successfully");
-				fetchCountry();
+				toast.success("Currency updated successfully");
+				fetchCurrency();
 				const modalElement = document.getElementById("editModal");
 				const modal = new window.bootstrap.Modal(modalElement);
 				modal.hide();
 			}
 		} catch (error) {
-			console.error("Error updating Country", error);
+			console.error("Error updating currency", error);
 			if (error.response && error.response.data && error.response.data.message) {
 				toast.error(error.response.data.message);
 			} else {
-				toast.error("Failed to update Country");
+				toast.error("Failed to update currency");
 			}
 		}
 	};
-
 	const handleToggle = async (id, currentStatus) => {
 		try {
-			const updatedStatus = currentStatus === "Active" ? "Inactive" : "Active";
-			await axios.put(`${BACKEND_URL}/api/country/${id}/status`);
-			toast.success(`Country status updated to ${updatedStatus} successfully`);
-			fetchCountry(); // Refresh the list
+			const updatedStatus = currentStatus === "active" ? "inactive" : "active";
+			console.log(`Toggling status for Currency ID: ${id}, Current Status: ${currentStatus}, Updated Status: ${updatedStatus}`);
+			await axios.put(`${BACKEND_URL}/api/currency/${id}/status`);
+			toast.success(`Currency status updated to ${updatedStatus} successfully`);
+			fetchCurrency(); // Refresh the list
 		} catch (error) {
 			console.error("Error updating status", error);
 			toast.error("Error updating status");
@@ -123,14 +122,14 @@ function ViewCountry() {
 					<section className="content mt-4">
 						<div className="container-fluid">
 							<div className="d-flex justify-content-between align-items-center mb-3">
-								<h3 className="mb-4">Manage Country</h3>
+								<h3 className="mb-4">Manage Currency</h3>
 								<div className="d-flex align-items-center">
 									<span className="me-2">Search:</span>
 									<input
 										type="text"
 										value={searchQuery}
 										onChange={handleSearch}
-										placeholder="Search Country"
+										placeholder="Search currency"
 										className="form-control"
 										style={{ width: "250px" }}
 									/>
@@ -140,38 +139,35 @@ function ViewCountry() {
 								<thead>
 									<tr>
 										{/* <th>ID</th> */}
-										{/* <th>Date</th> */}
-										<th>Country Name</th>
-										<th>Country Code</th>
+										<th>Name</th>
 										<th>Status</th>
 										<th>Actions</th>
 									</tr>
 								</thead>
 								<tbody>
-									{/* {countries.length > 0 ? ( */}
-									{/* countries.map((country) => ( */}
-									{filteredcountries.length > 0 ? (
-										filteredcountries.map((country) => (
-											<tr key={country.id}>
-												{/* <td>{country.id}</td> */}
-												{/* <td>{country.date}</td> */}
-												<td>{country.name}</td>
-												<td>{country.country_code}</td>
-												<td>{country.status || "Active"}</td>
+									{/* {currency.length > 0 ? ( */}
+									{/* currency.map((currency_manage) => ( */}
+									{filteredCurrencies.length > 0 ? (
+										filteredCurrencies.map((currency_manage) => (
+											<tr key={currency_manage.currency_id}>
+												{/* <td>{currency_manage.currency_id}</td> */}
+												<td>{currency_manage.name}</td>
+												<td>{currency_manage.status || "Active"}</td>
 												<td>
 													<button
-														className={`btn ${country.status === "Active" ? "btn-success me-2" : "btn-secondary"}`}
-														onClick={() => handleToggle(country.id, country.status)}
+														className={`btn ${currency_manage.status === "active" ? "btn-success me-2" : "btn-secondary"}`}
+														onClick={() => handleToggle(currency_manage.currency_id, currency_manage.status)}
 													>
 														<i
-															className={`fas ${country.status === "Active" ? "fa-check-circle" : "fa-times-circle"}`}
-															title={country.status === "Active" ? "Deactivate" : "Activate"}
+															className={`fas ${currency_manage.status === "active" ? "fa-check-circle" : "fa-times-circle"}`}
+															title={currency_manage.status === "active" ? "Deactivate" : "Activate"}
 														></i>
 													</button>
-													<button className="btn btn-warning ms-2" onClick={() => handleEdit(country)}>
+
+													<button className="btn btn-warning ms-1" onClick={() => handleEdit(currency_manage)}>
 														<i className="fas fa-edit" title="Edit"></i>
 													</button>
-													<button className="btn btn-danger ms-2" onClick={() => handleDelete(country.id)}>
+													<button className="btn btn-danger ms-2" onClick={() => handleDelete(currency_manage.currency_id)}>
 														<i className="fas fa-trash" title="Delete"></i>
 													</button>
 												</td>
@@ -180,7 +176,7 @@ function ViewCountry() {
 									) : (
 										<tr>
 											<td colSpan="5" className="text-center">
-												No Country found
+												No Currency Found
 											</td>
 										</tr>
 									)}
@@ -200,7 +196,7 @@ function ViewCountry() {
 									<div className="modal-content">
 										<div className="modal-header">
 											<h5 className="modal-title" id="editModalLabel">
-												Edit Country
+												Edit Currency
 											</h5>
 											<button type="button" className="close" data-dismiss="modal" aria-label="Close">
 												<span aria-hidden="true">&times;</span>
@@ -209,24 +205,13 @@ function ViewCountry() {
 										<form onSubmit={handleSave}>
 											<div className="modal-body">
 												<div className="form-group">
-													<label htmlFor="CompanyName">Country Name</label>
+													<label htmlFor="currency">Currency Name</label>
 													<input
 														type="text"
-														id="CompanyName"
+														id="currency"
 														className="form-control"
 														value={formValue.name}
 														onChange={(e) => setFormValue({ ...formValue, name: e.target.value })}
-														required
-													/>
-												</div>
-												<div className="form-group mt-2">
-													<label htmlFor="CountryCode">Country Code</label>
-													<input
-														type="text"
-														id="CountryCode"
-														className="form-control"
-														value={formValue.country_code}
-														onChange={(e) => setFormValue({ ...formValue, country_code: e.target.value })}
 														required
 													/>
 												</div>
@@ -252,4 +237,4 @@ function ViewCountry() {
 	);
 }
 
-export default ViewCountry;
+export default ViewCurrency;

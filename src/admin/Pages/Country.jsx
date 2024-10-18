@@ -8,23 +8,32 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 function Country() {
-	const [country, setCountry] = useState("");
+	const [formData, setFormData] = useState({
+		country: "",
+		country_code: "",
+	});
 
 	const handleChange = (e) => {
-		setCountry(e.target.value);
+		const { name, value } = e.target;
+		setFormData((prevData) => ({ ...prevData, [name]: value }));
 	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		if (country === "") {
+		if (formData.country === "") {
 			toast.error("Country field is required");
 			return;
 		}
+
+		if (formData.country_code === "") {
+			toast.error("Country code field is required");
+			return;
+		}
 		try {
-			await axios.post(`${BACKEND_URL}/api/country`, { name: country });
+			await axios.post(`${BACKEND_URL}/api/country`, { name: formData.country, code: formData.country_code });
 			toast.success("Country added successfully");
-			setCountry("");
+			setFormData({ country: "", country_code: "" });
 		} catch (err) {
 			toast.error("Error adding Country");
 			console.error(err);
@@ -57,7 +66,19 @@ function Country() {
 														className="form-control"
 														id="country"
 														placeholder="Enter Country Name"
-														value={country}
+														value={formData.country}
+														onChange={handleChange}
+													/>
+												</div>
+												<div className="form-group mt-3">
+													<label htmlFor="country_code">Add Country Code</label>
+													<input
+														type="text"
+														name="country_code"
+														className="form-control"
+														id="country_code"
+														placeholder="Enter Country Code (e.g., +91)"
+														value={formData.country_code}
 														onChange={handleChange}
 													/>
 												</div>

@@ -1,38 +1,33 @@
 import React from "react";
 
 function Aheader() {
-  return (
-    <>
-      {/* Navbar */}
-      <div class="wrapper">
-        <nav className="main-header navbar navbar-expand navbar-dark navbar-light">
-          {/* Left navbar links */}
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <a
-                className="nav-link"
-                data-widget="pushmenu"
-                href="#"
-                role="button"
-              >
-                <i className="fas fa-bars" />
-              </a>
-            </li>
-            <li className="nav-item d-none d-sm-inline-block">
-              <a href="index3.html" className="nav-link">
-                Home
-              </a>
-            </li>
-            <li className="nav-item d-none d-sm-inline-block">
-              <a href="#" className="nav-link">
-                Contact
-              </a>
-            </li>
-          </ul>
-          {/* Right navbar links */}
-          <ul className="navbar-nav ml-auto">
-            {/* Navbar Search */}
-            {/* <li className="nav-item">
+	return (
+		<>
+			{/* Navbar */}
+			<div class="wrapper">
+				<nav className="main-header navbar navbar-expand navbar-dark navbar-light">
+					{/* Left navbar links */}
+					<ul className="navbar-nav">
+						<li className="nav-item">
+							<a className="nav-link" data-widget="pushmenu" href="#" role="button">
+								<i className="fas fa-bars" />
+							</a>
+						</li>
+						<li className="nav-item d-none d-sm-inline-block">
+							<a href="index3.html" className="nav-link">
+								Home
+							</a>
+						</li>
+						<li className="nav-item d-none d-sm-inline-block">
+							<a href="#" className="nav-link">
+								Contact
+							</a>
+						</li>
+					</ul>
+					{/* Right navbar links */}
+					<ul className="navbar-nav ml-auto">
+						{/* Navbar Search */}
+						{/* <li className="nav-item">
               <a
                 className="nav-link"
                 data-widget="navbar-search"
@@ -66,8 +61,8 @@ function Aheader() {
                 </form>
               </div>
             </li> */}
-            {/* Messages Dropdown Menu */}
-            {/* <li className="nav-item dropdown">
+						{/* Messages Dropdown Menu */}
+						{/* <li className="nav-item dropdown">
               <a className="nav-link" data-toggle="dropdown" href="#">
                 <i className="far fa-comments" />
                 <span className="badge badge-danger navbar-badge">3</span>
@@ -144,7 +139,7 @@ function Aheader() {
                 </a>
               </div>
             </li> */}
-            {/* <li className="nav-item dropdown">
+						{/* <li className="nav-item dropdown">
               <a className="nav-link" data-toggle="dropdown" href="#">
                 <i className="far fa-bell" />
                 <span className="badge badge-warning navbar-badge">15</span>
@@ -176,7 +171,7 @@ function Aheader() {
                 </a>
               </div>
             </li> */}
-            {/* <li className="nav-item">
+						{/* <li className="nav-item">
               <a
                 className="nav-link"
                 data-widget="fullscreen"
@@ -186,7 +181,7 @@ function Aheader() {
                 <i className="fas fa-expand-arrows-alt" />
               </a>
             </li> */}
-            {/* <li className="nav-item">
+						{/* <li className="nav-item">
               <a
                 className="nav-link"
                 data-widget="control-sidebar"
@@ -197,12 +192,12 @@ function Aheader() {
                 <i className="fas fa-th-large" />
               </a>
             </li> */}
-          </ul>
-        </nav>
-        {/* /.navbar */}
-      </div>
-    </>
-  );
+					</ul>
+				</nav>
+				{/* /.navbar */}
+			</div>
+		</>
+	);
 }
 
 export default Aheader;

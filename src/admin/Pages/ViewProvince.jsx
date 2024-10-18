@@ -50,7 +50,7 @@ function ViewProvince() {
 		e.preventDefault();
 		try {
 			const response = await axios.put(`${BACKEND_URL}/api/province/${selectedProvince.id}`, {
-				country_id: formValue.country_id, // Use country_id from formValue
+				country_id: formValue.country_id,
 				name: formValue.name,
 			});
 			if (response.status === 200) {
@@ -75,7 +75,7 @@ function ViewProvince() {
 			const updatedStatus = currentStatus === "Active" ? "Inactive" : "Active";
 			await axios.put(`${BACKEND_URL}/api/province/${id}/status`, { status: updatedStatus });
 			toast.success(`Province status updated to ${updatedStatus} successfully`);
-			fetchProvinces(); // Refresh the list
+			fetchProvinces();
 		} catch (error) {
 			console.error("Error updating status", error);
 			toast.error("Error updating status");
@@ -90,7 +90,7 @@ function ViewProvince() {
 				<div className="content-wrapper">
 					<section className="content mt-4">
 						<div className="container-fluid">
-							<h3 className="mb-4">Provinces</h3>
+							<h3 className="mb-4">Manage Province</h3>
 							<table className="table table-bordered">
 								<thead>
 									<tr>

@@ -8,23 +8,58 @@ import Afooter from "../Components/Afooter";
 
 function ViewBusinesses() {
 	const [businesses, setBusinesses] = useState([]);
+	const [filteredbusinesses, setFilteredBusinesses] = useState([]);
 	const [selectedBusiness, setSelectedBusiness] = useState(null);
 	const [formValue, setFormValue] = useState({ name: "" });
+	const [searchQuery, setSearchQuery] = useState("");
 
 	useEffect(() => {
 		fetchBusinesses();
 	}, []);
 
-	// Fetch business types from the backend
-	const fetchBusinesses = async () => {
+	const fetchBusinesses = async (searchQuery = "") => {
 		try {
-			const response = await axios.get(`${BACKEND_URL}/api/businesses`);
-			setBusinesses(response.data);
+			let url = `${BACKEND_URL}/api/businesses`;
+			if (searchQuery) {
+				url = `${BACKEND_URL}/api/business-types/search?search=${searchQuery}`;
+			}
+			const response = await axios.get(url);
+			if (response.status === 200) {
+				console.log(response.data);
+				setBusinesses(response.data);
+				setFilteredBusinesses(response.data);
+			} else {
+				toast.error(`Failed to fetch currencies: ${response.statusText}`);
+			}
 		} catch (error) {
-			console.error("Error fetching businesses", error);
-			toast.error("Error fetching businesses");
+			toast.error(`Failed to fetch currencies: ${error.response?.data?.message || error.message}`);
 		}
 	};
+
+	const handleSearch = (e) => {
+		const searchQuery = e.target.value;
+		setSearchQuery(searchQuery);
+
+		if (searchQuery) {
+			fetchBusinesses(searchQuery);
+		} else {
+			setFilteredBusinesses(businesses);
+		}
+	};
+
+	useEffect(() => {
+		if (searchQuery) {
+			setFilteredBusinesses(
+				businesses.filter((businessItem) => {
+					const nameMatch = businessItem.name && businessItem.name.toLowerCase().includes(searchQuery.toLowerCase());
+					const codeMatch = businessItem.code && businessItem.code.toLowerCase().includes(searchQuery.toLowerCase());
+					return nameMatch || codeMatch;
+				})
+			);
+		} else {
+			setFilteredBusinesses(businesses);
+		}
+	}, [searchQuery, businesses]);
 
 	// Handle deletion of a business
 	const handleDelete = async (id) => {
@@ -87,23 +122,38 @@ function ViewBusinesses() {
 				<div className="content-wrapper">
 					<section className="content mt-4">
 						<div className="container-fluid">
-							<h3 className="mb-4">Business Types</h3>
+							<div className="d-flex justify-content-between align-items-center mb-3">
+								<h3 className="mb-4">Manage Business Types</h3>
+								<div className="d-flex align-items-center">
+									<span className="me-2">Search:</span>
+									<input
+										type="text"
+										value={searchQuery}
+										onChange={handleSearch}
+										placeholder="Search Businesses"
+										className="form-control"
+										style={{ width: "250px" }}
+									/>
+								</div>
+							</div>
 							<table className="table table-bordered">
 								<thead>
 									<tr>
-										<th>ID</th>
-										<th>Date</th>
+										{/* <th>ID</th> */}
+										{/* <th>Date</th> */}
 										<th>Business Type Name</th>
 										<th>Status</th>
 										<th>Actions</th>
 									</tr>
 								</thead>
 								<tbody>
-									{businesses.length > 0 ? (
-										businesses.map((business) => (
+									{/* {businesses.length > 0 ? ( */}
+									{/* businesses.map((business) => ( */}
+									{filteredbusinesses.length > 0 ? (
+										filteredbusinesses.map((business) => (
 											<tr key={business.id}>
-												<td>{business.id}</td>
-												<td>{business.date}</td>
+												{/* <td>{business.id}</td> */}
+												{/* <td>{business.date}</td> */}
 												<td>{business.name}</td>
 												<td>{business.status || "Active"}</td>
 												<td>

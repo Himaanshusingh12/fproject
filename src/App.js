@@ -48,12 +48,13 @@ import BusinessType from "./admin/Pages/BusinessType";
 import ViewBusinesses from "./admin/Pages/ViewBusinesses";
 import Country from "./admin/Pages/Country";
 import Province from "./admin/Pages/Province";
-import City from "./admin/Pages/City";
 import ViewCountry from "./admin/Pages/ViewCountry";
 import ViewProvince from "./admin/Pages/ViewProvince";
 import BillingInformation from "./Users/Pages/BillingInformation";
 import CompanyList from "./Users/Pages/CompanyList";
-import CountryCode from "./admin/Pages/CountryCode";
+import Currency from "./admin/Pages/Currency";
+import ViewCurrency from "./admin/Pages/ViewCurrency";
+
 
 function App() {
 	return (
@@ -125,6 +126,7 @@ function App() {
 			{/* <InactiveCustomer /> */}
 			{/* <BillingInformation /> */}
 			{/* <CompanyList /> */}
+			{/* <ViewCurrency /> */}
 
 
 
@@ -152,8 +154,9 @@ function App() {
 					<Route path="/view-country" element={<ViewCountry />}></Route>
 					<Route path="/province" element={<Province />}></Route>
 					<Route path="/view-province" element={<ViewProvince />}></Route>
-					<Route path="/city" element={<City />}></Route>
-					<Route path="/country-code" element={<CountryCode />}></Route>
+					<Route path="/currency" element={<Currency />}></Route>
+					<Route path="/view-currency" element={<ViewCurrency />}></Route>
+
 
 
 

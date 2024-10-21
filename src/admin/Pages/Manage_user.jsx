@@ -8,6 +8,8 @@ import { toast } from "react-toastify";
 
 function Manage_user() {
 	const [users, setUsers] = useState([]);
+	const [searchQuery, setSearchQuery] = useState("");
+	const [filteredUsers, setFilteredUsers] = useState([]);
 	const [showModal, setShowModal] = useState(false);
 	const [selectedUser, setSelectedUser] = useState(null);
 	const [editForm, setEditForm] = useState({
@@ -15,13 +17,64 @@ function Manage_user() {
 		email: "",
 		phone: "",
 	});
+	// Pagination state
+	const [currentPage, setCurrentPage] = useState(1);
+	const [userPerPage] = useState(5);
 
 	useEffect(() => {
-		axios
-			.get(`${BACKEND_URL}/api/users`)
-			.then((response) => setUsers(response.data))
-			.catch((error) => toast.error("Error fetching users:", error));
+		fetchUsers();
 	}, []);
+
+	const fetchUsers = async (searchQuery = "") => {
+		try {
+			let url = `${BACKEND_URL}/api/users`;
+			if (searchQuery) {
+				url = `${BACKEND_URL}/api/users/search?search=${searchQuery}`;
+			}
+			const response = await axios.get(url);
+
+			if (response.status === 200) {
+				setUsers(response.data);
+				setFilteredUsers(response.data);
+			} else {
+				toast.error(`Failed to fetch Users: ${response.statusText}`);
+			}
+		} catch (error) {
+			if (error.response) {
+				toast.error(`Failed to fetch user 2: ${error.response.data.message || error.response.statusText}`);
+			} else if (error.request) {
+				toast.error("Failed to fetch user 3: No response received");
+			} else {
+				toast.error(`Failed to fetch user 4: ${error.message}`);
+			}
+		}
+	};
+	//  for search Users
+	const handleSearch = (e) => {
+		const searchQuery = e.target.value;
+		setSearchQuery(searchQuery);
+		setCurrentPage(1); // Reset pagination
+
+		if (searchQuery) {
+			fetchUsers(searchQuery);
+		} else {
+			setFilteredUsers(users);
+		}
+	};
+	useEffect(() => {
+		if (searchQuery) {
+			setFilteredUsers(
+				users.filter(
+					(user) =>
+						user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+						user.phone.toLowerCase().includes(searchQuery.toLowerCase())
+				)
+			);
+		} else {
+			setFilteredUsers(users);
+		}
+	}, [searchQuery, users]);
 
 	const handleShowModal = (user) => {
 		setSelectedUser(user);
@@ -86,6 +139,17 @@ function Manage_user() {
 			});
 	};
 
+	// Pagination Logic
+	const indexOfLastUser = currentPage * userPerPage;
+	const indexOfFirstUser = indexOfLastUser - userPerPage;
+	const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+
+	const totalPages = Math.ceil(filteredUsers.length / userPerPage);
+
+	const handlePageChange = (pageNumber) => {
+		setCurrentPage(pageNumber);
+	};
+
 	return (
 		<>
 			<Aheader />
@@ -93,7 +157,20 @@ function Manage_user() {
 			<div className="wrapper">
 				<div className="content-wrapper">
 					<div className="container mt-2">
-						<h3 className="mb-4">Manage User</h3>
+						<div className="d-flex justify-content-between align-items-center mb-3">
+							<h3 className="mb-4">Manage User</h3>
+							<div className="d-flex align-items-center">
+								<span className="me-2">Search:</span>
+								<input
+									type="text"
+									value={searchQuery}
+									onChange={handleSearch}
+									placeholder="Search Users"
+									className="form-control"
+									style={{ width: "250px" }}
+								/>
+							</div>
+						</div>
 						<table className="table table-striped table-bordered">
 							<thead>
 								<tr>
@@ -107,7 +184,7 @@ function Manage_user() {
 								</tr>
 							</thead>
 							<tbody>
-								{users.map((user) => (
+								{currentUsers.map((user) => (
 									<tr key={user.id}>
 										<td>{user.id}</td>
 										<td>{user.name}</td>
@@ -136,6 +213,33 @@ function Manage_user() {
 								))}
 							</tbody>
 						</table>
+
+						{/* Pagination Controls */}
+						<nav>
+							<ul className="pagination justify-content-end">
+								<li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+									<button className="page-link" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+										Previous
+									</button>
+								</li>
+								{Array.from({ length: totalPages }, (_, index) => (
+									<li className={`page-item ${currentPage === index + 1 ? "active" : ""}`} key={index}>
+										<button className="page-link" onClick={() => handlePageChange(index + 1)}>
+											{index + 1}
+										</button>
+									</li>
+								))}
+								<li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+									<button
+										className="page-link"
+										onClick={() => handlePageChange(currentPage + 1)}
+										disabled={currentPage === totalPages}
+									>
+										Next
+									</button>
+								</li>
+							</ul>
+						</nav>
 
 						{/* Modal */}
 						{showModal && (

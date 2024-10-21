@@ -8,23 +8,68 @@ import { toast } from "react-toastify";
 
 function ViewProvince() {
 	const [provinces, setProvinces] = useState([]);
+	const [filteredProvinces, setFilteredProvinces] = useState([]); //this
 	const [selectedProvince, setSelectedProvince] = useState(null);
 	const [formValue, setFormValue] = useState({ name: "", country_name: "" });
+	const [searchQuery, setSearchQuery] = useState(""); //this
 
 	useEffect(() => {
 		fetchProvinces();
 	}, []);
 
 	// Fetch Provinces from the backend
-	const fetchProvinces = async () => {
+	// const fetchProvinces = async () => {
+	// 	try {
+	// 		const response = await axios.get(`${BACKEND_URL}/api/province`);
+	// 		setProvinces(response.data);
+	// 	} catch (error) {
+	// 		console.error("Error fetching provinces", error);
+	// 		toast.error("Error fetching provinces");
+	// 	}
+	// };
+	const fetchProvinces = async (searchQuery = "") => {
 		try {
-			const response = await axios.get(`${BACKEND_URL}/api/province`);
-			setProvinces(response.data);
+			let url = `${BACKEND_URL}/api/province`;
+			if (searchQuery) {
+				url = `${BACKEND_URL}/api/province/search?search=${searchQuery}`;
+			}
+			const response = await axios.get(url);
+			if (response.status === 200) {
+				console.log(response.data);
+				setProvinces(response.data);
+				setFilteredProvinces(response.data);
+			} else {
+				toast.error(`Failed to fetch Province: ${response.statusText}`);
+			}
 		} catch (error) {
-			console.error("Error fetching provinces", error);
-			toast.error("Error fetching provinces");
+			toast.error(`Failed to fetch Province: ${error.response?.data?.message || error.message}`);
 		}
 	};
+
+	const handleSearch = (e) => {
+		const searchQuery = e.target.value;
+		setSearchQuery(searchQuery);
+
+		if (searchQuery) {
+			fetchProvinces(searchQuery);
+		} else {
+			setFilteredProvinces(provinces);
+		}
+	};
+
+	useEffect(() => {
+		if (searchQuery) {
+			setFilteredProvinces(
+				provinces.filter((provinceItem) => {
+					const nameMatch = provinceItem.name && provinceItem.name.toLowerCase().includes(searchQuery.toLowerCase());
+					const codeMatch = provinceItem.code && provinceItem.code.toLowerCase().includes(searchQuery.toLowerCase());
+					return nameMatch || codeMatch;
+				})
+			);
+		} else {
+			setFilteredProvinces(provinces);
+		}
+	}, [searchQuery, provinces]);
 
 	// Handle deletion of Province
 	const handleDelete = async (id) => {
@@ -90,7 +135,20 @@ function ViewProvince() {
 				<div className="content-wrapper">
 					<section className="content mt-4">
 						<div className="container-fluid">
-							<h3 className="mb-4">Manage Province</h3>
+							<div className="d-flex justify-content-between align-items-center mb-3">
+								<h3 className="mb-4">Manage Province</h3>
+								<div className="d-flex align-items-center">
+									<span className="me-2">Search:</span>
+									<input
+										type="text"
+										value={searchQuery}
+										onChange={handleSearch}
+										placeholder="Search Province"
+										className="form-control"
+										style={{ width: "250px" }}
+									/>
+								</div>
+							</div>
 							<table className="table table-bordered">
 								<thead>
 									<tr>
@@ -103,8 +161,10 @@ function ViewProvince() {
 									</tr>
 								</thead>
 								<tbody>
-									{provinces.length > 0 ? (
-										provinces.map((province) => (
+									{/* {provinces.length > 0 ? ( */}
+									{/* provinces.map((province) => ( */}
+									{filteredProvinces.length > 0 ? (
+										filteredProvinces.map((province) => (
 											<tr key={province.id}>
 												{/* <td>{province.id}</td> */}
 												{/* <td>{new Date(province.province_date).toLocaleDateString()}</td> Formatted date */}

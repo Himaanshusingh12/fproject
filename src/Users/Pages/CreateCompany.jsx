@@ -14,6 +14,7 @@ function CreateCompany() {
 		logo: "",
 		business_type: "",
 		country: "",
+		country_code: "",
 		province: "",
 		city: "",
 		postal_code: "",
@@ -86,13 +87,13 @@ function CreateCompany() {
 			const response = await axios.get(`${BACKEND_URL}/api/country/active`);
 			if (response.status === 200) {
 				setCountry(response.data);
+				console.log(response.data);
 			}
 		} catch (error) {
 			console.error("Error fetching Country:", error);
 			toast.error("Failed to fetch Country");
 		}
 	};
-
 	//for get Provinces
 	const getProvinces = async (countryId) => {
 		try {
@@ -105,11 +106,10 @@ function CreateCompany() {
 			toast.error("Failed to fetch provinces");
 		}
 	};
-
 	//for fetch companies
 	const getcompanies = async () => {
 		const userId = localStorage.getItem("userid");
-		console.log("Retrieved userId:", userId); //
+		console.log("Retrieved userId:", userId);
 		if (userId) {
 			try {
 				const response = await axios.get(`${BACKEND_URL}/api/companies/${userId}`);
@@ -123,11 +123,12 @@ function CreateCompany() {
 			}
 		}
 	};
-	// new handlechange
+	// handlechange
 	const handleChange = (e) => {
-		const { name, value } = e.target;
+		let { name, value } = e.target;
 		if (name === "country") {
-			setFormData((prevForm) => ({ ...prevForm, country: value, province: "" }));
+			const country_code = country?.find((obj) => obj?.id == value)?.country_code;
+			setFormData((prevForm) => ({ ...prevForm, country: value, country_code: country_code, province: "" }));
 			getProvinces(value); // Fetch provinces for the selected country
 		} else if (name === "fiscal_year_to") {
 			setFormData((prevForm) => ({ ...prevForm, fiscal_year_to: value }));
@@ -500,9 +501,6 @@ function CreateCompany() {
 															</option>
 														))}
 													</select>
-													{/* <small className="form-text text-muted">
-														Your country selection is essential for determining currency and taxation details.
-													</small> */}
 												</div>
 
 												<div className="col-md-6 mb-3">
@@ -574,15 +572,24 @@ function CreateCompany() {
 
 												<div className="col-md-6 mb-3">
 													<label htmlFor="phone">Phone</label>
-													<input
-														type="text"
-														name="phone"
-														id="phone"
-														value={formData.phone}
-														onChange={handleChange}
-														className="form-control"
-														placeholder="Enter Phone"
-													/>
+
+													<div class="input-group">
+														{/* <span>{formData?.country_code}</span> */}
+														<div class="input-group-prepend">
+															<span class="input-group-text" id="basic-addon1">
+																{formData?.country_code}
+															</span>
+														</div>
+														<input
+															type="text"
+															name="phone"
+															id="phone"
+															value={formData.phone}
+															onChange={handleChange}
+															className="form-control"
+															placeholder="Enter Phone"
+														/>
+													</div>
 												</div>
 												<div className="col-md-6 mb-3">
 													<label htmlFor="email">Email</label>

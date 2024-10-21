@@ -6,7 +6,7 @@ function Afooter() {
 			<div class="wrapper">
 				<footer className="main-footer">
 					<strong>
-						© 2014-2024
+						© 2024
 						<a href="https://adminlte.io">Accounting</a>.
 					</strong>
 					All rights reserved.

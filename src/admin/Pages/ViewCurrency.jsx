@@ -13,6 +13,8 @@ function ViewCurrency() {
 	const [selectCurrency, setSelectCurrency] = useState(null);
 	const [formValue, setFormValue] = useState({ name: "" });
 	const [searchQuery, setSearchQuery] = useState("");
+	const [currentPage, setCurrentPage] = useState(1);
+	const [currencyPerPage] = useState(6);
 
 	useEffect(() => {
 		fetchCurrency();
@@ -37,12 +39,27 @@ function ViewCurrency() {
 		}
 	};
 
+	// const handleSearch = (e) => {
+	// 	const searchQuery = e.target.value;
+	// 	setSearchQuery(searchQuery);
+	// 	setCurrentPage(1); // Reset pagination
+
+	// 	if (searchQuery) {
+	// 		fetchCurrency(searchQuery);
+	// 	} else {
+	// 		setFilteredCurrencies(currency);
+	// 	}
+	// };
+
+	//new handlesearch
 	const handleSearch = (e) => {
 		const searchQuery = e.target.value;
 		setSearchQuery(searchQuery);
 
 		if (searchQuery) {
-			fetchCurrency(searchQuery);
+			const filtered = currency.filter((currency) => currency.name.toLowerCase().includes(searchQuery.toLowerCase()));
+			setFilteredCurrencies(filtered);
+			setCurrentPage(1);
 		} else {
 			setFilteredCurrencies(currency);
 		}
@@ -113,6 +130,17 @@ function ViewCurrency() {
 			toast.error("Error updating status");
 		}
 	};
+
+	// Pagination Logic
+	const indexOfLastUser = currentPage * currencyPerPage;
+	const indexOfFirstUser = indexOfLastUser - currencyPerPage;
+	const currentCurrency = filteredCurrencies.slice(indexOfFirstUser, indexOfLastUser);
+
+	const totalPages = Math.ceil(filteredCurrencies.length / currencyPerPage);
+
+	const handlePageChange = (currencyNumber) => {
+		setCurrentPage(currencyNumber);
+	};
 	return (
 		<>
 			<Aheader />
@@ -129,7 +157,7 @@ function ViewCurrency() {
 										type="text"
 										value={searchQuery}
 										onChange={handleSearch}
-										placeholder="Search currency"
+										placeholder="Search Currency"
 										className="form-control"
 										style={{ width: "250px" }}
 									/>
@@ -147,8 +175,8 @@ function ViewCurrency() {
 								<tbody>
 									{/* {currency.length > 0 ? ( */}
 									{/* currency.map((currency_manage) => ( */}
-									{filteredCurrencies.length > 0 ? (
-										filteredCurrencies.map((currency_manage) => (
+									{currentCurrency.length > 0 ? (
+										currentCurrency.map((currency_manage) => (
 											<tr key={currency_manage.currency_id}>
 												{/* <td>{currency_manage.currency_id}</td> */}
 												<td>{currency_manage.name}</td>
@@ -182,6 +210,33 @@ function ViewCurrency() {
 									)}
 								</tbody>
 							</table>
+
+							{/* Pagination Controls */}
+							<nav>
+								<ul className="pagination justify-content-end">
+									<li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+										<button className="page-link" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+											Previous
+										</button>
+									</li>
+									{Array.from({ length: totalPages }, (_, index) => (
+										<li className={`page-item ${currentPage === index + 1 ? "active" : ""}`} key={index}>
+											<button className="page-link" onClick={() => handlePageChange(index + 1)}>
+												{index + 1}
+											</button>
+										</li>
+									))}
+									<li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+										<button
+											className="page-link"
+											onClick={() => handlePageChange(currentPage + 1)}
+											disabled={currentPage === totalPages}
+										>
+											Next
+										</button>
+									</li>
+								</ul>
+							</nav>
 
 							{/* edit modal */}
 							<div

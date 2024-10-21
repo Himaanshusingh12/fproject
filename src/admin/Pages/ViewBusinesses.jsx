@@ -12,6 +12,8 @@ function ViewBusinesses() {
 	const [selectedBusiness, setSelectedBusiness] = useState(null);
 	const [formValue, setFormValue] = useState({ name: "" });
 	const [searchQuery, setSearchQuery] = useState("");
+	const [currentPage, setCurrentPage] = useState(1);
+	const itemsPerPage = 6;
 
 	useEffect(() => {
 		fetchBusinesses();
@@ -29,19 +31,32 @@ function ViewBusinesses() {
 				setBusinesses(response.data);
 				setFilteredBusinesses(response.data);
 			} else {
-				toast.error(`Failed to fetch currencies: ${response.statusText}`);
+				toast.error(`Failed to fetch Businesses: ${response.statusText}`);
 			}
 		} catch (error) {
-			toast.error(`Failed to fetch currencies: ${error.response?.data?.message || error.message}`);
+			toast.error(`Failed to fetch Businesses: ${error.response?.data?.message || error.message}`);
 		}
 	};
+	// const handleSearch = (e) => {
+	// 	const searchQuery = e.target.value;
+	// 	setSearchQuery(searchQuery);
 
+	// 	if (searchQuery) {
+	// 		fetchBusinesses(searchQuery);
+	// 	} else {
+	// 		setFilteredBusinesses(businesses);
+	// 	}
+	// };
+
+	//new handlesearch
 	const handleSearch = (e) => {
 		const searchQuery = e.target.value;
 		setSearchQuery(searchQuery);
 
 		if (searchQuery) {
-			fetchBusinesses(searchQuery);
+			const filtered = businesses.filter((business) => business.name.toLowerCase().includes(searchQuery.toLowerCase()));
+			setFilteredBusinesses(filtered);
+			setCurrentPage(1);
 		} else {
 			setFilteredBusinesses(businesses);
 		}
@@ -75,9 +90,9 @@ function ViewBusinesses() {
 	// Open the modal and set the selected business for editing
 	const handleEdit = (business) => {
 		setSelectedBusiness(business);
-		setFormValue({ name: business.name }); // Populate the form with the selected business's data
+		setFormValue({ name: business.name });
 		const modal = new window.bootstrap.Modal(document.getElementById("editModal"));
-		modal.show(); // Show the Bootstrap modal
+		modal.show();
 	};
 
 	const handleSave = async (e) => {
@@ -114,6 +129,9 @@ function ViewBusinesses() {
 		}
 	};
 
+	// Pagination logic
+	const totalPages = Math.ceil(filteredbusinesses.length / itemsPerPage);
+	const currentBusinesses = filteredbusinesses.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 	return (
 		<>
 			<Aheader />
@@ -149,8 +167,8 @@ function ViewBusinesses() {
 								<tbody>
 									{/* {businesses.length > 0 ? ( */}
 									{/* businesses.map((business) => ( */}
-									{filteredbusinesses.length > 0 ? (
-										filteredbusinesses.map((business) => (
+									{currentBusinesses.length > 0 ? (
+										currentBusinesses.map((business) => (
 											<tr key={business.id}>
 												{/* <td>{business.id}</td> */}
 												{/* <td>{business.date}</td> */}
@@ -185,6 +203,30 @@ function ViewBusinesses() {
 								</tbody>
 							</table>
 
+							{/* Pagination controls */}
+							<nav aria-label="Page navigation">
+								<div className="d-flex justify-content-end">
+									<ul className="pagination">
+										<li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+											<button className="page-link" onClick={() => setCurrentPage(currentPage - 1)}>
+												Previous
+											</button>
+										</li>
+										{Array.from({ length: totalPages }, (_, index) => (
+											<li key={index} className={`page-item ${currentPage === index + 1 ? "active" : ""}`}>
+												<button className="page-link" onClick={() => setCurrentPage(index + 1)}>
+													{index + 1}
+												</button>
+											</li>
+										))}
+										<li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+											<button className="page-link" onClick={() => setCurrentPage(currentPage + 1)}>
+												Next
+											</button>
+										</li>
+									</ul>
+								</div>
+							</nav>
 							{/* edit modal */}
 							<div
 								className="modal fade"

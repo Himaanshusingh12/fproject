@@ -19,7 +19,7 @@ function Manage_user() {
 	});
 	// Pagination state
 	const [currentPage, setCurrentPage] = useState(1);
-	const [userPerPage] = useState(5);
+	const [userPerPage] = useState(6);
 
 	useEffect(() => {
 		fetchUsers();
@@ -50,13 +50,26 @@ function Manage_user() {
 		}
 	};
 	//  for search Users
+	// const handleSearch = (e) => {
+	// 	const searchQuery = e.target.value;
+	// 	setSearchQuery(searchQuery);
+	// 	setCurrentPage(1); // Reset pagination
+
+	// 	if (searchQuery) {
+	// 		fetchUsers(searchQuery);
+	// 	} else {
+	// 		setFilteredUsers(users);
+	// 	}
+	// };
+	//new handlesearch
 	const handleSearch = (e) => {
 		const searchQuery = e.target.value;
 		setSearchQuery(searchQuery);
-		setCurrentPage(1); // Reset pagination
 
 		if (searchQuery) {
-			fetchUsers(searchQuery);
+			// const filtered = users.filter((user) => user.name.toLowerCase().includes(searchQuery.toLowerCase()));
+			// setFilteredUsers(filtered);
+			setCurrentPage(1);
 		} else {
 			setFilteredUsers(users);
 		}

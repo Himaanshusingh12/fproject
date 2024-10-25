@@ -28,6 +28,10 @@ function View_customer() {
 		additional_details: "",
 	});
 
+	//	pagination state
+	const [currentPage, setCurrentPage] = useState(1);
+	const [userPerPage] = useState(6);
+
 	const [showModal, setShowModal] = useState(false);
 	const [reason, setReason] = useState("");
 
@@ -143,12 +147,22 @@ function View_customer() {
 	};
 
 	//  for search
+	// const handleSearch = (e) => {
+	// 	const searchQuery = e.target.value;
+	// 	setSearchQuery(searchQuery);
+
+	// 	if (searchQuery) {
+	// 		fetchCustomers(searchQuery);
+	// 	} else {
+	// 		setFilteredCustomers(customers);
+	// 	}
+	// };
+	//new handle search
 	const handleSearch = (e) => {
 		const searchQuery = e.target.value;
 		setSearchQuery(searchQuery);
-
 		if (searchQuery) {
-			fetchCustomers(searchQuery);
+			setCurrentPage(1);
 		} else {
 			setFilteredCustomers(customers);
 		}
@@ -175,6 +189,16 @@ function View_customer() {
 		setFilteredCustomers(customers.filter((customer) => customer.status === "Active"));
 	}, [customers]);
 
+	// Pagination Logic
+	const indexOfLastUser = currentPage * userPerPage;
+	const indexOfFirstUser = indexOfLastUser - userPerPage;
+	const currentCustomers = filteredCustomers.slice(indexOfFirstUser, indexOfLastUser);
+
+	const totalPages = Math.ceil(filteredCustomers.length / userPerPage);
+
+	const handlePageChange = (pageNumber) => {
+		setCurrentPage(pageNumber);
+	};
 	return (
 		<>
 			<Bheader />
@@ -193,7 +217,7 @@ function View_customer() {
 									type="text"
 									value={searchQuery}
 									onChange={handleSearch}
-									placeholder="Search customers"
+									placeholder="Search Customers"
 									className="form-control"
 									style={{ width: "250px" }}
 								/>
@@ -223,7 +247,8 @@ function View_customer() {
 								</thead>
 								<tbody>
 									{/* {customers.map((customer) => ( */}
-									{filteredCustomers.map((customer) => (
+									{/* {filteredCustomers.map((customer) => ( */}
+									{currentCustomers.map((customer) => (
 										<tr key={customer.id}>
 											<td>{customer.id}</td>
 											<td>{customer.customer_name}</td>
@@ -270,6 +295,33 @@ function View_customer() {
 								</tbody>
 							</table>
 						</div>
+
+						{/* Pagination Controls */}
+						<nav>
+							<ul className="pagination justify-content-end">
+								<li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+									<button className="page-link" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+										Previous
+									</button>
+								</li>
+								{Array.from({ length: totalPages }, (_, index) => (
+									<li className={`page-item ${currentPage === index + 1 ? "active" : ""}`} key={index}>
+										<button className="page-link" onClick={() => handlePageChange(index + 1)}>
+											{index + 1}
+										</button>
+									</li>
+								))}
+								<li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+									<button
+										className="page-link"
+										onClick={() => handlePageChange(currentPage + 1)}
+										disabled={currentPage === totalPages}
+									>
+										Next
+									</button>
+								</li>
+							</ul>
+						</nav>
 						{/* Edit Customer Modal */}
 						<div className="modal fade" id="editModal" tabIndex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
 							<div className="modal-dialog" role="document">

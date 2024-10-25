@@ -8,10 +8,13 @@ import { toast } from "react-toastify";
 
 function ViewProvince() {
 	const [provinces, setProvinces] = useState([]);
-	const [filteredProvinces, setFilteredProvinces] = useState([]); //this
+	const [filteredProvinces, setFilteredProvinces] = useState([]);
 	const [selectedProvince, setSelectedProvince] = useState(null);
 	const [formValue, setFormValue] = useState({ name: "", country_name: "" });
-	const [searchQuery, setSearchQuery] = useState(""); //this
+	const [searchQuery, setSearchQuery] = useState("");
+	// pagination state
+	const [currentPage, setCurrentPage] = useState(1);
+	const itemsPerPage = 5;
 
 	useEffect(() => {
 		fetchProvinces();
@@ -35,7 +38,6 @@ function ViewProvince() {
 			}
 			const response = await axios.get(url);
 			if (response.status === 200) {
-				console.log(response.data);
 				setProvinces(response.data);
 				setFilteredProvinces(response.data);
 			} else {
@@ -52,10 +54,25 @@ function ViewProvince() {
 
 		if (searchQuery) {
 			fetchProvinces(searchQuery);
+			setCurrentPage(1);
 		} else {
 			setFilteredProvinces(provinces);
 		}
 	};
+
+	//new handlesearch
+	// const handleSearch = (e) => {
+	// 	const searchQuery = e.target.value;
+	// 	setSearchQuery(searchQuery);
+
+	// 	if (searchQuery) {
+	// 		const filtered = provinces.filter((province) => province.name.toLowerCase().includes(searchQuery.toLowerCase()));
+	// 		setFilteredProvinces(filtered);
+	// 		setCurrentPage(1);
+	// 	} else {
+	// 		setFilteredProvinces(provinces);
+	// 	}
+	// };
 
 	useEffect(() => {
 		if (searchQuery) {
@@ -127,6 +144,10 @@ function ViewProvince() {
 		}
 	};
 
+	// Pagination logic
+	const totalPages = Math.ceil(filteredProvinces.length / itemsPerPage);
+	const currentProvinces = filteredProvinces.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
 	return (
 		<>
 			<Aheader />
@@ -163,8 +184,8 @@ function ViewProvince() {
 								<tbody>
 									{/* {provinces.length > 0 ? ( */}
 									{/* provinces.map((province) => ( */}
-									{filteredProvinces.length > 0 ? (
-										filteredProvinces.map((province) => (
+									{currentProvinces.length > 0 ? (
+										currentProvinces.map((province) => (
 											<tr key={province.id}>
 												{/* <td>{province.id}</td> */}
 												{/* <td>{new Date(province.province_date).toLocaleDateString()}</td> Formatted date */}
@@ -199,6 +220,31 @@ function ViewProvince() {
 									)}
 								</tbody>
 							</table>
+
+							{/* Pagination controls */}
+							<nav aria-label="Page navigation">
+								<div className="d-flex justify-content-end">
+									<ul className="pagination">
+										<li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+											<button className="page-link" onClick={() => setCurrentPage(currentPage - 1)}>
+												Previous
+											</button>
+										</li>
+										{Array.from({ length: totalPages }, (_, index) => (
+											<li key={index} className={`page-item ${currentPage === index + 1 ? "active" : ""}`}>
+												<button className="page-link" onClick={() => setCurrentPage(index + 1)}>
+													{index + 1}
+												</button>
+											</li>
+										))}
+										<li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+											<button className="page-link" onClick={() => setCurrentPage(currentPage + 1)}>
+												Next
+											</button>
+										</li>
+									</ul>
+								</div>
+							</nav>
 
 							{/* Edit modal */}
 							<div

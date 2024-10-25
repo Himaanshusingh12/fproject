@@ -95,7 +95,7 @@ function Province() {
 										<div className="card-header d-flex justify-content-between">
 											<h3 className="card-title">Province</h3>
 											<Link to="/view-province" className="btn btn-success ml-auto">
-												View Province
+												View All Province
 											</Link>
 										</div>
 										<form id="quickForm" onSubmit={handleSubmit}>

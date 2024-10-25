@@ -12,6 +12,9 @@ function ViewCountry() {
 	const [filteredcountries, setFilteredCountries] = useState([]);
 	const [formValue, setFormValue] = useState({ name: "", country_code: "" });
 	const [searchQuery, setSearchQuery] = useState("");
+	// pagination state
+	const [currentPage, setCurrentPage] = useState(1);
+	const itemsPerPage = 5;
 
 	useEffect(() => {
 		fetchCountry();
@@ -36,12 +39,26 @@ function ViewCountry() {
 		}
 	};
 
+	// const handleSearch = (e) => {
+	// 	const searchQuery = e.target.value;
+	// 	setSearchQuery(searchQuery);
+
+	// 	if (searchQuery) {
+	// 		fetchCountry(searchQuery);
+	// 	} else {
+	// 		setFilteredCountries(countries);
+	// 	}
+	// };
+
+	//new handlesearch
 	const handleSearch = (e) => {
 		const searchQuery = e.target.value;
 		setSearchQuery(searchQuery);
 
 		if (searchQuery) {
-			fetchCountry(searchQuery);
+			const filtered = countries.filter((country) => country.name.toLowerCase().includes(searchQuery.toLowerCase()));
+			setFilteredCountries(filtered);
+			setCurrentPage(1);
 		} else {
 			setFilteredCountries(countries);
 		}
@@ -114,6 +131,10 @@ function ViewCountry() {
 			toast.error("Error updating status");
 		}
 	};
+
+	// Pagination logic
+	const totalPages = Math.ceil(filteredcountries.length / itemsPerPage);
+	const currentCountries = filteredcountries.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 	return (
 		<>
 			<Aheader />
@@ -150,8 +171,8 @@ function ViewCountry() {
 								<tbody>
 									{/* {countries.length > 0 ? ( */}
 									{/* countries.map((country) => ( */}
-									{filteredcountries.length > 0 ? (
-										filteredcountries.map((country) => (
+									{currentCountries.length > 0 ? (
+										currentCountries.map((country) => (
 											<tr key={country.id}>
 												{/* <td>{country.id}</td> */}
 												{/* <td>{country.date}</td> */}
@@ -186,6 +207,31 @@ function ViewCountry() {
 									)}
 								</tbody>
 							</table>
+
+							{/* Pagination controls */}
+							<nav aria-label="Page navigation">
+								<div className="d-flex justify-content-end">
+									<ul className="pagination">
+										<li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+											<button className="page-link" onClick={() => setCurrentPage(currentPage - 1)}>
+												Previous
+											</button>
+										</li>
+										{Array.from({ length: totalPages }, (_, index) => (
+											<li key={index} className={`page-item ${currentPage === index + 1 ? "active" : ""}`}>
+												<button className="page-link" onClick={() => setCurrentPage(index + 1)}>
+													{index + 1}
+												</button>
+											</li>
+										))}
+										<li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+											<button className="page-link" onClick={() => setCurrentPage(currentPage + 1)}>
+												Next
+											</button>
+										</li>
+									</ul>
+								</div>
+							</nav>
 
 							{/* edit modal */}
 							<div

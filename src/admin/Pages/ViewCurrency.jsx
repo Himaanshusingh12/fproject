@@ -13,6 +13,7 @@ function ViewCurrency() {
 	const [selectCurrency, setSelectCurrency] = useState(null);
 	const [formValue, setFormValue] = useState({ name: "" });
 	const [searchQuery, setSearchQuery] = useState("");
+	//pagination state
 	const [currentPage, setCurrentPage] = useState(1);
 	const [currencyPerPage] = useState(6);
 
@@ -28,7 +29,7 @@ function ViewCurrency() {
 			}
 			const response = await axios.get(url);
 			if (response.status === 200) {
-				console.log(response.data);
+				// console.log(response.data);
 				setCurrency(response.data);
 				setFilteredCurrencies(response.data);
 			} else {
@@ -101,7 +102,7 @@ function ViewCurrency() {
 		e.preventDefault();
 		try {
 			const response = await axios.put(`${BACKEND_URL}/api/currency/${selectCurrency.currency_id}`, formValue);
-			console.log("Response:", response);
+			// console.log("Response:", response);
 			if (response.status === 200) {
 				toast.success("Currency updated successfully");
 				fetchCurrency();

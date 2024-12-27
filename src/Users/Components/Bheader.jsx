@@ -10,13 +10,13 @@ function Bheader() {
 
 	const getCompanies = async () => {
 		const userId = localStorage.getItem("userid");
-		console.log("Fetching companies for user ID:", userId);
+		// console.log("Fetching companies for user ID:", userId);
 		if (userId) {
 			try {
 				const response = await axios.get(`${BACKEND_URL}/api/companies/${userId}`);
-				console.log("Response data:", response.data); // Check what data is returned
+				// console.log("Response data:", response.data);
 				if (response.status === 200) {
-					setCompanies(response.data); // Set the response data (could be empty)
+					setCompanies(response.data);
 					if (response.data.length === 0) {
 						toast.info("No companies created yet.");
 					}

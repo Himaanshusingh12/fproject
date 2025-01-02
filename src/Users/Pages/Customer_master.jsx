@@ -26,11 +26,143 @@ function Customer_master() {
 	});
 
 	const [currency, setCurrency] = useState([]);
+	// const [tax, setTax] = useState([]);
+	const [tax, setTax] = useState([]);
+	const [paymentterm, setPaymentterm] = useState([]);
 
 	useEffect(() => {
 		getCurrency();
+		getTaxes();
+		getPaymentterm();
 	}, []);
+
+	// for get active payment terms
+	const getPaymentterm = async () => {
+		try {
+			const response = await axios.get(`${BACKEND_URL}/api/paymentterms/active`);
+			if (response.status === 200) {
+				setPaymentterm(response.data);
+			}
+		} catch (error) {
+			console.error("Error fetching Payment term:", error);
+			toast.error("Failed to fetch Payment term");
+		}
+	};
+
+	// this section for create new payment terms
+	const [modalOpen, setModalOpen] = useState(false);
+	const [formValues, setFormValues] = useState({
+		paymentterms: "",
+		note: "",
+	});
+
+	const handleChanges = (e) => {
+		const { name, value } = e.target;
+		setFormValues((prevValues) => ({
+			...prevValues,
+			[name]: value,
+		}));
+	};
+
+	const handleSubmits = async (e) => {
+		e.preventDefault();
+		const { paymentterms, note } = formValues;
+
+		if (paymentterms === "") {
+			toast.error("Payment Terms field is required");
+			return;
+		}
+		try {
+			await axios.post(`${BACKEND_URL}/api/paymentterms`, { name: paymentterms, note });
+			toast.success("Payment terms added successfully");
+			setFormValues({ paymentterms: "", note: "" });
+		} catch (err) {
+			toast.error("Error adding Payment terms");
+			console.error(err);
+		}
+	};
+
+	const handlePaymentTermsSelectChange = (e) => {
+		const selectedValue = e.target.value;
+
+		if (selectedValue === "create-newterm") {
+			e.target.value = "";
+			setModalOpen(true);
+		} else {
+			setCustomerForm((prevData) => {
+				const updatedData = {
+					...prevData,
+					credit_terms: selectedValue,
+				};
+				return updatedData;
+			});
+		}
+	};
+
 	// for get Active Currency
+	const getTaxes = async () => {
+		try {
+			const response = await axios.get(`${BACKEND_URL}/api/tax/active`);
+			if (response.status === 200) {
+				// console.log("Fetched Taxes:", response.data);
+				setTax(response.data);
+			}
+		} catch (error) {
+			console.error("Error fetching Tax:", error);
+			toast.error("Failed to fetch tax");
+		}
+	};
+
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [newTax, setNewTax] = useState({
+		description: "",
+		tax_rate: "",
+	});
+
+	const handleTaxSelectChange = (e, index) => {
+		if (e.target.value === "create-new") {
+			e.target.value = "";
+			setIsModalOpen(true);
+		} else {
+			setCustomerForm(e, index);
+		}
+	};
+
+	// Handle form input changes
+	const handleInputChange = (e) => {
+		const { name, value } = e.target;
+		setNewTax({
+			...newTax,
+			[name]: value,
+		});
+	};
+	// Handle form submission
+	const handleTaxSubmit = async (e) => {
+		e.preventDefault();
+
+		// Basic validation
+		if (!newTax.description || !newTax.tax_rate) {
+			toast.error("Both fields are required");
+			return;
+		}
+
+		try {
+			const response = await axios.post(`${BACKEND_URL}/api/custom-tax-rate`, {
+				description: newTax.description,
+				custom_tax_rate: parseFloat(newTax.tax_rate),
+			});
+
+			if (response.status === 201) {
+				toast.success("Tax Rate Added Successfully");
+				setNewTax({ description: "", tax_rate: "" });
+			}
+		} catch (error) {
+			toast.error("Failed to add Tax Rate");
+			console.error("Error:", error);
+		}
+	};
+
+	//for get Active Currency
 	const getCurrency = async () => {
 		try {
 			const response = await axios.get(`${BACKEND_URL}/api/currency/active`);
@@ -150,7 +282,7 @@ function Customer_master() {
 		try {
 			const response = await axios.post(`${BACKEND_URL}/api/customers`, formData, {
 				headers: {
-					"Content-Type": "multipart/form-data", // Set proper content type for file upload
+					"Content-Type": "multipart/form-data",
 				},
 			});
 			toast.success(response.data.message);
@@ -183,9 +315,6 @@ function Customer_master() {
 		<>
 			<Bheader />
 			<BSlidnav />
-			{/* <Link to="/add_user" className="btn btn-primary float-end mb-5">
-              Add Data
-            </Link> */}
 			<div className="wrapper">
 				<div className="content-wrapper">
 					<section className="content mt-4">
@@ -336,16 +465,28 @@ function Customer_master() {
 													</div>
 													<div className="col-md-6">
 														<div className="form-group">
-															<label htmlFor="credit_terms">Credit Terms</label>
-															<input
-																type="text"
+															<label htmlFor="crdit_terms">Select Payment Terms</label>
+															<select
 																name="credit_terms"
 																id="credit_terms"
 																className="form-control"
-																placeholder="Enter Credit Terms"
 																value={customerForm.credit_terms}
-																onChange={handleChange}
-															/>
+																// onChange={handleChange}
+																onChange={handlePaymentTermsSelectChange}
+																style={{ width: "100%" }}
+															>
+																<option value="create-newterm" style={{ color: "blue", fontWeight: "bold" }}>
+																	+ Create New
+																</option>
+																<option value="" disabled>
+																	Payment Terms
+																</option>
+																{paymentterm.map((type) => (
+																	<option key={type.id} value={type.id}>
+																		{type.name}
+																	</option>
+																))}
+															</select>
 														</div>
 													</div>
 
@@ -363,19 +504,28 @@ function Customer_master() {
 															/>
 														</div>
 													</div>
-
 													<div className="col-md-6">
 														<div className="form-group">
 															<label htmlFor="suggested_tax">Suggested Tax</label>
-															<input
-																type="number"
+															<select
 																name="suggested_tax"
 																id="suggested_tax"
 																className="form-control"
-																placeholder="Enter Suggested Tax"
 																value={customerForm.suggested_tax}
-																onChange={handleChange}
-															/>
+																onChange={(e) => handleTaxSelectChange(e)}
+															>
+																<option value="create-new" style={{ color: "blue", fontWeight: "bold" }}>
+																	+ Create New
+																</option>
+																<option value="" disabled>
+																	Tax
+																</option>
+																{tax.map((taxOption) => (
+																	<option key={taxOption.tax_id} value={taxOption.tax_id}>
+																		{taxOption.description}
+																	</option>
+																))}
+															</select>
 														</div>
 													</div>
 
@@ -419,6 +569,138 @@ function Customer_master() {
 							</div>
 						</div>
 					</section>
+				</div>
+			</div>
+			{/* modal for create new tax rate */}
+			<div
+				className={`modal fade ${isModalOpen ? "show d-block" : "d-none"}`}
+				tabIndex="-1"
+				role="dialog"
+				style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+			>
+				<div className="modal-dialog modal-dialog-centered" role="document">
+					<div className="modal-content">
+						<div
+							className="modal-header"
+							style={{
+								backgroundColor: "#007bff",
+								color: "white",
+								borderTopLeftRadius: "5px",
+								borderTopRightRadius: "5px",
+							}}
+						>
+							<h5 className="modal-title">Create New Tax Rate</h5>
+							<button
+								type="button"
+								className="close"
+								aria-label="Close"
+								onClick={() => setIsModalOpen(false)}
+								style={{ color: "white" }}
+							>
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div className="modal-body">
+							<form id="quickForm" method="post">
+								<div className="form-group">
+									<label htmlFor="description">Description</label>
+									<input
+										type="text"
+										name="description"
+										className="form-control"
+										id="description"
+										value={newTax.description}
+										onChange={handleInputChange}
+										placeholder="Enter Description"
+										required
+									/>
+								</div>
+								<div className="form-group">
+									<label htmlFor="tax_rate">Tax Rate (%)</label>
+									<input
+										type="number"
+										name="tax_rate"
+										className="form-control"
+										id="tax_rate"
+										value={newTax.tax_rate}
+										onChange={handleInputChange}
+										placeholder="Enter Tax Rate"
+										required
+									/>
+								</div>
+							</form>
+						</div>
+						<div className="modal-footer">
+							<button type="button" className="btn btn-secondary" onClick={() => setIsModalOpen(false)}>
+								Close
+							</button>
+							<button type="button" className="btn btn-primary" onClick={handleTaxSubmit}>
+								Submit
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{/* modal for create new payment terms by user */}
+			<div
+				className={`modal fade ${modalOpen ? "show d-block" : "d-none"}`}
+				tabIndex="-1"
+				role="dialog"
+				style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+			>
+				<div className="modal-dialog modal-dialog-centered" role="document">
+					<div className="modal-content">
+						<div
+							className="modal-header"
+							style={{
+								backgroundColor: "#007bff",
+								color: "white",
+								borderTopLeftRadius: "5px",
+								borderTopRightRadius: "5px",
+							}}
+						>
+							<h5 className="modal-title">Create New Payment Term</h5>
+							<button type="button" className="close" aria-label="Close" onClick={() => setModalOpen(false)} style={{ color: "white" }}>
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div className="modal-body">
+							<form id="quickForm" method="post">
+								<div className="form-group">
+									<label htmlFor="paymentterms">Add Payment Terms</label>
+									<input
+										type="text"
+										name="paymentterms"
+										className="form-control"
+										id="paymentterms"
+										placeholder="Enter Payment terms"
+										value={formValues.paymentterms}
+										onChange={handleChanges}
+									/>
+								</div>
+								<div className="form-group">
+									<label htmlFor="note">Add Note</label>
+									<textarea
+										name="note"
+										className="form-control"
+										id="note"
+										placeholder="Enter Note"
+										value={formValues.note}
+										onChange={handleChanges}
+									></textarea>
+								</div>
+							</form>
+						</div>
+						<div className="modal-footer">
+							<button type="button" className="btn btn-secondary" onClick={() => setModalOpen(false)}>
+								Close
+							</button>
+							<button type="button" className="btn btn-primary" onClick={handleSubmits}>
+								Submit
+							</button>
+						</div>
+					</div>
 				</div>
 			</div>
 			<Bfooter />

@@ -113,6 +113,18 @@ function Slidnav() {
 									</NavLink>
 								</li>
 								<li className="nav-item">
+									<NavLink to="/tax" className="nav-link">
+										<i className="nav-icon fas fa-file-invoice-dollar" />
+										<p>Manage Tax</p>
+									</NavLink>
+								</li>
+								<li className="nav-item">
+									<NavLink to="/payment-terms" className="nav-link">
+										<i className="nav-icon fas fa-file-invoice" />
+										<p>Manage Payment Terms</p>
+									</NavLink>
+								</li>
+								<li className="nav-item">
 									<Link to="#" className="nav-link">
 										<i className="nav-icon fas fa-globe-americas" />
 										<p>

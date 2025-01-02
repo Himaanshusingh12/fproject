@@ -40,19 +40,7 @@ function ViewCurrency() {
 		}
 	};
 
-	// const handleSearch = (e) => {
-	// 	const searchQuery = e.target.value;
-	// 	setSearchQuery(searchQuery);
-	// 	setCurrentPage(1); // Reset pagination
-
-	// 	if (searchQuery) {
-	// 		fetchCurrency(searchQuery);
-	// 	} else {
-	// 		setFilteredCurrencies(currency);
-	// 	}
-	// };
-
-	//new handlesearch
+	// handlesearch
 	const handleSearch = (e) => {
 		const searchQuery = e.target.value;
 		setSearchQuery(searchQuery);

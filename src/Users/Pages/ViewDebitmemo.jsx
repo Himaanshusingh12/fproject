@@ -3,19 +3,15 @@ import Bheader from "../Components/Bheader";
 import BSlidnav from "../Components/BSlidnav";
 import Bfooter from "../Components/Bfooter";
 
-function Chart_Account() {
+function ViewDebitmemo() {
 	return (
 		<>
 			<Bheader />
 			<BSlidnav />
-			<div class="wrapper">
-				<div className="content-wrapper">
-					<p>This is Chart of Account page</p>
-				</div>
-			</div>
+			<div>ViewDebitmemo</div>
 			<Bfooter />
 		</>
 	);
 }
 
-export default Chart_Account;
+export default ViewDebitmemo;

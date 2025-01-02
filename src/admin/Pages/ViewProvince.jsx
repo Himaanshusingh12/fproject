@@ -20,16 +20,6 @@ function ViewProvince() {
 		fetchProvinces();
 	}, []);
 
-	// Fetch Provinces from the backend
-	// const fetchProvinces = async () => {
-	// 	try {
-	// 		const response = await axios.get(`${BACKEND_URL}/api/province`);
-	// 		setProvinces(response.data);
-	// 	} catch (error) {
-	// 		console.error("Error fetching provinces", error);
-	// 		toast.error("Error fetching provinces");
-	// 	}
-	// };
 	const fetchProvinces = async (searchQuery = "") => {
 		try {
 			let url = `${BACKEND_URL}/api/province`;

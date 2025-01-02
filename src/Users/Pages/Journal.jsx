@@ -45,7 +45,7 @@ function Journal() {
 																name="reference"
 																id="reference"
 																className="form-control"
-																placeholder="Enter Posting Date"
+																placeholder="Enter Reference"
 															/>
 														</div>
 													</div>

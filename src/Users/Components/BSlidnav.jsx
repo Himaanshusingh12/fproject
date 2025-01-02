@@ -151,7 +151,7 @@ function BSlidnav() {
 										<li className="nav-item">
 											<NavLink to="/credit-memo" className="nav-link">
 												<i className="fas fa-receipt nav-icon" />
-												<p>Credit Memo</p>
+												<p>Sales Credit Memo</p>
 											</NavLink>
 										</li>
 										<li className="nav-item">
@@ -266,17 +266,17 @@ function BSlidnav() {
 										<li className="nav-item">
 											<NavLink to="/bank-payment" className="nav-link">
 												<i className="fas fa-money-check-alt nav-icon" />
-												<p>Make a Payment</p>
+												<p>Bank Payment</p>
 											</NavLink>
 										</li>
 										<li className="nav-item">
 											<NavLink to="/bank-receipt" className="nav-link">
 												<i className="fas fa-receipt nav-icon" />
-												<p>Reciept a Payment</p>
+												<p>Bank Reciept</p>
 											</NavLink>
 										</li>
 										<li className="nav-item">
-											<NavLink to="" className="nav-link">
+											<NavLink to="/contra-entries" className="nav-link">
 												<i className="nav-icon fas fa-exchange-alt" />
 												<p>Contra Entries</p>
 											</NavLink>
@@ -392,30 +392,36 @@ function BSlidnav() {
 										<p>Payroll</p>
 									</NavLink>
 								</li>
-								{/* <li className="nav-item">
-									<NavLink to="/bank-receipt" className="nav-link">
-										<i className="nav-icon far fa-image" />
-										<p>Bank Receipt</p>
-									</NavLink>
-								</li> */}
-								{/* <li className="nav-item">
-									<NavLink to="/bank-reconciliation" className="nav-link">
-										<i className="nav-icon far fa-image" />
-										<p>Bank Reconcilation</p>
-									</NavLink>
-								</li> */}
-								{/* <li className="nav-item">
-									<NavLink to="" className="nav-link">
-										<i className="nav-icon far fa-image" />
-										<p>Journal</p>
-									</NavLink>
-								</li> */}
-								{/* <li className="nav-item">
-									<NavLink to="" className="nav-link">
-										<i className="nav-icon far fa-image" />
-										<p>Chart of Account</p>
-									</NavLink>
-								</li> */}
+								<li className="nav-item" key="basic-master">
+									<a
+										className="nav-link"
+										data-toggle="collapse"
+										href="#basic-master"
+										role="button"
+										aria-expanded="false"
+										aria-controls="basic-master"
+									>
+										<i className="nav-icon fas fa-table" />
+										<p>
+											Basic Table
+											<i className="fas fa-angle-left right" />
+										</p>
+									</a>
+									<ul className="nav nav-treeview">
+										<li className="nav-item">
+											<NavLink to="/paymentterm-table" className="nav-link">
+												<i className="fas fa-file-invoice nav-icon" />
+												<p>Payment Term Table</p>
+											</NavLink>
+										</li>
+										<li className="nav-item">
+											<NavLink to="/tax-table" className="nav-link">
+												<i className="fas fa-file-invoice-dollar nav-icon" />
+												<p>Tax Table</p>
+											</NavLink>
+										</li>
+									</ul>
+								</li>
 							</ul>
 						</nav>
 						{/* /.sidebar-menu */}

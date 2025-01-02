@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Bheader from "../Components/Bheader";
 import BSlidnav from "../Components/BSlidnav";
 import Bfooter from "../Components/Bfooter";
@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 
 function Vendor_master() {
 	const [vendorForm, setVendorForm] = useState({
+		user_id: localStorage.getItem("userid") || "",
 		vendor_name: "",
 		operating_as: "",
 		address: "",
@@ -19,6 +20,24 @@ function Vendor_master() {
 		gst_no: "",
 		credit_terms: "",
 	});
+
+	//This section is for select currency from backend
+	const [currency, setCurrency] = useState([]);
+	useEffect(() => {
+		getCurrency();
+	}, []);
+
+	const getCurrency = async () => {
+		try {
+			const response = await axios.get(`${BACKEND_URL}/api/currency/active`);
+			if (response.status === 200) {
+				setCurrency(response.data);
+			}
+		} catch (error) {
+			console.log("Error fetching currency:", error);
+			toast.error("Failed to Fetch Currency");
+		}
+	};
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -195,6 +214,7 @@ function Vendor_master() {
 														<div className="form-group">
 															<label htmlFor="currency">Currency</label>
 															<select
+																type="text"
 																name="currency"
 																id="currency"
 																className="form-control"
@@ -202,11 +222,11 @@ function Vendor_master() {
 																onChange={handleChange}
 															>
 																<option value="">Select Currency</option>
-																<option value="USD">USD - US Dollar</option>
-																<option value="EUR">EUR - Euro</option>
-																<option value="INR">Indian Rupees</option>
-																<option value="GBP">GBP-British Pound</option>
-																<option value="JPY">japanese Yen</option>
+																{currency.map((type) => (
+																	<option key={type.id} value={type.id}>
+																		{type.name}
+																	</option>
+																))}
 															</select>
 														</div>
 													</div>

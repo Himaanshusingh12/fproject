@@ -54,6 +54,18 @@ import BillingInformation from "./Users/Pages/BillingInformation";
 import CompanyList from "./Users/Pages/CompanyList";
 import Currency from "./admin/Pages/Currency";
 import ViewCurrency from "./admin/Pages/ViewCurrency";
+import Tax from "./admin/Pages/Tax";
+import ViewTax from "./admin/Pages/ViewTax";
+import PaymentTerms from "./admin/Pages/PaymentTerms";
+import ViewPaymentterms from "./admin/Pages/ViewPaymentterms";
+import TaxTable from "./Users/Pages/TaxTable";
+import PaymenttermTable from "./Users/Pages/PaymenttermTable";
+import ContraEntries from "./Users/Pages/ContraEntries";
+import ViewCreditMemo from "./Users/Pages/ViewCreditMemo";
+import ViewCreditmemoitems from "./Users/Pages/ViewCreditmemoitems";
+import ViewPurchaseInvoice from "./Users/Pages/ViewPurchaseInvoice";
+import ViewPurchaseInvoiceItems from "./Users/Pages/ViewpurchaseInvoiceItems";
+import ViewSalesInvoiceItems from "./Users/Pages/ViewSalesInvoiceItems";
 
 
 function App() {
@@ -87,6 +99,10 @@ function App() {
 			{/* <ViewCountry /> */}
 			{/* <ViewProvince /> */}
 			{/* <CountryCode /> */}
+			{/* <Tax/> */}
+			{/* <ViewTax /> */}
+			{/* <PaymentTerms/> */}
+			{/* <ViewPaymentterms /> */}
 
 
 
@@ -127,6 +143,16 @@ function App() {
 			{/* <BillingInformation /> */}
 			{/* <CompanyList /> */}
 			{/* <ViewCurrency /> */}
+			{/* <TaxTable /> */}
+			{/* <PaymenttermTable /> */}
+			{/* <CreatTax /> */}
+			{/* <CreatePaymentterm /> */}
+			{/* <ContraEntries /> */}
+			{/* <ViewCreditMemo /> */}
+			{/* <ViewCreditMemo /> */}
+			{/* <ViewPurchaseInvoice /> */}
+			{/* <ViewPurchaseInvoiceItems /> */}
+			{/* <ViewSalesInvoiceItems /> */}
 
 
 
@@ -156,12 +182,10 @@ function App() {
 					<Route path="/view-province" element={<ViewProvince />}></Route>
 					<Route path="/currency" element={<Currency />}></Route>
 					<Route path="/view-currency" element={<ViewCurrency />}></Route>
-
-
-
-
-
-
+					<Route path="/tax" element={<Tax />}></Route>
+					<Route path="/view-tax" element={<ViewTax />}></Route>
+					<Route path="/payment-terms" element={<PaymentTerms />}></Route>
+					<Route path="/view-paymentterms" element={<ViewPaymentterms />}></Route>
 
 
 					{/* users */}
@@ -197,12 +221,17 @@ function App() {
 					<Route path="/accountpayble-report" element={<AccountPaybleReport />}></Route >
 					<Route path="/create-company" element={<CreateCompany />}></Route >
 					<Route path="/view-sales-invoice" element={<ViewSalesInvoice />}></Route >
+					<Route path="/salesinvoice-items/:invoiceId" element={<ViewSalesInvoiceItems />}></Route >
 					<Route path="/inactive-customer" element={<InactiveCustomer />}></Route >
 					<Route path="/biling-information" element={<BillingInformation />}></Route >
 					<Route path="/company-list" element={<CompanyList />}></Route >
-
-
-
+					<Route path="/tax-table" element={<TaxTable />}></Route >
+					<Route path="/paymentterm-table" element={< PaymenttermTable />}></Route >
+					<Route path="/contra-entries" element={< ContraEntries />}></Route >
+					<Route path="/view-creditmemo" element={< ViewCreditMemo />}></Route >
+					<Route path="/creditmemo-items/:creditmemoId" element={< ViewCreditmemoitems />}></Route >
+					<Route path="/view-purchaseinvoice" element={< ViewPurchaseInvoice />}></Route >
+					<Route path="/purchaseinvoice-items/:purchaseinvoiceId" element={< ViewPurchaseInvoiceItems />}></Route >
 				</ Routes>
 			</BrowserRouter>
 		</>

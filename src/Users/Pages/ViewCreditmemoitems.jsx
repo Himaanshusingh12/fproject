@@ -32,43 +32,6 @@ function ViewCreditmemoitems() {
 		<>
 			<Bheader />
 			<BSlidnav />
-			{/* <div className="wrapper">
-				<div className="content-wrapper">
-					<div className="container mt-4">
-						<h2>Creditmemo Items</h2>
-						<div className="table-responsive">
-							<table className="table table-striped table-bordered">
-								<thead>
-									<tr>
-										<th>Item ID</th>
-										<th>Creditmemo ID</th>
-										<th>Sales Line</th>
-										<th>Description</th>
-										<th>Sales Quantity</th>
-										<th>Sales Rate</th>
-										<th>Tax</th>
-										<th>Sales Amount</th>
-									</tr>
-								</thead>
-								<tbody>
-									{items.map((item) => (
-										<tr key={item.id}>
-											<td>{item.item_id}</td>
-											<td>{item.creditmemo_id}</td>
-											<td>{item.sales_line}</td>
-											<td>{item.description}</td>
-											<td>{item.sales_qty}</td>
-											<td>{item.sales_rate}</td>
-											<td>{item.tax}</td>
-											<td>{item.sales_amount}</td>
-										</tr>
-									))}
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-			</div> */}
 			<div className="wrapper">
 				<div className="content-wrapper">
 					<section className="content mt-4">
@@ -85,7 +48,7 @@ function ViewCreditmemoitems() {
 													<h5 className="section-title">Credit Memo details</h5>
 													<div className="col-md-6">
 														<div className="form-group">
-															<label htmlFor="customer_name">Customer Id</label>
+															<label htmlFor="customer_name">Customer Name</label>
 															<input
 																type="text"
 																className="form-control col-md-8"

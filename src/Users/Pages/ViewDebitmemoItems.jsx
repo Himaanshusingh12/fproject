@@ -1,31 +1,30 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { BACKEND_URL } from "../../Constant";
+import { toast } from "react-toastify";
+import axios from "axios";
 import Bheader from "../Components/Bheader";
 import BSlidnav from "../Components/BSlidnav";
 import Bfooter from "../Components/Bfooter";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import { BACKEND_URL } from "../../Constant";
-import { toast } from "react-toastify";
 
-function ViewSalesInvoiceItems() {
-	const { invoiceId } = useParams();
+function ViewDebitmemoItems() {
+	const { debitmemoId } = useParams();
 	const [items, setItems] = useState([]);
 
 	useEffect(() => {
-		fetchSalesInvoiceItems();
-	}, [invoiceId]);
+		fetchDebitmemoItems();
+	}, [debitmemoId]);
 
-	const fetchSalesInvoiceItems = async () => {
+	const fetchDebitmemoItems = async () => {
 		try {
-			const response = await axios.get(`${BACKEND_URL}/api/salesinvoice_items/${invoiceId}`);
-			console.log("The fetched sales invoice items are:", response.data);
+			const response = await axios.get(`${BACKEND_URL}/api/debitmemo_items/${debitmemoId}`);
+			console.log("The fetched debitmemo items are:", response.data);
 			if (response.status === 200) {
 				setItems(response.data);
 			}
 		} catch (error) {
-			console.log("Error fetching purchase invoice items:", error.response || error.message);
-			// toast.error("Failed to fetch Purchase invoice Items");
-			toast.error("No items found for selected purchase invoice");
+			console.log("Error Fetching Debit memo items:", error.response || error.message);
+			toast.error("Failed to fetch Dabit Memo Items");
 		}
 	};
 
@@ -41,19 +40,19 @@ function ViewSalesInvoiceItems() {
 								<div className="col-md-12">
 									<div className="card card-primary">
 										<div className="card-header d-flex justify-content-between align-items-center">
-											<h3 className="card-title">Sales Invoice</h3>
+											<h3 className="card-title">Purchase Debit Memo</h3>
 										</div>
 										<form>
 											<div className="card-body">
 												<div className="row">
-													<h5 className="section-title">Invoice Details</h5>
+													<h5 className="section-title">Debit Memo details</h5>
 													<div className="col-md-6">
 														<div className="form-group">
-															<label htmlFor="customer_name">Customer Name</label>
+															<label htmlFor="customer_name">vendor Id</label>
 															<input
 																type="text"
 																className="form-control col-md-8"
-																value={items[0]?.customer_name || ""}
+																value={items[0]?.vendor_name || ""}
 																disable
 															/>
 														</div>
@@ -62,7 +61,7 @@ function ViewSalesInvoiceItems() {
 															<input
 																type="text"
 																className="form-control"
-																value={items[0]?.customer_address || ""}
+																value={items[0]?.vendor_address || ""}
 																disable
 															/>
 														</div>
@@ -81,11 +80,11 @@ function ViewSalesInvoiceItems() {
 													{/* </div> */}
 													<div className="col-md-6">
 														<div className="form-group">
-															<label htmlFor="invoice_no">Sales Invoice No.</label>
+															<label htmlFor="invoice_no">Debit Memo No.</label>
 															<input
 																type="text"
 																className="form-control col-md-8"
-																value={items[0]?.invoice_no || ""}
+																value={items[0]?.debitmemo_no || ""}
 																disable
 															/>
 														</div>
@@ -108,7 +107,7 @@ function ViewSalesInvoiceItems() {
 															/>
 														</div>
 														<div className="form-group">
-															<label htmlFor="payment_terms">Select Payment Terms</label>
+															<label htmlFor="payment_terms">Payment Terms</label>
 															<input
 																type="text"
 																className="form-control col-md-8"
@@ -145,11 +144,11 @@ function ViewSalesInvoiceItems() {
 													</div>
 												</div>
 												<div>
-													<h3>Sales Items</h3>
+													<h3>Purchase Items</h3>
 													<table style={{ width: "100%", borderCollapse: "collapse" }}>
 														<thead style={{ backgroundColor: "#f2f2f2" }}>
 															<tr>
-																<th style={{ padding: "8px" }}>Sales Line</th>
+																<th style={{ padding: "8px" }}>Purchase Line</th>
 																<th style={{ padding: "8px" }}>Description</th>
 																<th style={{ padding: "8px" }}>Quantity</th>
 																<th style={{ padding: "8px" }}>Price</th>
@@ -169,14 +168,14 @@ function ViewSalesInvoiceItems() {
 																			justifyContent: "space-between",
 																		}}
 																	>
-																		{item.sales_line}
+																		{item.purchase_line}
 																	</td>
 																	<td style={{ padding: "8px" }}>{item.description}</td>
-																	<td style={{ padding: "8px" }}>{item.sales_qty}</td>
-																	<td style={{ padding: "8px" }}>{item.sales_rate}</td>
+																	<td style={{ padding: "8px" }}>{item.purchase_qty}</td>
+																	<td style={{ padding: "8px" }}>{item.purchase_rate}</td>
 																	<td style={{ padding: "8px" }}>{item.tax}</td>
 																	<td style={{ padding: "8px" }}>{item.discount}</td>
-																	<td style={{ padding: "8px" }}>{item.sales_amount}</td>
+																	<td style={{ padding: "8px" }}>{item.purchase_amount}</td>
 																</tr>
 															))}
 														</tbody>
@@ -244,4 +243,4 @@ function ViewSalesInvoiceItems() {
 	);
 }
 
-export default ViewSalesInvoiceItems;
+export default ViewDebitmemoItems;

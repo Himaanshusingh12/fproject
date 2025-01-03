@@ -41,7 +41,7 @@ function ViewPurchaseInvoice() {
 									<tr>
 										<th>Purchase Invoice No</th>
 										<th>Invoice Date</th>
-										<th>Vendor ID</th>
+										<th>Vendor Name</th>
 										<th>Net Amount</th>
 										<th>Action</th>
 									</tr>

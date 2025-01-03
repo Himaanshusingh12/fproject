@@ -48,7 +48,7 @@ function ViewPurchaseInvoiceItems() {
 													<h5 className="section-title">Invoice Details</h5>
 													<div className="col-md-6">
 														<div className="form-group">
-															<label htmlFor="vendor_name">vendor Id</label>
+															<label htmlFor="vendor_name">Vendor Name</label>
 															<input
 																type="text"
 																className="form-control col-md-8"

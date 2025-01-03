@@ -6,11 +6,12 @@ import { BACKEND_URL } from "../../Constant";
 import axios from "axios";
 import { toast } from "react-toastify";
 import html2pdf from "html2pdf.js";
+import { Link } from "react-router-dom";
 
 function DebitMemo() {
 	const [formData, setFormData] = useState({
 		user_id: localStorage.getItem("userid") || "",
-		vendor_name: "",
+		vendor_id: "",
 		vendor_address: "",
 		shipping_address: "",
 		debit: "",
@@ -23,7 +24,8 @@ function DebitMemo() {
 		exchange_rate: 0,
 		document_upload: null,
 		document_name: "",
-		total_purchase_amount: 0,
+		total_invoice_amount: 0,
+		total_discount: 0,
 	});
 
 	// Function to format date to dd/mm/yy
@@ -247,6 +249,7 @@ function DebitMemo() {
 			purchase_rate: "",
 			purchase_amount: 0,
 			tax: "",
+			discount: "",
 			taxAmount: 0,
 		},
 	]);
@@ -375,62 +378,11 @@ function DebitMemo() {
 				purchase_rate: "",
 				purchase_amount: 0,
 				tax: "",
+				discount: "",
 				taxAmount: 0,
 			},
 		]);
 	};
-
-	// const handleItemChange = (e, index) => {
-	// 	const { name, value } = e.target;
-	// 	console.log("Dropdown changed:", name, value);
-	// 	const updatedItems = [...items];
-
-	// 	if (name === "purchase_qty" || name === "purchase_rate") {
-	// 		updatedItems[index][name] = parseFloat(value) || 0;
-
-	// 		// Calculate purchase amount based on qty and rate
-	// 		const purchase_qty = updatedItems[index].purchase_qty;
-	// 		const purchase_rate = updatedItems[index].purchase_rate;
-	// 		updatedItems[index].purchase_amount = purchase_qty * purchase_rate;
-
-	// 		// Calculate tax amount based on the selected tax rate
-	// 		const selectedTax = tax.find((total) => total.tax_id === Number(updatedItems[index].tax));
-	// 		const selectedTaxRate = selectedTax ? selectedTax.total : 0;
-	// 		const taxAmount = (updatedItems[index].purchase_amount * selectedTaxRate) / 100;
-	// 		updatedItems[index].taxAmount = taxAmount;
-	// 	} else if (name === "tax") {
-	// 		updatedItems[index][name] = value;
-
-	// 		// Find the selected tax rate based on the selected tax description
-	// 		const selectedTax = tax.find((total) => total.tax_id === Number(value));
-	// 		const selectedTaxRate = selectedTax ? selectedTax.total : 0;
-
-	// 		// Calculate purchase amount based on qty and rate
-	// 		const purchase_qty = updatedItems[index].purchase_qty;
-	// 		const purchase_rate = updatedItems[index].purchase_rate;
-	// 		updatedItems[index].purchase_amount = purchase_qty * purchase_rate;
-
-	// 		// Calculate tax amount based on the selected tax rate
-	// 		const taxAmount = (updatedItems[index].purchase_amount * selectedTaxRate) / 100;
-	// 		updatedItems[index].taxAmount = taxAmount;
-	// 	} else {
-	// 		updatedItems[index][name] = value;
-	// 	}
-
-	// 	// Update total invoice amount
-	// 	const total_purchase_amount = updatedItems.reduce((total, item) => {
-	// 		const purchaseAmount = item.purchase_amount || 0;
-	// 		const taxAmount = item.taxAmount || 0;
-	// 		return total + purchaseAmount + taxAmount;
-	// 	}, 0);
-
-	// 	setFormData((prevData) => ({
-	// 		...prevData,
-	// 		total_purchase_amount: total_purchase_amount,
-	// 	}));
-
-	// 	setItems(updatedItems);
-	// };
 
 	// New handleItemchange function
 	const handleItemChange = (e, index) => {
@@ -478,22 +430,11 @@ function DebitMemo() {
 		// Update the form data and items
 		setFormData((prevData) => ({
 			...prevData,
-			total_purchase_amount: totalInvoiceAmount,
+			total_invoice_amount: totalInvoiceAmount,
 			total_discount: totalDiscount,
 		}));
 		setItems(updatedItems);
 	};
-
-	// const handleDeleteItem = (index) => {
-	// 	// Create a copy of the current items array
-	// 	const updatedItems = [...items];
-
-	// 	// Remove the item at the specified index
-	// 	updatedItems.splice(index, 1);
-
-	// 	// Update the state with the new items array
-	// 	setItems(updatedItems);
-	// };
 
 	// new handleDeleteItem function
 	const handleDeleteItem = (index) => {
@@ -512,7 +453,7 @@ function DebitMemo() {
 		// Update the state with the new items and recalculated totals
 		setFormData((prevData) => ({
 			...prevData,
-			total_purchase_amount: totalInvoiceAmount,
+			total_invoice_amount: totalInvoiceAmount,
 			total_discount: totalDiscount,
 		}));
 		setItems(updatedItems);
@@ -615,7 +556,7 @@ function DebitMemo() {
 				console.log("Purchase invoice created successfully:", response.data);
 				setFormData({
 					user_id: "",
-					vendor_name: "",
+					vendor_id: "",
 					vendor_address: "",
 					shipping_address: "",
 					debit: "",
@@ -628,7 +569,8 @@ function DebitMemo() {
 					exchange_rate: 0,
 					document_upload: null,
 					document_name: "",
-					total_purchase_amount: 0,
+					total_invoice_amount: 0,
+					total_discount: 0,
 				});
 				//	for table
 				setItems([
@@ -638,6 +580,7 @@ function DebitMemo() {
 						purchase_qty: 0,
 						purchase_rate: 0,
 						purchase_amount: 0,
+						taxAmount: 0,
 						tax: "",
 					},
 				]);
@@ -663,9 +606,9 @@ function DebitMemo() {
 									<div className="card card-primary">
 										<div className="card-header d-flex justify-content-between align-items-center">
 											<h3 className="card-title">Purchase Debit Memo</h3>
-											{/* <Link to="/view-purchase-invoice" className="btn btn-success ml-auto">
-												View All Purchase Invoices
-											</Link> */}
+											<Link to="/view-debitmemo" className="btn btn-success ml-auto">
+												View All Debit Memo
+											</Link>
 										</div>
 										<form onSubmit={handleSubmit}>
 											<div className="card-body">
@@ -678,7 +621,7 @@ function DebitMemo() {
 																name="vendor_name"
 																id="vendor_name"
 																className="form-control col-md-8"
-																value={formData.vendor_name}
+																value={formData.vendor_id}
 																onChange={handleVendorChange}
 															>
 																<option value="">Select Vendor</option>
@@ -1022,7 +965,7 @@ function DebitMemo() {
 													<div style={{ display: "flex", justifyContent: "space-between", marginTop: "30px" }}>
 														<span style={{ width: "450%", textAlign: "right", fontWeight: "bold" }}>Gross Total:</span>
 														<span style={{ width: "450%", textAlign: "right", fontWeight: "bold" }}>
-															{formData.total_purchase_amount.toFixed(2)}
+															{formData.total_invoice_amount.toFixed(2)}
 														</span>
 													</div>
 												</div>
@@ -1148,7 +1091,7 @@ function DebitMemo() {
 					</table>
 
 					<div style={{ marginTop: "20px", textAlign: "right" }}>
-						<h3 style={{ margin: "0" }}>Total Amount: {formData.total_purchase_amount}</h3>
+						<h3 style={{ margin: "0" }}>Total Amount: {formData.total_invoice_amount}</h3>
 					</div>
 				</div>
 			</div>

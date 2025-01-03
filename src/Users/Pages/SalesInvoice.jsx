@@ -11,7 +11,7 @@ import html2pdf from "html2pdf.js";
 function SalesInvoice() {
 	const [formData, setFormData] = useState({
 		user_id: localStorage.getItem("userid") || "",
-		customer_name: "",
+		customer_id: "",
 		customer_address: "",
 		shipping_address: "",
 		invoice_no: "",
@@ -534,7 +534,7 @@ function SalesInvoice() {
 				console.log("Sales invoice created successfully:", response.data);
 				setFormData({
 					user_id: "",
-					customer_name: "",
+					customer_id: "",
 					customer_address: "",
 					shipping_address: "",
 					invoice_no: "",
@@ -600,7 +600,7 @@ function SalesInvoice() {
 																name="customer_name"
 																id="customer_name"
 																className="form-control col-md-8"
-																value={formData.customer_name}
+																value={formData.customer_id}
 																onChange={handleChange}
 															>
 																<option
@@ -1016,7 +1016,7 @@ function SalesInvoice() {
 						<strong>Customer Name:</strong> {formData.customer_name}
 					</p> */}
 					<p>
-						<strong>Bill To:</strong> {formData.customer_name}
+						<strong>Bill To:</strong> {formData.customer_id}
 					</p>
 					<p>
 						<strong>Invoice No:</strong> {formData.invoice_no}

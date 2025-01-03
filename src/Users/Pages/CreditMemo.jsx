@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 function CreditMemo() {
 	const [formData, setFormData] = useState({
 		user_id: localStorage.getItem("userid") || "",
-		customer_name: "",
+		customer_id: "",
 		customer_address: "",
 		shipping_address: "",
 		credit: "",
@@ -559,7 +559,7 @@ function CreditMemo() {
 				console.log("Sales invoice created successfully:", response.data);
 				setFormData({
 					user_id: "",
-					customer_name: "",
+					customer_id: "",
 					customer_address: "",
 					shipping_address: "",
 					credit: "",
@@ -624,7 +624,7 @@ function CreditMemo() {
 																name="customer_name"
 																id="customer_name"
 																className="form-control col-md-8"
-																value={formData.customer_name}
+																value={formData.customer_id}
 																onChange={handleCustomerChange}
 															>
 																<option value="">Select Customer</option>

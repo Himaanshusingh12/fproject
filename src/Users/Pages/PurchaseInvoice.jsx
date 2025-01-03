@@ -11,7 +11,7 @@ import html2pdf from "html2pdf.js";
 function PurchaseInvoice() {
 	const [formData, setFormData] = useState({
 		user_id: localStorage.getItem("userid") || "",
-		vendor_name: "",
+		vendor_id: "",
 		vendor_address: "",
 		shipping_address: "",
 		purchase_no: "",
@@ -525,7 +525,7 @@ function PurchaseInvoice() {
 				console.log("Purchase invoice created successfully:", response.data);
 				setFormData({
 					user_id: "",
-					vendor_name: "",
+					vendor_id: "",
 					vendor_address: "",
 					shipping_address: "",
 					purchase_no: "",
@@ -592,7 +592,7 @@ function PurchaseInvoice() {
 																name="vendor_name"
 																id="vendor_name"
 																className="form-control col-md-8"
-																value={formData.vendor_name}
+																value={formData.vendor_id}
 																onChange={handleChange}
 															>
 																<option
